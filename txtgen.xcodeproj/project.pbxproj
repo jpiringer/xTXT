@@ -36,6 +36,7 @@
 		3098B2041F680E2D003B18D5 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		3098B2051F681157003B18D5 /* Parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
 		3098B2061F681157003B18D5 /* Parser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Parser.hpp; sourceTree = "<group>"; };
+		3098B2081F684555003B18D5 /* DOC.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DOC.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				3098B2041F680E2D003B18D5 /* TODO.md */,
+				3098B2081F684555003B18D5 /* DOC.md */,
 				3098B1F41F67F95A003B18D5 /* txtgen */,
 				3098B1F31F67F95A003B18D5 /* Products */,
 			);

@@ -23,6 +23,8 @@ namespace jp {
     public:
         void addLexem(std::shared_ptr<Lexem> lex) {lexems.push_back(lex);}
         
+        bool isEmpty() {return lexems.size() == 0;}
+        
         const std::vector<std::shared_ptr<Lexem>> getLexems() {return lexems;}
     };
     

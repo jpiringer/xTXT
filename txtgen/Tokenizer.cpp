@@ -19,13 +19,40 @@ std::vector<std::shared_ptr<Token>> Tokenizer::getTokens() {
     std::wstring whitespace = WHITESPACE;
     std::wstring delimiter = DELIMITER;
     int lineNr = 0;
+    bool escape = false;
     
     std::wstring collectedString = L"";
     enum TokenType currentType = TokenNone;
     for (size_t cpos = 0; cpos < input.size(); cpos++) {
         wchar_t c = input[cpos];
         
-        if (whitespace.find(c) != std::wstring::npos) {
+        if (escape) {
+            escape = false;
+            switch (c) {
+                case 'n':
+                    c = '\n';
+                    break;
+                case 'r':
+                    c = '\r';
+                    break;
+                case 't':
+                    c = '\t';
+                    break;
+                case '\\':
+                    c = '\\';
+                    break;
+                default:
+                    break;
+            }
+            if (currentType != TokenOther) {
+                currentType = TokenOther;
+                collectedString = std::wstring(1, c);
+            }
+            else {
+                collectedString += c;
+            }
+        }
+        else if (whitespace.find(c) != std::wstring::npos) {
             if (currentType == TokenOther) {
                 tokens.push_back(std::make_shared<Token>(collectedString, TokenOther, lineNr));
                 collectedString = L"";
@@ -44,6 +71,9 @@ std::vector<std::shared_ptr<Token>> Tokenizer::getTokens() {
             currentType = TokenDelimiter;
             std::wstring str(1, c);
             tokens.push_back(std::make_shared<Token>(str, TokenDelimiter, lineNr));
+        }
+        else if (c == '\\') {
+            escape = true;
         }
         else {
             if (currentType != TokenOther) {

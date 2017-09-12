@@ -53,6 +53,7 @@ void Parser::parse() {
     std::shared_ptr<Rule> currentRule = nullptr;
     std::shared_ptr<RuleChoice> currentChoice = nullptr;
     std::wstring errmsg = L"";
+    bool noWhitespace = false;
     
     for (auto lexem : lexer.getLexemes()) {
         switch (lexem->getType()) {
@@ -67,7 +68,11 @@ void Parser::parse() {
                             error(L"no current rule!", lexem->getLineNumber());
                         }
                         else {
+                            if (!currentChoice->isEmpty() && !noWhitespace) {
+                                currentChoice->addLexem(std::make_shared<Lexem>(L" ", LexemString, -1));
+                            }
                             currentChoice->addLexem(lexem);
+                            noWhitespace = false;
                         }
                         break;
                     default:
@@ -110,6 +115,9 @@ void Parser::parse() {
                             currentRule->addChoice(currentChoice);
                             currentChoice = std::make_shared<RuleChoice>();
                         }
+                        else if (lexem->getContent() == L"@") {
+                            noWhitespace = true;
+                        }
                         else {
                             error(L"unexpected operator "+lexem->getContent(), lexem->getLineNumber());
                         }
@@ -126,7 +134,11 @@ void Parser::parse() {
                             error(L"no current rule!", lexem->getLineNumber());
                         }
                         else {
+                            if (!currentChoice->isEmpty() && !noWhitespace) {
+                                currentChoice->addLexem(std::make_shared<Lexem>(L" ", LexemString, -1));
+                            }
                             currentChoice->addLexem(lexem);
+                            noWhitespace = false;
                         }
                         break;
                     default:
@@ -148,9 +160,9 @@ std::wstring Parser::expandRule(const std::wstring &ruleName) {
     std::wstring result = L"";
     
     for (auto lexem : chosen->getLexems()) {
-        if (result != L"") {
+        /*if (result != L"") {
             result += L" ";
-        }
+        }*/
         switch (lexem->getType()) {
             case LexemSymbol:
                 result += expandRule(lexem->getContent());
