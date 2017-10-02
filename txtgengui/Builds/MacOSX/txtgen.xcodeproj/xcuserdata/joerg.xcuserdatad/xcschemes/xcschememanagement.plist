@@ -4,7 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>txtgen.xcscheme</key>
+		<key>txtgen - App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+		<key>txtgengui - App.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3041F26A1F8267BD00F37B01 /* txtgenlib.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3041F2691F8267BD00F37B01 /* txtgenlib.hpp */; };
+		3041F26C1F8267BD00F37B01 /* txtgenlibPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3041F26B1F8267BD00F37B01 /* txtgenlibPriv.hpp */; };
+		3041F26E1F8267BD00F37B01 /* txtgenlib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3041F26D1F8267BD00F37B01 /* txtgenlib.cpp */; };
+		3041F2721F8267C700F37B01 /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B2011F6808E5003B18D5 /* Lexer.cpp */; };
+		3041F2731F8267CB00F37B01 /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B2051F681157003B18D5 /* Parser.cpp */; };
+		3041F2741F8267CE00F37B01 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B1FE1F67FBFF003B18D5 /* Tokenizer.cpp */; };
 		3098B1F61F67F95A003B18D5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B1F51F67F95A003B18D5 /* main.cpp */; };
 		3098B2001F67FBFF003B18D5 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B1FE1F67FBFF003B18D5 /* Tokenizer.cpp */; };
 		3098B2031F6808E5003B18D5 /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B2011F6808E5003B18D5 /* Lexer.cpp */; };
@@ -26,7 +32,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3098B1F21F67F95A003B18D5 /* txtgen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = txtgen; sourceTree = BUILT_PRODUCTS_DIR; };
+		3041F2671F8267BD00F37B01 /* libtxtgencmdlib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtxtgencmdlib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3041F2691F8267BD00F37B01 /* txtgenlib.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = txtgenlib.hpp; sourceTree = "<group>"; };
+		3041F26B1F8267BD00F37B01 /* txtgenlibPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = txtgenlibPriv.hpp; sourceTree = "<group>"; };
+		3041F26D1F8267BD00F37B01 /* txtgenlib.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = txtgenlib.cpp; sourceTree = "<group>"; };
+		3098B1F21F67F95A003B18D5 /* txtgencmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = txtgencmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		3098B1F51F67F95A003B18D5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		3098B1FD1F67F9FD003B18D5 /* examples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = examples.h; sourceTree = "<group>"; };
 		3098B1FE1F67FBFF003B18D5 /* Tokenizer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tokenizer.cpp; sourceTree = "<group>"; };
@@ -40,6 +50,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3041F2641F8267BD00F37B01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3098B1EF1F67F95A003B18D5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -50,12 +67,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3041F2681F8267BD00F37B01 /* txtgenlib */ = {
+			isa = PBXGroup;
+			children = (
+				3041F2691F8267BD00F37B01 /* txtgenlib.hpp */,
+				3041F26B1F8267BD00F37B01 /* txtgenlibPriv.hpp */,
+				3041F26D1F8267BD00F37B01 /* txtgenlib.cpp */,
+			);
+			path = txtgenlib;
+			sourceTree = "<group>";
+		};
 		3098B1E91F67F95A003B18D5 = {
 			isa = PBXGroup;
 			children = (
 				3098B2041F680E2D003B18D5 /* TODO.md */,
 				3098B2081F684555003B18D5 /* DOC.md */,
 				3098B1F41F67F95A003B18D5 /* txtgen */,
+				3041F2681F8267BD00F37B01 /* txtgenlib */,
 				3098B1F31F67F95A003B18D5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,7 +91,8 @@
 		3098B1F31F67F95A003B18D5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3098B1F21F67F95A003B18D5 /* txtgen */,
+				3098B1F21F67F95A003B18D5 /* txtgencmd */,
+				3041F2671F8267BD00F37B01 /* libtxtgencmdlib.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -85,10 +114,39 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		3041F2651F8267BD00F37B01 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3041F26A1F8267BD00F37B01 /* txtgenlib.hpp in Headers */,
+				3041F26C1F8267BD00F37B01 /* txtgenlibPriv.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		3098B1F11F67F95A003B18D5 /* txtgen */ = {
+		3041F2661F8267BD00F37B01 /* txtgencmdlib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3098B1F91F67F95A003B18D5 /* Build configuration list for PBXNativeTarget "txtgen" */;
+			buildConfigurationList = 3041F2711F8267BD00F37B01 /* Build configuration list for PBXNativeTarget "txtgencmdlib" */;
+			buildPhases = (
+				3041F2631F8267BD00F37B01 /* Sources */,
+				3041F2641F8267BD00F37B01 /* Frameworks */,
+				3041F2651F8267BD00F37B01 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = txtgencmdlib;
+			productName = txtgenlib;
+			productReference = 3041F2671F8267BD00F37B01 /* libtxtgencmdlib.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		3098B1F11F67F95A003B18D5 /* txtgencmd */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3098B1F91F67F95A003B18D5 /* Build configuration list for PBXNativeTarget "txtgencmd" */;
 			buildPhases = (
 				3098B1EE1F67F95A003B18D5 /* Sources */,
 				3098B1EF1F67F95A003B18D5 /* Frameworks */,
@@ -98,9 +156,9 @@
 			);
 			dependencies = (
 			);
-			name = txtgen;
+			name = txtgencmd;
 			productName = txtgen;
-			productReference = 3098B1F21F67F95A003B18D5 /* txtgen */;
+			productReference = 3098B1F21F67F95A003B18D5 /* txtgencmd */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -112,13 +170,17 @@
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "joerg piringer";
 				TargetAttributes = {
+					3041F2661F8267BD00F37B01 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
 					3098B1F11F67F95A003B18D5 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 3098B1ED1F67F95A003B18D5 /* Build configuration list for PBXProject "txtgen" */;
+			buildConfigurationList = 3098B1ED1F67F95A003B18D5 /* Build configuration list for PBXProject "txtgencmd" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -130,12 +192,24 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3098B1F11F67F95A003B18D5 /* txtgen */,
+				3098B1F11F67F95A003B18D5 /* txtgencmd */,
+				3041F2661F8267BD00F37B01 /* txtgencmdlib */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3041F2631F8267BD00F37B01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3041F2721F8267C700F37B01 /* Lexer.cpp in Sources */,
+				3041F2741F8267CE00F37B01 /* Tokenizer.cpp in Sources */,
+				3041F2731F8267CB00F37B01 /* Parser.cpp in Sources */,
+				3041F26E1F8267BD00F37B01 /* txtgenlib.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3098B1EE1F67F95A003B18D5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -150,6 +224,32 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		3041F26F1F8267BD00F37B01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5GH94K69R8;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3041F2701F8267BD00F37B01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5GH94K69R8;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		3098B1F71F67F95A003B18D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -258,6 +358,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5GH94K69R8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -267,6 +368,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5GH94K69R8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -274,7 +376,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3098B1ED1F67F95A003B18D5 /* Build configuration list for PBXProject "txtgen" */ = {
+		3041F2711F8267BD00F37B01 /* Build configuration list for PBXNativeTarget "txtgencmdlib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3041F26F1F8267BD00F37B01 /* Debug */,
+				3041F2701F8267BD00F37B01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3098B1ED1F67F95A003B18D5 /* Build configuration list for PBXProject "txtgencmd" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3098B1F71F67F95A003B18D5 /* Debug */,
@@ -283,7 +394,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3098B1F91F67F95A003B18D5 /* Build configuration list for PBXNativeTarget "txtgen" */ = {
+		3098B1F91F67F95A003B18D5 /* Build configuration list for PBXNativeTarget "txtgencmd" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3098B1FA1F67F95A003B18D5 /* Debug */,

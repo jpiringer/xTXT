@@ -1,6 +1,5 @@
 #  TODO
 
-
 permutate
 exhaustive
 

@@ -44,10 +44,13 @@ namespace jp {
     class Parser {
         std::wstring input;
         std::map<std::wstring, std::shared_ptr<Rule>> rules;
+        
+        int errorCount = 0;
+        std::wstring errors;
 
     protected:
         void _error(const std::wstring &msg, int lineNr);
-        std::wstring expandRule(const std::wstring &ruleName);
+        std::wstring expandRule(const std::wstring &ruleName, int lineNr);
         
     public:
         Parser(const std::wstring &str);
@@ -55,6 +58,9 @@ namespace jp {
         void parse();
         
         std::wstring generate();
+        
+        int getErrorCount() {return errorCount;}
+        const std::wstring &getErrors() {return errors;}
     };
 }
 

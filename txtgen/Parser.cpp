@@ -44,7 +44,16 @@ enum ParserState {
 
 #define error(msg, lineNr) {_error(msg, lineNr); return;}
 void Parser::_error(const std::wstring &msg, int lineNr) {
-    std::wcout << "ERROR at line number " << (lineNr+1) << ": " << msg << std::endl;
+    std::wstring errStr = L"ERROR at line number ";
+    errStr += std::to_wstring(lineNr+1);
+    errStr += L": ";
+    errStr += msg;
+    errStr += L"\n";
+    
+    std::wcout << errStr;
+    errors += errStr;
+    
+    errorCount++;
 }
 
 void Parser::parse() {
@@ -54,6 +63,9 @@ void Parser::parse() {
     std::shared_ptr<RuleChoice> currentChoice = nullptr;
     std::wstring errmsg = L"";
     bool noWhitespace = false;
+    
+    errorCount = 0;
+    errors = L"";
     
     for (auto lexem : lexer.getLexemes()) {
         switch (lexem->getType()) {
@@ -154,35 +166,42 @@ void Parser::parse() {
     }
 }
 
-std::wstring Parser::expandRule(const std::wstring &ruleName) {
+std::wstring Parser::expandRule(const std::wstring &ruleName, int lineNr) {
     std::shared_ptr<Rule> rule = rules[ruleName];
-    std::shared_ptr<RuleChoice> chosen = rule->chooseRandomly();
-    std::wstring result = L"";
     
-    for (auto lexem : chosen->getLexems()) {
-        /*if (result != L"") {
-            result += L" ";
-        }*/
-        switch (lexem->getType()) {
-            case LexemSymbol:
-                result += expandRule(lexem->getContent());
-                break;
-            case LexemString:
-                result += lexem->getContent();
-                break;
-            default:
-                result += L"##ERRROR##";
-                break;
-        }
+    if (rule == nullptr) {
+        _error(std::wstring(L"rule \"")+ruleName+std::wstring(L"\" not found"), lineNr);
+        return L"";
     }
-    return result;
+    else {
+        std::shared_ptr<RuleChoice> chosen = rule->chooseRandomly();
+        std::wstring result = L"";
+        
+        for (auto lexem : chosen->getLexems()) {
+            /*if (result != L"") {
+             result += L" ";
+             }*/
+            switch (lexem->getType()) {
+                case LexemSymbol:
+                    result += expandRule(lexem->getContent(), lexem->getLineNumber());
+                    break;
+                case LexemString:
+                    result += lexem->getContent();
+                    break;
+                default:
+                    result += L"##ERRROR##";
+                    break;
+            }
+        }
+        return result;
+    }
 }
 
 std::wstring Parser::generate() {
     if (rules[L"START"] == nullptr) {
-        _error(L"no START symbol found", 1);
+        _error(L"no START symbol found", 0);
         return L"";
     }
     
-    return expandRule(L"START");
+    return expandRule(L"START", 0);
 }
