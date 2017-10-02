@@ -7,8 +7,11 @@
 */
 
 #include "MainComponent.h"
-
+#include "MainWindow.h"
 #include "Runner.hpp"
+
+#include <iostream>
+#include <fstream>
 
 inline Colour getUIColourIfAvailable (LookAndFeel_V4::ColourScheme::UIColour uiColour, Colour fallback = Colour (0xff4d4d4d))
 {
@@ -20,7 +23,7 @@ inline Colour getUIColourIfAvailable (LookAndFeel_V4::ColourScheme::UIColour uiC
 
 //==============================================================================
 MainContentComponent::MainContentComponent()
-: fileChooser ("File", File(), true, false, false,
+: filenameComponent("File", File(), true, false, false,
 "*.*", String(),
                "Choose a file to open it in the editor") {
     setOpaque (true);
@@ -33,12 +36,15 @@ MainContentComponent::MainContentComponent()
 #endif
 
     runButton = new TextButton("Run");
-    //runButton->setTriggeredOnMouseDown(true);
     runButton->addListener(this);
     addAndMakeVisible (runButton);
 
+    speakButton = new TextButton("Speak");
+    speakButton->addListener(this);
+    addAndMakeVisible(speakButton);
+    
     // Create the editor..
-    addAndMakeVisible (editor = new CodeEditorComponent (codeDocument, &cppTokeniser));
+    addAndMakeVisible (editor = new CodeEditorComponent(codeDocument, &tokeniser));
     Font font(Font::getDefaultMonospacedFontName(), 20, Font::plain);
     editor->setFont(font);
     
@@ -48,19 +54,23 @@ MainContentComponent::MainContentComponent()
     editor->setColour(CodeEditorComponent::lineNumberBackgroundId, Colour(0, 0, 0));
 
     // Create a file chooser control to load files into it..
-    addAndMakeVisible (fileChooser);
-    fileChooser.addListener (this);
+    addAndMakeVisible(filenameComponent);
+    filenameComponent.addListener(this);
     
     addAndMakeVisible(results = new TextEditor());
     results->setFont(font);
     results->setMultiLine(true);
     results->setColour(TextEditor::backgroundColourId, Colour(0xff, 0xff, 0xff));
+    
+    getLookAndFeel().setUsingNativeAlertWindows(true);
 
     setSize(600, 800);
+    
+    speaker = createSpeakerInstance();
 }
 
 MainContentComponent::~MainContentComponent() {
-    fileChooser.removeListener (this);
+    filenameComponent.removeListener (this);
 #if JUCE_MAC
     MenuBarModel::setMacMainMenu (nullptr);
 #endif
@@ -74,35 +84,68 @@ void MainContentComponent::paint (Graphics& g) {
 void MainContentComponent::resized() {
     Rectangle<int> r(getLocalBounds());
 
-    fileChooser.setBounds(r.removeFromTop(25));
+    filenameComponent.setBounds(r.removeFromTop(25));
+    speakButton->setBounds(r.removeFromBottom(25));
     results->setBounds(r.removeFromBottom(200));
     runButton->setBounds(r.removeFromBottom(25));
     editor->setBounds(r.withTrimmedTop(8));
 }
 
-void MainContentComponent::filenameComponentChanged (FilenameComponent*) {
-    editor->loadContent (fileChooser.getCurrentFile().loadFileAsString());
+void MainContentComponent::loadFileNow(File file) {
+    editor->loadContent(file.loadFileAsString());
+    filenameComponent.setCurrentFile(file, true);
+}
+
+void MainContentComponent::loadFile(File file) {
+    if (editor->getDocument().hasChangedSinceSavePoint()) {
+        AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
+                                     "Unsaved Changes",
+                                     "You have unsaved changes. Do you want to discard them?",
+                                     "Cancel",
+                                     "Discard",
+                                     0,
+                                     ModalCallbackFunction::create([this, file](int result) {
+            if (result == 1) { // ok
+                loadFileNow(file);
+            }
+        }));
+    }
+    else {
+        loadFileNow(file);
+    }
+}
+
+void MainContentComponent::saveFile(const File &file) {
+    file.replaceWithText(editor->getDocument().getAllContent());
+    editor->getDocument().setSavePoint();
+    filenameComponent.setCurrentFile(file, true);
+}
+
+void MainContentComponent::filenameComponentChanged(FilenameComponent *) {
+    File file = filenameComponent.getCurrentFile();
+    loadFile(file);
 }
 
 StringArray MainContentComponent::getMenuBarNames() {
-    const char* const names[] = { "txtgen", "Look-and-feel", "Tabs", "Misc", nullptr };
+    const char* const names[] = { "File", nullptr };
     
     return StringArray (names);
 }
 
 PopupMenu MainContentComponent::getMenuForIndex (int menuIndex, const String& menuName) {
-    //ApplicationCommandManager* commandManager = &MainAppWindow::getApplicationCommandManager();
+    ApplicationCommandManager *commandManager = &MainWindow::getApplicationCommandManager();
     
     PopupMenu menu;
     
-    /*if (menuIndex == 0)
-    {
-        menu.addCommandItem (commandManager, MainAppWindow::showPreviousDemo);
-        menu.addCommandItem (commandManager, MainAppWindow::showNextDemo);
+    if (menuIndex == 0) {
+        menu.addCommandItem (commandManager, MainContentComponent::newCmd);
         menu.addSeparator();
-        menu.addCommandItem (commandManager, StandardApplicationCommandIDs::quit);
+        menu.addCommandItem (commandManager, MainContentComponent::openCmd);
+        menu.addCommandItem (commandManager, MainContentComponent::saveCmd);
+        menu.addSeparator();
+        menu.addCommandItem (commandManager, MainContentComponent::runCmd);
     }
-    else if (menuIndex == 1)
+    /*else if (menuIndex == 1)
     {
         menu.addCommandItem (commandManager, MainAppWindow::useLookAndFeelV1);
         menu.addCommandItem (commandManager, MainAppWindow::useLookAndFeelV2);
@@ -199,7 +242,11 @@ void MainContentComponent::menuItemSelected (int menuItemID, int topLevelMenuInd
 void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
     // this returns the set of all commands that this target can perform..
     const CommandID ids[] = {
-        MainContentComponent::runCmd
+        MainContentComponent::runCmd,
+        MainContentComponent::saveCmd,
+        MainContentComponent::openCmd,
+        MainContentComponent::newCmd,
+        MainContentComponent::speakCmd
     };
     
     commands.addArray (ids, numElementsInArray (ids));
@@ -213,6 +260,22 @@ void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationComman
         case MainContentComponent::runCmd:
             result.setInfo("Run", "Run the code", codeCategory, 0);
             result.addDefaultKeypress('r', ModifierKeys::commandModifier);
+            break;
+        case MainContentComponent::saveCmd:
+            result.setInfo("Save", "Save the code", codeCategory, 0);
+            result.addDefaultKeypress('s', ModifierKeys::commandModifier);
+            break;
+        case MainContentComponent::openCmd:
+            result.setInfo("Open", "Open code file", codeCategory, 0);
+            result.addDefaultKeypress('o', ModifierKeys::commandModifier);
+            break;
+        case MainContentComponent::newCmd:
+            result.setInfo("New", "New code file", codeCategory, 0);
+            result.addDefaultKeypress('n', ModifierKeys::commandModifier);
+            break;
+        case MainContentComponent::speakCmd:
+            result.setInfo("Speak", "Speak results", codeCategory, 0);
+            result.addDefaultKeypress('t', ModifierKeys::commandModifier);
             break;
     }
 }
@@ -229,11 +292,58 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
             case MainContentComponent::runCmd:
                 run();
                 break;
+            case MainContentComponent::saveCmd:
+                saveFile();
+                break;
+            case MainContentComponent::openCmd:
+                openFile();
+                break;
+            case MainContentComponent::newCmd:
+                newFile();
+                break;
+            case MainContentComponent::speakCmd:
+                speak();
+                break;
             default:
                 return false;
         }
     //}
     return true;
+}
+
+void MainContentComponent::openFile() {
+    FileChooser fileChooser("Open File");
+    
+    if (fileChooser.browseForFileToOpen()) {
+        loadFile(fileChooser.getResult());
+    }
+}
+
+void MainContentComponent::saveFile() {
+    FileChooser fileChooser("Save File");
+
+    if (fileChooser.browseForFileToSave(true)) {
+        saveFile(fileChooser.getResult());
+    }
+}
+
+void MainContentComponent::newFile() {
+    if (editor->getDocument().hasChangedSinceSavePoint()) {
+        AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
+                                     "Unsaved Changes",
+                                     "You have unsaved changes. Do you want to discard them?",
+                                     "Cancel",
+                                     "Discard",
+                                     0,
+                                     ModalCallbackFunction::create([this](int result) {
+            if (result == 1) { // ok
+                editor->loadContent("");
+            }
+        }));
+    }
+    else {
+        editor->loadContent("");
+    }
 }
 
 void MainContentComponent::run() {
@@ -250,8 +360,17 @@ void MainContentComponent::run() {
     results->setText(runnerResults);
 }
 
+void MainContentComponent::speak() {
+    auto content = results->getText();
+    
+    speaker->speak(content.toStdString());
+}
+
 void MainContentComponent::buttonClicked(Button* button) {
     if (button == runButton) {
         run();
+    }
+    else if (button == speakButton) {
+        speak();
     }
 }

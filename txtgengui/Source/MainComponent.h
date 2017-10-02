@@ -11,6 +11,10 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 #include "Runner.hpp"
+#include "Speaker.hpp"
+#include "AutomateTokeniser.hpp"
+
+#include <memory>
 
 //==============================================================================
 /*
@@ -28,13 +32,19 @@ public:
     void resized() override;
     
     //==============================================================================
-    enum CommandIDs
-    {
-        runCmd            = 0x2100,
+    enum CommandIDs {
+        runCmd = 0x2100,
+        saveCmd = 0x2200,
+        openCmd = 0x2300,
+        newCmd = 0x2400,
+        speakCmd = 0x2500,
     };
 
 private:
     void filenameComponentChanged (FilenameComponent*) override;
+    void loadFileNow(File file);
+    void loadFile(File file);
+    void saveFile(const File &file);
     
     StringArray getMenuBarNames() override;
     PopupMenu getMenuForIndex (int menuIndex, const String& /*menuName*/) override;
@@ -46,7 +56,12 @@ private:
     
     void buttonClicked (Button* button) override;
     
+    // commands
     void run();
+    void openFile();
+    void saveFile();
+    void newFile();
+    void speak();
     
     ScopedPointer<MenuBarComponent> menuBar;
 
@@ -54,15 +69,17 @@ private:
     CodeDocument codeDocument;
     
     // this is a tokeniser to apply the C++ syntax highlighting
-    CPlusPlusCodeTokeniser cppTokeniser;
+    AutomateTokeniser tokeniser;
     
     // components
     ScopedPointer<CodeEditorComponent> editor = nullptr;
     ScopedPointer<TextEditor> results = nullptr;
     ScopedPointer<TextButton> runButton = nullptr;
-    FilenameComponent fileChooser;
+    ScopedPointer<TextButton> speakButton = nullptr;
+    FilenameComponent filenameComponent;
     
     jp::Runner runner;
+    std::shared_ptr<jp::Speaker> speaker;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)

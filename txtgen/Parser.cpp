@@ -127,7 +127,7 @@ void Parser::parse() {
                             currentRule->addChoice(currentChoice);
                             currentChoice = std::make_shared<RuleChoice>();
                         }
-                        else if (lexem->getContent() == L"@") {
+                        else if (lexem->getContent() == L"+") {
                             noWhitespace = true;
                         }
                         else {
