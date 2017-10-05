@@ -17,6 +17,7 @@
 		250F966983052EF964E8D6C3 /* include_juce_opengl.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB940683BB70C90AB1262800 /* include_juce_opengl.mm */; };
 		2AAFB6FAE1B64DF6D3EC62C5 /* include_juce_gui_basics.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4786A42B644081DF9D8382BE /* include_juce_gui_basics.mm */; };
 		2BF8E7261D23D7BA28E3D688 /* include_juce_audio_devices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2A8F450EDBD9AB56CAF6D493 /* include_juce_audio_devices.mm */; };
+		30321F471F8660EE00A23A6B /* Examples.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30321F451F8660EE00A23A6B /* Examples.cpp */; };
 		3041F2831F82683000F37B01 /* Runner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3041F2811F82683000F37B01 /* Runner.cpp */; };
 		3041F2971F826C2500F37B01 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3041F2951F826C2500F37B01 /* utils.cpp */; };
 		3087D39B1F827DE6009C157F /* libtxtgencmdlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3087D3981F827DB3009C157F /* libtxtgencmdlib.a */; };
@@ -73,6 +74,8 @@
 		1EE1B58388204FAF86EE8676 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		29458B98CE34EA0DF64C2DA7 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		2A8F450EDBD9AB56CAF6D493 /* include_juce_audio_devices.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_devices.mm; path = ../../JuceLibraryCode/include_juce_audio_devices.mm; sourceTree = SOURCE_ROOT; };
+		30321F451F8660EE00A23A6B /* Examples.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Examples.cpp; path = ../../Source/Examples.cpp; sourceTree = "<group>"; };
+		30321F461F8660EE00A23A6B /* Examples.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Examples.hpp; path = ../../Source/Examples.hpp; sourceTree = "<group>"; };
 		3041F2751F8267DF00F37B01 /* txtgencmd.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = txtgencmd.xcodeproj; path = ../../../txtgencmd.xcodeproj; sourceTree = "<group>"; };
 		3041F2811F82683000F37B01 /* Runner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Runner.cpp; path = ../../Source/Runner.cpp; sourceTree = "<group>"; };
 		3041F2821F82683000F37B01 /* Runner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Runner.hpp; path = ../../Source/Runner.hpp; sourceTree = "<group>"; };
@@ -187,11 +190,13 @@
 				C289E75BBC517E54A3469B06 /* MainComponent.cpp */,
 				3087D39C1F829090009C157F /* MainWindow.h */,
 				80EE6850F66FB9202A858482 /* MainWindow.cpp */,
-				3041F2811F82683000F37B01 /* Runner.cpp */,
 				3041F2821F82683000F37B01 /* Runner.hpp */,
-				3041F2951F826C2500F37B01 /* utils.cpp */,
+				3041F2811F82683000F37B01 /* Runner.cpp */,
 				3041F2961F826C2500F37B01 /* utils.hpp */,
+				3041F2951F826C2500F37B01 /* utils.cpp */,
 				3087D3A21F82C55E009C157F /* Speaker.hpp */,
+				30321F461F8660EE00A23A6B /* Examples.hpp */,
+				30321F451F8660EE00A23A6B /* Examples.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -396,6 +401,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30321F471F8660EE00A23A6B /* Examples.cpp in Sources */,
 				6044A842767BE43731FF240A /* MainComponent.cpp in Sources */,
 				3041F2971F826C2500F37B01 /* utils.cpp in Sources */,
 				15765B4A9BAB20C5982673D2 /* MainWindow.cpp in Sources */,

@@ -71,6 +71,12 @@ private:
     // this is a tokeniser to apply the C++ syntax highlighting
     AutomateTokeniser tokeniser;
     
+    TextButton* addRunTypeButton(TextButton *newComp) {
+        runTypeButtons.add(newComp);
+        runTypeGroup.addAndMakeVisible(newComp);
+        return newComp;
+    }
+    
     // components
     ScopedPointer<CodeEditorComponent> editor = nullptr;
     ScopedPointer<TextEditor> results = nullptr;
@@ -81,6 +87,16 @@ private:
     jp::Runner runner;
     std::shared_ptr<jp::Speaker> speaker;
     
+    std::vector<std::pair<std::string, jp::RunnerType>> runTypeNames = {
+        {"Grammar", jp::Grammar},
+        {"L-System", jp::LSystem},
+        {"Markov", jp::Markov}
+    };
+    Component runTypeGroup;
+    OwnedArray<TextButton> runTypeButtons;
+    
+    void setCurrentRunnerType(jp::RunnerType rt);
+    jp::RunnerType getCurrentRunnerType() {return runner.getType();}
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

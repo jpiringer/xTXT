@@ -8,27 +8,14 @@
 #include "Runner.hpp"
 
 #include "Parser.hpp"
+#include "LSystem.h"
 #include "utils.hpp"
 
-std::string automateSampleCode = R"(START = A B;
-A = abc | def;
-B = A | B;
-)";
+#include "Examples.hpp"
 
 jp::Runner::Runner(enum RunnerType rtype)
 : runnerType(rtype) {
     
-}
-
-std::string jp::Runner::getSampleCode() {
-    switch (runnerType) {
-        case Automate:
-            return automateSampleCode;
-        default:
-            break;
-    }
-    
-    return "Unknown Runner Type";
 }
 
 std::string jp::Runner::runAutomate() {
@@ -46,12 +33,47 @@ std::string jp::Runner::runAutomate() {
     return toUTF8(result);
 }
 
+std::string jp::Runner::runLSystem() {
+    auto lsystem = parseLSystem(fromUTF8(code));
+    
+    if (lsystem->getErrorCount() > 0) {
+        errorsHappened = true;
+        return toUTF8(lsystem->getErrors());
+    }
+    else {
+        lsystem->setState(fromUTF8(text));
+        
+        lsystem->addRule('a', L"aba");
+        lsystem->iterate();
+        
+        return toUTF8(lsystem->getState());
+    }
+}
+
 std::string jp::Runner::run() {
     switch (runnerType) {
-        case Automate:
+        case Grammar:
             return runAutomate();
+        case LSystem:
+            return runLSystem();
         default:
             break;
     }
     return "Unknown Runner Type";
+}
+
+std::vector<std::string> jp::Runner::getExamples() {
+    switch (runnerType) {
+        case Grammar:
+            return grammarExamples();
+        case LSystem:
+            return LSystemExamples();
+        case Markov:
+            return markovExamples();
+        case Program:
+            return programExamples();
+        default:
+            break;
+    }
+    return {};
 }

@@ -12,27 +12,35 @@
 
 namespace jp {
     enum RunnerType {
-        Automate = 0
+        Grammar = 0,
+        LSystem,
+        Markov,
+        Program
     };
     
     class Runner {
         enum RunnerType runnerType;
         std::string code;
-        
+        std::string text;
+
         bool errorsHappened = false;
         
         std::string runAutomate();
-        
+        std::string runLSystem();
+
     public:
-        Runner(enum RunnerType rtype = Automate);
+        Runner(enum RunnerType rtype = Grammar);
         
         void setCode(const std::string &_code) {code = _code;}
-        
-        std::string getSampleCode();
-        
+        void setText(const std::string &_text) {text = _text;}
+        void setType(RunnerType t) {runnerType = t;}
+        RunnerType getType() {return runnerType;}
+                
         std::string run();
         
         bool hasErrors() {return errorsHappened;}
+        
+        std::vector<std::string> getExamples();
     };
 };
 

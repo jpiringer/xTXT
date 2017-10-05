@@ -48,8 +48,6 @@ MainContentComponent::MainContentComponent()
     Font font(Font::getDefaultMonospacedFontName(), 20, Font::plain);
     editor->setFont(font);
     
-    editor->loadContent(runner.getSampleCode());
-    
     editor->setColour(CodeEditorComponent::backgroundColourId, Colour(0xff, 0xff, 0xff));
     editor->setColour(CodeEditorComponent::lineNumberBackgroundId, Colour(0, 0, 0));
 
@@ -61,12 +59,37 @@ MainContentComponent::MainContentComponent()
     results->setFont(font);
     results->setMultiLine(true);
     results->setColour(TextEditor::backgroundColourId, Colour(0xff, 0xff, 0xff));
-    
+    results->setColour(TextEditor::textColourId, Colour(0, 0, 0));
+
     getLookAndFeel().setUsingNativeAlertWindows(true);
 
     setSize(600, 800);
     
     speaker = createSpeakerInstance();
+    
+    for (int i = 0; i < runTypeNames.size(); ++i) {
+        TextButton *tb = addRunTypeButton(new TextButton(runTypeNames[i].first));
+        
+        tb->setClickingTogglesState(true);
+        tb->setRadioGroupId(123456);
+        tb->setColour(TextButton::textColourOffId, Colours::black);
+        tb->setColour(TextButton::textColourOnId, Colours::black);
+        tb->setColour(TextButton::buttonColourId, Colours::white);
+        tb->setColour(TextButton::buttonOnColourId, Colours::blueviolet.brighter());
+        
+        tb->addListener(this);
+
+        tb->setBounds(5+i * 80, 6, 80, 24);
+        tb->setConnectedEdges(((i != 0) ? Button::ConnectedOnLeft : 0)
+                              | ((i != runTypeNames.size()-1) ? Button::ConnectedOnRight : 0));
+        
+        if (runTypeNames[i].second == getCurrentRunnerType()) {
+            tb->setToggleState(true, dontSendNotification);
+        }
+    }
+    addAndMakeVisible(runTypeGroup);
+    
+    setCurrentRunnerType(getCurrentRunnerType());
 }
 
 MainContentComponent::~MainContentComponent() {
@@ -85,6 +108,8 @@ void MainContentComponent::resized() {
     Rectangle<int> r(getLocalBounds());
 
     filenameComponent.setBounds(r.removeFromTop(25));
+    runTypeGroup.setBounds(r.removeFromTop(30));
+    
     speakButton->setBounds(r.removeFromBottom(25));
     results->setBounds(r.removeFromBottom(200));
     runButton->setBounds(r.removeFromBottom(25));
@@ -348,8 +373,10 @@ void MainContentComponent::newFile() {
 
 void MainContentComponent::run() {
     auto content = editor->getDocument().getAllContent();
+    auto text = results->getText();
     runner.setCode(content.toStdString());
-    
+    runner.setText(text.toStdString());
+
     auto runnerResults = runner.run();
     if (runner.hasErrors()) {
         results->setColour(TextEditor::textColourId, Colour(0xff, 0, 0));
@@ -366,11 +393,29 @@ void MainContentComponent::speak() {
     speaker->speak(content.toStdString());
 }
 
-void MainContentComponent::buttonClicked(Button* button) {
+void MainContentComponent::setCurrentRunnerType(jp::RunnerType rt) {
+    runner.setType(rt);
+    //if (!editor->getDocument().hasChangedSinceSavePoint()) {
+        auto examples = runner.getExamples();
+        
+        if (examples.size() > 0) {
+            editor->loadContent(examples[0]);
+        }
+    //}
+}
+
+void MainContentComponent::buttonClicked(Button *button) {
     if (button == runButton) {
         run();
     }
     else if (button == speakButton) {
         speak();
+    }
+    else {
+        for (int i = 0; i < runTypeButtons.size(); i++) {
+            if (runTypeButtons[i] == button) {
+                setCurrentRunnerType(runTypeNames[i].second);
+            }
+        }
     }
 }
