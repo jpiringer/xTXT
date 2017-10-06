@@ -1,5 +1,7 @@
 #  TODO
 
+parameter für markov einstellbar
+
 unsaved warnings bei quit
 
 undo
@@ -9,10 +11,12 @@ examples
 more automate features
 
 more generation methods:
-- markov
 - namshub mini
+- program
 
 lsystem tokenizer
+
+umlaute werden rot angezeichnet im tokeniser
 
 windows version
 
@@ -29,3 +33,5 @@ speak
 syntax highlighting
 
 - lsystem (mit graphics? oder erst später für die graphics einheit?)
+
+- markov

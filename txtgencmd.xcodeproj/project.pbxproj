@@ -15,6 +15,8 @@
 		3041F2721F8267C700F37B01 /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B2011F6808E5003B18D5 /* Lexer.cpp */; };
 		3041F2731F8267CB00F37B01 /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B2051F681157003B18D5 /* Parser.cpp */; };
 		3041F2741F8267CE00F37B01 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B1FE1F67FBFF003B18D5 /* Tokenizer.cpp */; };
+		306B40901F87CB3D0062BF56 /* Markov.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B408E1F87CB3D0062BF56 /* Markov.cpp */; };
+		306B40911F87CB450062BF56 /* Markov.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B408E1F87CB3D0062BF56 /* Markov.cpp */; };
 		3098B1F61F67F95A003B18D5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B1F51F67F95A003B18D5 /* main.cpp */; };
 		3098B2001F67FBFF003B18D5 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B1FE1F67FBFF003B18D5 /* Tokenizer.cpp */; };
 		3098B2031F6808E5003B18D5 /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B2011F6808E5003B18D5 /* Lexer.cpp */; };
@@ -40,6 +42,8 @@
 		3041F2691F8267BD00F37B01 /* txtgenlib.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = txtgenlib.hpp; sourceTree = "<group>"; };
 		3041F26B1F8267BD00F37B01 /* txtgenlibPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = txtgenlibPriv.hpp; sourceTree = "<group>"; };
 		3041F26D1F8267BD00F37B01 /* txtgenlib.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = txtgenlib.cpp; sourceTree = "<group>"; };
+		306B408E1F87CB3D0062BF56 /* Markov.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Markov.cpp; sourceTree = "<group>"; };
+		306B408F1F87CB3D0062BF56 /* Markov.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Markov.hpp; sourceTree = "<group>"; };
 		3098B1F21F67F95A003B18D5 /* txtgencmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = txtgencmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		3098B1F51F67F95A003B18D5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		3098B1FD1F67F9FD003B18D5 /* examples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = examples.h; sourceTree = "<group>"; };
@@ -114,6 +118,8 @@
 				3098B2061F681157003B18D5 /* Parser.hpp */,
 				3098B1FE1F67FBFF003B18D5 /* Tokenizer.cpp */,
 				3098B1FF1F67FBFF003B18D5 /* Tokenizer.hpp */,
+				306B408E1F87CB3D0062BF56 /* Markov.cpp */,
+				306B408F1F87CB3D0062BF56 /* Markov.hpp */,
 			);
 			path = txtgen;
 			sourceTree = "<group>";
@@ -214,6 +220,7 @@
 				3041F2741F8267CE00F37B01 /* Tokenizer.cpp in Sources */,
 				3041F2731F8267CB00F37B01 /* Parser.cpp in Sources */,
 				3041F26E1F8267BD00F37B01 /* txtgenlib.cpp in Sources */,
+				306B40911F87CB450062BF56 /* Markov.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +233,7 @@
 				3098B2031F6808E5003B18D5 /* Lexer.cpp in Sources */,
 				3098B1F61F67F95A003B18D5 /* main.cpp in Sources */,
 				3098B2001F67FBFF003B18D5 /* Tokenizer.cpp in Sources */,
+				306B40901F87CB3D0062BF56 /* Markov.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

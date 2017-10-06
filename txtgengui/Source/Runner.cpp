@@ -9,6 +9,7 @@
 
 #include "Parser.hpp"
 #include "LSystem.h"
+#include "Markov.hpp"
 #include "utils.hpp"
 
 #include "Examples.hpp"
@@ -50,12 +51,30 @@ std::string jp::Runner::runLSystem() {
     }
 }
 
+std::string jp::Runner::runMarkov() {
+    auto source = fromUTF8(code);
+    MarkovTable markov(3);
+    markov.addString(source);
+    
+    return toUTF8(markov.getString(source.length()));
+}
+
+std::string jp::Runner::runProgram() {
+    auto source = fromUTF8(code);
+    
+    return toUTF8(source);
+}
+
 std::string jp::Runner::run() {
     switch (runnerType) {
         case Grammar:
             return runAutomate();
         case LSystem:
             return runLSystem();
+        case Markov:
+            return runMarkov();
+        case Program:
+            return runProgram();
         default:
             break;
     }

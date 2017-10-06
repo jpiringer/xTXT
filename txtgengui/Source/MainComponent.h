@@ -88,9 +88,10 @@ private:
     std::shared_ptr<jp::Speaker> speaker;
     
     std::vector<std::pair<std::string, jp::RunnerType>> runTypeNames = {
+        {"Markov", jp::Markov},
         {"Grammar", jp::Grammar},
         {"L-System", jp::LSystem},
-        {"Markov", jp::Markov}
+        {"Program", jp::Program}
     };
     Component runTypeGroup;
     OwnedArray<TextButton> runTypeButtons;

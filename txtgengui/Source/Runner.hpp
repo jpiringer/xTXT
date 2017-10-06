@@ -19,7 +19,7 @@ namespace jp {
     };
     
     class Runner {
-        enum RunnerType runnerType;
+        enum RunnerType runnerType = Markov;
         std::string code;
         std::string text;
 
@@ -27,9 +27,11 @@ namespace jp {
         
         std::string runAutomate();
         std::string runLSystem();
+        std::string runMarkov();
+        std::string runProgram();
 
     public:
-        Runner(enum RunnerType rtype = Grammar);
+        Runner(enum RunnerType rtype = Markov);
         
         void setCode(const std::string &_code) {code = _code;}
         void setText(const std::string &_text) {text = _text;}
