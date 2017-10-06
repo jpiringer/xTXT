@@ -10,6 +10,8 @@
 #include "Parser.hpp"
 #include "LSystem.h"
 #include "Markov.hpp"
+#include "Program.hpp"
+
 #include "utils.hpp"
 
 #include "Examples.hpp"
@@ -60,9 +62,19 @@ std::string jp::Runner::runMarkov() {
 }
 
 std::string jp::Runner::runProgram() {
-    auto source = fromUTF8(code);
+    LuaProgram program;
     
-    return toUTF8(source);
+    program.setCode(code);
+    
+    auto result = program.execute();
+    
+    if (program.getErrorCount() > 0) {
+        errorsHappened = true;
+        result += "\n";
+        result += program.getErrors();
+    }
+    
+    return result;
 }
 
 std::string jp::Runner::run() {

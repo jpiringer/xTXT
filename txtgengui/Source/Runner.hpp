@@ -41,6 +41,7 @@ namespace jp {
         std::string run();
         
         bool hasErrors() {return errorsHappened;}
+        void resetErrors() {errorsHappened = false;}
         
         std::vector<std::string> getExamples();
     };

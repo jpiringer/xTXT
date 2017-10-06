@@ -17,6 +17,10 @@
 		3041F2741F8267CE00F37B01 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B1FE1F67FBFF003B18D5 /* Tokenizer.cpp */; };
 		306B40901F87CB3D0062BF56 /* Markov.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B408E1F87CB3D0062BF56 /* Markov.cpp */; };
 		306B40911F87CB450062BF56 /* Markov.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B408E1F87CB3D0062BF56 /* Markov.cpp */; };
+		306B40941F87D3D70062BF56 /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B40921F87D3D70062BF56 /* Program.cpp */; };
+		306B40951F87D3D70062BF56 /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B40921F87D3D70062BF56 /* Program.cpp */; };
+		306B40961F87D3D70062BF56 /* Program.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306B40931F87D3D70062BF56 /* Program.hpp */; };
+		306B409A1F87E7E50062BF56 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 306B40991F87E7E50062BF56 /* liblua.a */; };
 		3098B1F61F67F95A003B18D5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B1F51F67F95A003B18D5 /* main.cpp */; };
 		3098B2001F67FBFF003B18D5 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B1FE1F67FBFF003B18D5 /* Tokenizer.cpp */; };
 		3098B2031F6808E5003B18D5 /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098B2011F6808E5003B18D5 /* Lexer.cpp */; };
@@ -44,6 +48,9 @@
 		3041F26D1F8267BD00F37B01 /* txtgenlib.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = txtgenlib.cpp; sourceTree = "<group>"; };
 		306B408E1F87CB3D0062BF56 /* Markov.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Markov.cpp; sourceTree = "<group>"; };
 		306B408F1F87CB3D0062BF56 /* Markov.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Markov.hpp; sourceTree = "<group>"; };
+		306B40921F87D3D70062BF56 /* Program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cpp; sourceTree = "<group>"; };
+		306B40931F87D3D70062BF56 /* Program.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Program.hpp; sourceTree = "<group>"; };
+		306B40991F87E7E50062BF56 /* liblua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua.a; path = ../../../../usr/local/lib/liblua.a; sourceTree = "<group>"; };
 		3098B1F21F67F95A003B18D5 /* txtgencmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = txtgencmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		3098B1F51F67F95A003B18D5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		3098B1FD1F67F9FD003B18D5 /* examples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = examples.h; sourceTree = "<group>"; };
@@ -62,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				306B409A1F87E7E50062BF56 /* liblua.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +93,14 @@
 			path = txtgenlib;
 			sourceTree = "<group>";
 		};
+		306B40981F87E7E40062BF56 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				306B40991F87E7E50062BF56 /* liblua.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3098B1E91F67F95A003B18D5 = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +109,7 @@
 				3098B1F41F67F95A003B18D5 /* txtgen */,
 				3041F2681F8267BD00F37B01 /* txtgenlib */,
 				3098B1F31F67F95A003B18D5 /* Products */,
+				306B40981F87E7E40062BF56 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,15 +128,17 @@
 				30321F401F865F9200A23A6B /* LSystem.h */,
 				30321F411F865F9200A23A6B /* LSystem.cpp */,
 				3098B1FD1F67F9FD003B18D5 /* examples.h */,
-				3098B2011F6808E5003B18D5 /* Lexer.cpp */,
 				3098B2021F6808E5003B18D5 /* Lexer.hpp */,
+				3098B2011F6808E5003B18D5 /* Lexer.cpp */,
 				3098B1F51F67F95A003B18D5 /* main.cpp */,
-				3098B2051F681157003B18D5 /* Parser.cpp */,
 				3098B2061F681157003B18D5 /* Parser.hpp */,
-				3098B1FE1F67FBFF003B18D5 /* Tokenizer.cpp */,
+				3098B2051F681157003B18D5 /* Parser.cpp */,
 				3098B1FF1F67FBFF003B18D5 /* Tokenizer.hpp */,
-				306B408E1F87CB3D0062BF56 /* Markov.cpp */,
+				3098B1FE1F67FBFF003B18D5 /* Tokenizer.cpp */,
 				306B408F1F87CB3D0062BF56 /* Markov.hpp */,
+				306B408E1F87CB3D0062BF56 /* Markov.cpp */,
+				306B40931F87D3D70062BF56 /* Program.hpp */,
+				306B40921F87D3D70062BF56 /* Program.cpp */,
 			);
 			path = txtgen;
 			sourceTree = "<group>";
@@ -131,6 +150,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				306B40961F87D3D70062BF56 /* Program.hpp in Headers */,
 				3041F26A1F8267BD00F37B01 /* txtgenlib.hpp in Headers */,
 				3041F26C1F8267BD00F37B01 /* txtgenlibPriv.hpp in Headers */,
 			);
@@ -217,6 +237,7 @@
 			files = (
 				30321F431F86601F00A23A6B /* LSystem.cpp in Sources */,
 				3041F2721F8267C700F37B01 /* Lexer.cpp in Sources */,
+				306B40951F87D3D70062BF56 /* Program.cpp in Sources */,
 				3041F2741F8267CE00F37B01 /* Tokenizer.cpp in Sources */,
 				3041F2731F8267CB00F37B01 /* Parser.cpp in Sources */,
 				3041F26E1F8267BD00F37B01 /* txtgenlib.cpp in Sources */,
@@ -230,6 +251,7 @@
 			files = (
 				30321F421F86601E00A23A6B /* LSystem.cpp in Sources */,
 				3098B2071F681157003B18D5 /* Parser.cpp in Sources */,
+				306B40941F87D3D70062BF56 /* Program.cpp in Sources */,
 				3098B2031F6808E5003B18D5 /* Lexer.cpp in Sources */,
 				3098B1F61F67F95A003B18D5 /* main.cpp in Sources */,
 				3098B2001F67FBFF003B18D5 /* Tokenizer.cpp in Sources */,
@@ -248,6 +270,8 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -261,6 +285,8 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

@@ -1,6 +1,9 @@
 #  TODO
 
-parameter für markov einstellbar
+parameter für markov einstellbar:
+- prefix len
+- generation length
+- seed? random-seed?
 
 unsaved warnings bei quit
 

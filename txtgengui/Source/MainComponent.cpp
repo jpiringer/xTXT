@@ -374,6 +374,8 @@ void MainContentComponent::newFile() {
 void MainContentComponent::run() {
     auto content = editor->getDocument().getAllContent();
     auto text = results->getText();
+    
+    runner.resetErrors();
     runner.setCode(content.toStdString());
     runner.setText(text.toStdString());
 
