@@ -15,6 +15,7 @@
 #include "AutomateTokeniser.hpp"
 
 #include <memory>
+#include <vector>
 
 //==============================================================================
 /*
@@ -82,15 +83,28 @@ private:
     ScopedPointer<TextEditor> results = nullptr;
     ScopedPointer<TextButton> runButton = nullptr;
     ScopedPointer<TextButton> speakButton = nullptr;
+    ScopedPointer<TextButton> stopSpeakButton = nullptr;
     FilenameComponent filenameComponent;
     
+    // specific parameters
+    std::shared_ptr<Label> markovPrefixLabel;
+    std::shared_ptr<Label> markovTextLabel;
+    std::shared_ptr<Slider> markovPrefixLen = nullptr;
+    std::shared_ptr<Slider> markovTextLen = nullptr;
+    std::vector<std::shared_ptr<TextButton>> methodButtons;
+
+    std::vector<std::shared_ptr<Component>> parameterComponents;
+    void makeParametersVisible();
+    void addParameterComponent(std::shared_ptr<Component> c);
+
     jp::Runner runner;
     std::shared_ptr<jp::Speaker> speaker;
     
     std::vector<std::pair<std::string, jp::RunnerType>> runTypeNames = {
         {"Markov", jp::Markov},
-        {"Grammar", jp::Grammar},
+        {"Methods", jp::NamShub},
         {"L-System", jp::LSystem},
+        {"Grammar", jp::Grammar},
         {"Program", jp::Program}
     };
     Component runTypeGroup;

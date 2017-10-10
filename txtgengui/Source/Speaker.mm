@@ -25,6 +25,10 @@ namespace jp {
         void speak(const std::string &str) override {
             [speechSynthesizer startSpeakingString:[NSString stringWithCString:str.c_str() encoding:NSUTF8StringEncoding]];
         }
+        
+        void stop() override {
+            [speechSynthesizer stopSpeaking];
+        }
     };
 }
         

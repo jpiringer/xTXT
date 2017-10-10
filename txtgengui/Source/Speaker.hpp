@@ -20,6 +20,7 @@ namespace jp {
         virtual ~Speaker() {}
         
         virtual void speak(const std::string &str) = 0;
+        virtual void stop() = 0;
     };
 }
 

@@ -9,13 +9,15 @@
 #define Runner_hpp
 
 #include <string>
+#include <map>
 
 namespace jp {
     enum RunnerType {
         Grammar = 0,
         LSystem,
         Markov,
-        Program
+        Program,
+        NamShub
     };
     
     class Runner {
@@ -29,6 +31,10 @@ namespace jp {
         std::string runLSystem();
         std::string runMarkov();
         std::string runProgram();
+        std::string runNamShub();
+
+        std::map<std::string, double> parameters;
+        std::map<std::string, std::string> stringParameters;
 
     public:
         Runner(enum RunnerType rtype = Markov);
@@ -42,6 +48,11 @@ namespace jp {
         
         bool hasErrors() {return errorsHappened;}
         void resetErrors() {errorsHappened = false;}
+        
+        void setParameter(const std::string &parName, double value) {parameters[parName] = value;}
+        double getParameter(const std::string &parName);
+        void setStringParameter(const std::string &parName, std::string value) {stringParameters[parName] = value;}
+        std::string getStringParameter(const std::string &parName);
         
         std::vector<std::string> getExamples();
     };

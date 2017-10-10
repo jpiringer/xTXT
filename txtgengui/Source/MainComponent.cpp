@@ -21,6 +21,11 @@ inline Colour getUIColourIfAvailable (LookAndFeel_V4::ColourScheme::UIColour uiC
     return fallback;
 }
 
+void MainContentComponent::addParameterComponent(std::shared_ptr<Component> c) {
+    parameterComponents.push_back(c);
+    addChildComponent(*c);
+}
+
 //==============================================================================
 MainContentComponent::MainContentComponent()
 : filenameComponent("File", File(), true, false, false,
@@ -42,6 +47,44 @@ MainContentComponent::MainContentComponent()
     speakButton = new TextButton("Speak");
     speakButton->addListener(this);
     addAndMakeVisible(speakButton);
+    stopSpeakButton = new TextButton("Stop");
+    stopSpeakButton->addListener(this);
+    addAndMakeVisible(stopSpeakButton);
+    
+    // specific parameters
+    markovPrefixLabel = std::make_shared<Label>();
+    markovPrefixLabel->setText("Prefix:", dontSendNotification);
+    markovTextLabel = std::make_shared<Label>();
+    markovTextLabel->setText("Text Length:", dontSendNotification);
+    markovPrefixLen = std::make_shared<Slider>();
+    markovPrefixLen->setSliderStyle(Slider::LinearHorizontal);
+    markovPrefixLen->setTextBoxStyle(Slider::TextBoxRight, false, 80, 20);
+    markovPrefixLen->setRange(1, 10, 1);
+    markovPrefixLen->setValue(3);
+    markovTextLen = std::make_shared<Slider>();
+    markovTextLen->setSliderStyle(Slider::LinearHorizontal);
+    markovTextLen->setTextBoxStyle(Slider::TextBoxRight, false, 80, 20);
+    markovTextLen->setRange(1, 10000, 1);
+    markovTextLen->setValue(1000);
+    
+    addParameterComponent(markovPrefixLabel);
+    addParameterComponent(markovTextLabel);
+    addParameterComponent(markovPrefixLen);
+    addParameterComponent(markovTextLen);
+    
+    std::vector<std::string> methods = {
+        "dup", "reverse", "sort", "rip", "shuffle",
+        "part", "split", "condense",
+        "stretch", "vowels only", "cons only",
+        "permutate"};
+    
+    for (auto s : methods) {
+        std::shared_ptr<TextButton> b = std::make_shared<TextButton>(s);
+        
+        methodButtons.push_back(b);
+        addParameterComponent(b);
+        b->addListener(this);
+    }
     
     // Create the editor..
     addAndMakeVisible (editor = new CodeEditorComponent(codeDocument, &tokeniser));
@@ -104,16 +147,80 @@ void MainContentComponent::paint (Graphics& g) {
                                        Colours::white));
 }
 
+void MainContentComponent::makeParametersVisible() {
+    for (auto c : parameterComponents) {
+        c->setVisible(false);
+    }
+    
+    switch (getCurrentRunnerType()) {
+        case jp::Markov:
+            markovPrefixLen->setVisible(true);
+            markovTextLen->setVisible(true);
+            markovPrefixLabel->setVisible(true);
+            markovTextLabel->setVisible(true);
+            break;
+        case jp::NamShub:
+            for (auto b : methodButtons) {
+                b->setVisible(true);
+            }
+        default:
+            break;
+    }
+}
+
 void MainContentComponent::resized() {
+    bool showCode = true;
     Rectangle<int> r(getLocalBounds());
 
+    // top
     filenameComponent.setBounds(r.removeFromTop(25));
     runTypeGroup.setBounds(r.removeFromTop(30));
     
-    speakButton->setBounds(r.removeFromBottom(25));
-    results->setBounds(r.removeFromBottom(200));
-    runButton->setBounds(r.removeFromBottom(25));
-    editor->setBounds(r.withTrimmedTop(8));
+    makeParametersVisible();
+    
+    switch (getCurrentRunnerType()) {
+        case jp::Markov: {
+            Rectangle<int> markovArea(r.removeFromTop(25));
+            int partition = markovArea.getWidth()/8;
+            markovPrefixLabel->setBounds(markovArea.removeFromLeft(partition));
+            markovPrefixLen->setBounds(markovArea.removeFromLeft(partition*3));
+            markovTextLabel->setBounds(markovArea.removeFromLeft(partition));
+            markovTextLen->setBounds(markovArea.removeFromLeft(partition*3));
+            break;
+        }
+        case jp::NamShub: {
+            int counter = 0;
+            Rectangle<int> methodLineArea;
+            for (auto b : methodButtons) {
+                if (counter % 5 == 0) {
+                    methodLineArea = r.removeFromTop(25);
+                }
+                b->setBounds(methodLineArea.removeFromLeft(r.getWidth()/5));
+                counter++;
+            }
+            showCode = false;
+            break;
+        }
+        default:
+            break;
+    }
+    
+    // speak
+    Rectangle<int> speakArea(r.removeFromBottom(25));
+    speakButton->setBounds(speakArea.removeFromLeft(speakArea.getWidth()/2));
+    stopSpeakButton->setBounds(speakArea);
+    
+    // results & run
+    if (showCode) {
+        results->setBounds(r.removeFromBottom(200));
+        runButton->setBounds(r.removeFromBottom(25));
+        editor->setVisible(true);
+        editor->setBounds(r.withTrimmedTop(8));
+    }
+    else {
+        results->setBounds(r.withTrimmedTop(8));
+        editor->setVisible(false);
+    }
 }
 
 void MainContentComponent::loadFileNow(File file) {
@@ -372,12 +479,29 @@ void MainContentComponent::newFile() {
 }
 
 void MainContentComponent::run() {
-    auto content = editor->getDocument().getAllContent();
-    auto text = results->getText();
+    auto content = editor->getDocument().getAllContent().toStdString();
+    std::string text;
+    Range<int> selection = results->getHighlightedRegion();
+    
+    if (selection.isEmpty()) {
+        text = results->getText().toStdString();
+    }
+    else {
+        text = results->getHighlightedText().toStdString();
+    }
     
     runner.resetErrors();
-    runner.setCode(content.toStdString());
-    runner.setText(text.toStdString());
+    runner.setCode(content);
+    runner.setText(text);
+    
+    switch (getCurrentRunnerType()) {
+        case jp::Markov:
+            runner.setParameter("prefixLen", markovPrefixLen->getValue());
+            runner.setParameter("textLen", markovTextLen->getValue());
+            break;
+        default:
+            break;
+    }
 
     auto runnerResults = runner.run();
     if (runner.hasErrors()) {
@@ -386,7 +510,15 @@ void MainContentComponent::run() {
     else {
         results->setColour(TextEditor::textColourId, Colour(0, 0, 0));
     }
-    results->setText(runnerResults);
+    if (selection.isEmpty()) {
+        results->setText(runnerResults);
+    }
+    else {
+        auto firstFragment = results->getText().substring(0, selection.getStart());
+        auto secondFragment = results->getText().substring(selection.getStart()+selection.getLength());
+        results->setText(firstFragment+runnerResults+secondFragment);
+        results->setHighlightedRegion(Range<int>(selection.getStart(), selection.getStart()+runnerResults.length()));
+    }
 }
 
 void MainContentComponent::speak() {
@@ -403,6 +535,7 @@ void MainContentComponent::setCurrentRunnerType(jp::RunnerType rt) {
         if (examples.size() > 0) {
             editor->loadContent(examples[0]);
         }
+    resized();
     //}
 }
 
@@ -413,11 +546,21 @@ void MainContentComponent::buttonClicked(Button *button) {
     else if (button == speakButton) {
         speak();
     }
+    else if (button == stopSpeakButton) {
+        speaker->stop();
+    }
     else {
         for (int i = 0; i < runTypeButtons.size(); i++) {
             if (runTypeButtons[i] == button) {
                 setCurrentRunnerType(runTypeNames[i].second);
+                return;
             }
+        }
+        if (getCurrentRunnerType() == jp::NamShub) {
+            auto command = button->getButtonText().toStdString();
+            
+            runner.setStringParameter("command", command);
+            run();
         }
     }
 }
