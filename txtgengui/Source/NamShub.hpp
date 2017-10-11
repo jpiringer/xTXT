@@ -11,10 +11,15 @@
 
 #include <string>
 
+class Hunspell;
+
 class NamShubExecutor {
+    std::shared_ptr<Hunspell> hunspell;
+    
+    std::wstring suggest(const std::wstring &s);
     
 public:
-    NamShubExecutor() {}
+    NamShubExecutor();
     
     std::wstring executeCommand(const std::string &command, std::wstring _str);
 };

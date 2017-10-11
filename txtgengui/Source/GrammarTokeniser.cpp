@@ -5,20 +5,22 @@
 //  Created by joerg piringer on 02.10.17.
 //
 
-#include "AutomateTokeniser.hpp"
+#include "GrammarTokeniser.hpp"
 
-struct AutomateTokeniserFunctions
+struct GrammarTokeniserFunctions
 {
     static bool isIdentifierStart (const juce_wchar c) noexcept
     {
         return CharacterFunctions::isLetter (c)
-        || c == '_' || c == '@';
+        || c == '_' || c == '@'
+        || c == L'ä' || c == L'ö' || c == L'ü' || c == L'ß'  || c == L'Ä'  || c == L'Ö' || c == L'Ü'  ;
     }
     
     static bool isIdentifierBody (const juce_wchar c) noexcept
     {
         return CharacterFunctions::isLetterOrDigit (c)
-        || c == '_' || c == '@';
+        || c == '_' || c == '@'
+        || c == L'ä' || c == L'ö' || c == L'ü' || c == L'ß'  || c == L'Ä'  || c == L'Ö' || c == L'Ü'  ;
     }
     
     static bool isReservedKeyword (String::CharPointerType token, const int tokenLength) noexcept
@@ -396,7 +398,7 @@ struct AutomateTokeniserFunctions
                     source.skip();
                     
                     if (firstChar == '.')
-                        return AutomateTokeniser::tokenType_punctuation;
+                        return GrammarTokeniser::tokenType_punctuation;
                 }
                 
                 return result;
@@ -406,32 +408,32 @@ struct AutomateTokeniserFunctions
             case ';':
             case ':':
                 source.skip();
-                return AutomateTokeniser::tokenType_punctuation;
+                return GrammarTokeniser::tokenType_punctuation;
                 
             case '{':   case '}':
             case '[':   case ']':
                 source.skip();
-                return AutomateTokeniser::tokenType_bracket;
+                return GrammarTokeniser::tokenType_bracket;
                 
             case '"':
             case '\'':
                 skipQuotedString (source);
-                return AutomateTokeniser::tokenType_string;
+                return GrammarTokeniser::tokenType_string;
                 
             case '+':
                 source.skip();
                 skipIfNextCharMatches (source, '+', '=');
-                return AutomateTokeniser::tokenType_operator;
+                return GrammarTokeniser::tokenType_operator;
             case '=':
                 source.skip();
                 skipIfNextCharMatches (source, '=');
-                return AutomateTokeniser::tokenType_operator;
+                return GrammarTokeniser::tokenType_operator;
                 
             case '|':
                 source.skip();
                 skipIfNextCharMatches (source, firstChar);
                 skipIfNextCharMatches (source, '=');
-                return AutomateTokeniser::tokenType_operator;
+                return GrammarTokeniser::tokenType_operator;
                 
             default:
                 if (isIdentifierStart (firstChar))
@@ -441,7 +443,7 @@ struct AutomateTokeniserFunctions
                 break;
         }
         
-        return AutomateTokeniser::tokenType_error;
+        return GrammarTokeniser::tokenType_error;
     }
     
     /** A class that can be passed to the CppTokeniserFunctions functions in order to
@@ -588,11 +590,11 @@ struct AutomateTokeniserFunctions
     }
 };
 
-int AutomateTokeniser::readNextToken(CodeDocument::Iterator &source) {
-    return AutomateTokeniserFunctions::readNextToken (source);
+int GrammarTokeniser::readNextToken(CodeDocument::Iterator &source) {
+    return GrammarTokeniserFunctions::readNextToken (source);
 }
 
-CodeEditorComponent::ColourScheme AutomateTokeniser::getDefaultColourScheme() {
+CodeEditorComponent::ColourScheme GrammarTokeniser::getDefaultColourScheme() {
     struct Type {
         const char* name;
         uint32 colour;

@@ -55,6 +55,8 @@
 		306B40991F87E7E50062BF56 /* liblua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua.a; path = ../../../../usr/local/lib/liblua.a; sourceTree = "<group>"; };
 		306B41611F894B380062BF56 /* NamShub.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NamShub.cpp; sourceTree = "<group>"; };
 		306B41621F894B380062BF56 /* NamShub.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NamShub.hpp; sourceTree = "<group>"; };
+		308E2EB91F8CE2AE00001AA8 /* utils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = utils.hpp; path = txtgengui/Source/utils.hpp; sourceTree = SOURCE_ROOT; };
+		308E2EBA1F8CE2AE00001AA8 /* utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = txtgengui/Source/utils.cpp; sourceTree = SOURCE_ROOT; };
 		3098B1F21F67F95A003B18D5 /* txtgencmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = txtgencmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		3098B1F51F67F95A003B18D5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		3098B1FD1F67F9FD003B18D5 /* examples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = examples.h; sourceTree = "<group>"; };
@@ -62,7 +64,7 @@
 		3098B1FF1F67FBFF003B18D5 /* Tokenizer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tokenizer.hpp; sourceTree = "<group>"; };
 		3098B2011F6808E5003B18D5 /* Lexer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Lexer.cpp; sourceTree = "<group>"; };
 		3098B2021F6808E5003B18D5 /* Lexer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lexer.hpp; sourceTree = "<group>"; };
-		3098B2041F680E2D003B18D5 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
+		3098B2041F680E2D003B18D5 /* TODO-txt.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "TODO-txt.md"; sourceTree = "<group>"; };
 		3098B2051F681157003B18D5 /* Parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
 		3098B2061F681157003B18D5 /* Parser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Parser.hpp; sourceTree = "<group>"; };
 		3098B2081F684555003B18D5 /* DOC.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DOC.md; sourceTree = "<group>"; };
@@ -108,7 +110,7 @@
 		3098B1E91F67F95A003B18D5 = {
 			isa = PBXGroup;
 			children = (
-				3098B2041F680E2D003B18D5 /* TODO.md */,
+				3098B2041F680E2D003B18D5 /* TODO-txt.md */,
 				3098B2081F684555003B18D5 /* DOC.md */,
 				3098B1F41F67F95A003B18D5 /* txtgen */,
 				3041F2681F8267BD00F37B01 /* txtgenlib */,
@@ -129,6 +131,8 @@
 		3098B1F41F67F95A003B18D5 /* txtgen */ = {
 			isa = PBXGroup;
 			children = (
+				308E2EB91F8CE2AE00001AA8 /* utils.hpp */,
+				308E2EBA1F8CE2AE00001AA8 /* utils.cpp */,
 				30321F401F865F9200A23A6B /* LSystem.h */,
 				30321F411F865F9200A23A6B /* LSystem.cpp */,
 				3098B1FD1F67F9FD003B18D5 /* examples.h */,
@@ -348,7 +352,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -397,7 +401,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};

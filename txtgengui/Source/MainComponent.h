@@ -12,7 +12,8 @@
 
 #include "Runner.hpp"
 #include "Speaker.hpp"
-#include "AutomateTokeniser.hpp"
+#include "GrammarTokeniser.hpp"
+#include "LSystemTokeniser.hpp"
 
 #include <memory>
 #include <vector>
@@ -39,6 +40,8 @@ public:
         openCmd = 0x2300,
         newCmd = 0x2400,
         speakCmd = 0x2500,
+        undoCmd = 0x3100,
+        redoCmd = 0x3200,
     };
 
 private:
@@ -69,21 +72,20 @@ private:
     // this is the document that the editor component is showing
     CodeDocument codeDocument;
     
-    // this is a tokeniser to apply the C++ syntax highlighting
-    AutomateTokeniser tokeniser;
-    
-    TextButton* addRunTypeButton(TextButton *newComp) {
-        runTypeButtons.add(newComp);
-        runTypeGroup.addAndMakeVisible(newComp);
+    std::shared_ptr<CodeTokeniser> tokeniser;
+
+    std::shared_ptr<TextButton> addRunTypeButton(std::shared_ptr<TextButton> newComp) {
+        runTypeButtons.push_back(newComp);
+        runTypeGroup.addAndMakeVisible(*newComp);
         return newComp;
     }
     
     // components
-    ScopedPointer<CodeEditorComponent> editor = nullptr;
-    ScopedPointer<TextEditor> results = nullptr;
-    ScopedPointer<TextButton> runButton = nullptr;
-    ScopedPointer<TextButton> speakButton = nullptr;
-    ScopedPointer<TextButton> stopSpeakButton = nullptr;
+    std::shared_ptr<CodeEditorComponent> editor = nullptr;
+    std::shared_ptr<TextEditor> results = nullptr;
+    std::shared_ptr<TextButton> runButton = nullptr;
+    std::shared_ptr<TextButton> speakButton = nullptr;
+    std::shared_ptr<TextButton> stopSpeakButton = nullptr;
     FilenameComponent filenameComponent;
     
     // specific parameters
@@ -96,6 +98,7 @@ private:
     std::vector<std::shared_ptr<Component>> parameterComponents;
     void makeParametersVisible();
     void addParameterComponent(std::shared_ptr<Component> c);
+    void changeCodeEditor();
 
     jp::Runner runner;
     std::shared_ptr<jp::Speaker> speaker;
@@ -108,10 +111,13 @@ private:
         {"Program", jp::Program}
     };
     Component runTypeGroup;
-    OwnedArray<TextButton> runTypeButtons;
+    std::vector<std::shared_ptr<TextButton>> runTypeButtons;
     
     void setCurrentRunnerType(jp::RunnerType rt);
     jp::RunnerType getCurrentRunnerType() {return runner.getType();}
+    
+    UndoManager undoManager;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

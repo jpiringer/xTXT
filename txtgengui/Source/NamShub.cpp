@@ -11,6 +11,79 @@
 #include <vector>
 #include <functional>
 
+#include <hunspell/hunspell.hxx>
+
+#include "utils.hpp"
+#include "Platform.hpp"
+
+#define VOWELS L"aeiouAEIOUäöüÄÖÜ"
+#define CONSONANTS L"bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVXWZß"
+#define PLOSIVES L"cbdkptCBDKPT"
+#define FRICATIVES L"fsvFSV"
+#define LOOPABLE (VOWELS L"fhlmnrsvFHLMNRSV")
+#define UNLOOPABLE L"bcdgjkpqtxzBCDGJKPQTXZ"
+#define ALPHA (VOWELS CONSONANTS)
+#define WHITESPACE L" \t\r\n"
+#define NEWLINE L"\n"
+#define STRETCHABLE L"aefhilmnorsuyzäöüAEFHILMNORSUYZÄÖÜ"
+#define NORMALCHARS L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ^°!\"$%&/()\\=?+*#'´`-_.:,;€@<>äöüÄÖÜß \t\r\t"
+
+static std::wstring vowels = std::wstring(VOWELS);
+static std::wstring consonants = std::wstring(CONSONANTS);
+static std::wstring plosives = std::wstring(PLOSIVES);
+static std::wstring fricatives = std::wstring(FRICATIVES);
+static std::wstring loopable = std::wstring(LOOPABLE);
+static std::wstring unloopable = std::wstring(UNLOOPABLE);
+static std::wstring alpha = std::wstring(ALPHA);
+static std::wstring whitespace = std::wstring(WHITESPACE);
+static std::wstring newline = std::wstring(NEWLINE);
+static std::wstring stretchable = std::wstring(STRETCHABLE);
+static std::wstring normalChars = std::wstring(NORMALCHARS);
+
+std::wstring consOnly(const std::wstring &s) {
+    std::wstring str(L"");
+    
+    for(int x = 0; x < s.length(); x++)
+    {
+        if(consonants.find(s[x]) != std::string::npos)
+            str += s[x];
+    }
+    return str;
+}
+
+std::wstring vowelsOnly(const std::wstring &s) {
+    std::wstring str(L"");
+    
+    for(int x = 0; x < s.length(); x++)
+    {
+        if(vowels.find(s[x]) != std::string::npos)
+            str += s[x];
+    }
+    return str;
+}
+
+std::wstring fricativesOnly(const std::wstring &s) {
+    std::wstring str(L"");
+    
+    for(int x = 0; x < s.length(); x++)
+    {
+        if(fricatives.find(s[x]) != std::string::npos)
+            str += s[x];
+    }
+    return str;
+}
+
+std::wstring plosivesOnly(const std::wstring &s) {
+    std::wstring str(L"");
+    
+    for(int x = 0; x < s.length(); x++)
+    {
+        if(plosives.find(s[x]) != std::string::npos)
+            str += s[x];
+    }
+    return str;
+}
+
 int sort_compare(const void *arg1, const void *arg2) {
     wchar_t c1 = *(wchar_t*)arg1 , c2 = *(wchar_t*)arg2;
     
@@ -163,6 +236,34 @@ template <class S> S permutations(const S &in) {
     return ret;
 }
 
+NamShubExecutor::NamShubExecutor() {
+    /*std::string languageCode = "German";
+
+    std::string affFile = languageCode+std::string(".aff");
+    std::string dicFile = languageCode+std::string(".dic");
+
+    hunspell = std::make_shared<Hunspell>(toDataPath(affFile).c_str(), toDataPath(dicFile).c_str());*/
+}
+
+std::wstring NamShubExecutor::suggest(const std::wstring &s) {
+    char **slst = nullptr;
+    int n = hunspell->suggest(&slst, toUTF8(s).c_str());
+
+    std::wstring result = L"";
+    
+    for (int i = 0; i < n; i++) {
+        auto sg = std::string(slst[i]);
+        result += fromUTF8(sg);
+        if (i < n-1) {
+            result += L" ";
+        }
+    }
+    
+    hunspell->free_list(&slst, n);
+    
+    return result;
+}
+
 std::wstring NamShubExecutor::executeCommand(const std::string &command, std::wstring _str) {
     std::vector<std::pair<std::string, std::function<std::wstring(std::wstring)>>> commands = {
         {"dup", [](const std::wstring &str){
@@ -197,11 +298,17 @@ std::wstring NamShubExecutor::executeCommand(const std::string &command, std::ws
         {"stretch", [](const std::wstring &str) {
             return str;}},
         {"vowels only", [](const std::wstring &str) {
-            return str;}},
+            return vowelsOnly(str);}},
         {"cons only", [](const std::wstring &str) {
-            return str;}},
+            return consOnly(str);}},
+        {"fricatives only", [](const std::wstring &str) {
+            return fricativesOnly(str);}},
+        {"plosives only", [](const std::wstring &str) {
+            return plosivesOnly(str);}},
+        //{"suggest", [this](const std::wstring &str) {
+        //    return suggest(str);}},
         {"permutate", [](const std::wstring &str) {
-            if (str.length() <= 7) {
+            if (str.length() <= 8) {
                 return permutations(str);
             }
             else {

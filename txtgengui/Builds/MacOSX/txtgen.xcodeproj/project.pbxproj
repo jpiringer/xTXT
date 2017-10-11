@@ -17,12 +17,29 @@
 		250F966983052EF964E8D6C3 /* include_juce_opengl.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB940683BB70C90AB1262800 /* include_juce_opengl.mm */; };
 		2AAFB6FAE1B64DF6D3EC62C5 /* include_juce_gui_basics.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4786A42B644081DF9D8382BE /* include_juce_gui_basics.mm */; };
 		2BF8E7261D23D7BA28E3D688 /* include_juce_audio_devices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2A8F450EDBD9AB56CAF6D493 /* include_juce_audio_devices.mm */; };
+		301A97191F8CE59300142DAA /* Platform.mm in Sources */ = {isa = PBXBuildFile; fileRef = 301A97171F8CE59300142DAA /* Platform.mm */; };
+		301A972E1F8CE65700142DAA /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A971D1F8CE61000142DAA /* Lexer.cpp */; };
+		301A972F1F8CE65B00142DAA /* LSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A971F1F8CE61000142DAA /* LSystem.cpp */; };
+		301A97301F8CE66500142DAA /* Markov.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A97221F8CE61000142DAA /* Markov.cpp */; };
+		301A97311F8CE66A00142DAA /* NamShub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A97241F8CE61000142DAA /* NamShub.cpp */; };
+		301A97321F8CE66D00142DAA /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A97261F8CE61000142DAA /* Parser.cpp */; };
+		301A97331F8CE67000142DAA /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A97281F8CE61000142DAA /* Program.cpp */; };
+		301A97341F8CE67300142DAA /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A972A1F8CE61000142DAA /* Tokenizer.cpp */; };
+		301A97361F8CE7C800142DAA /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301A97351F8CE7C800142DAA /* liblua.a */; };
+		301A97391F8CEE9300142DAA /* German.aff in Resources */ = {isa = PBXBuildFile; fileRef = 301A97381F8CEE7400142DAA /* German.aff */; };
+		301A973A1F8CEE9700142DAA /* German.dic in Resources */ = {isa = PBXBuildFile; fileRef = 301A97371F8CEE7400142DAA /* German.dic */; };
 		30321F471F8660EE00A23A6B /* Examples.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30321F451F8660EE00A23A6B /* Examples.cpp */; };
 		3041F2831F82683000F37B01 /* Runner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3041F2811F82683000F37B01 /* Runner.cpp */; };
 		3041F2971F826C2500F37B01 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3041F2951F826C2500F37B01 /* utils.cpp */; };
-		3087D39B1F827DE6009C157F /* libtxtgencmdlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3087D3981F827DB3009C157F /* libtxtgencmdlib.a */; };
-		3087D3A01F82B60E009C157F /* AutomateTokeniser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3087D39E1F82B60E009C157F /* AutomateTokeniser.cpp */; };
+		3063DC251F8E4428009585FC /* UndoableActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3063DC231F8E4428009585FC /* UndoableActions.cpp */; };
+		306FAF191F8CC81400BFB61C /* LSystemTokeniser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306FAF171F8CC81400BFB61C /* LSystemTokeniser.cpp */; };
+		3087D3A01F82B60E009C157F /* GrammarTokeniser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3087D39E1F82B60E009C157F /* GrammarTokeniser.cpp */; };
 		3087D3A31F82C55E009C157F /* Speaker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3087D3A11F82C55E009C157F /* Speaker.mm */; };
+		308E2EB81F8CE20900001AA8 /* libhunspell-1.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 308E2EB61F8CE20900001AA8 /* libhunspell-1.2.tbd */; };
+		308E2EC01F8CE42700001AA8 /* de_DE.aff in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBC1F8CE41E00001AA8 /* de_DE.aff */; };
+		308E2EC11F8CE42900001AA8 /* de_DE.dic in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBD1F8CE41E00001AA8 /* de_DE.dic */; };
+		308E2EC21F8CE42C00001AA8 /* en_US.aff in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBE1F8CE41E00001AA8 /* en_US.aff */; };
+		308E2EC31F8CE42F00001AA8 /* en_US.dic in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBF1F8CE41E00001AA8 /* en_US.dic */; };
 		3A316C9899964D338F9BFF44 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8975FE5A4ED205436B7A056A /* AVFoundation.framework */; };
 		5FF51A826474FA13CD51D2CE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29458B98CE34EA0DF64C2DA7 /* IOKit.framework */; };
 		6044A842767BE43731FF240A /* MainComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C289E75BBC517E54A3469B06 /* MainComponent.cpp */; };
@@ -44,49 +61,54 @@
 		FACF1737371624BC5687F71A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F59E2BDD44591FBAD5BB2E9A /* CoreMedia.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		3087D3951F827DB3009C157F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3041F2751F8267DF00F37B01 /* txtgencmd.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3098B1F21F67F95A003B18D5;
-			remoteInfo = txtgencmd;
-		};
-		3087D3971F827DB3009C157F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3041F2751F8267DF00F37B01 /* txtgencmd.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3041F2671F8267BD00F37B01;
-			remoteInfo = txtgencmdlib;
-		};
-		3087D3991F827DDE009C157F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3041F2751F8267DF00F37B01 /* txtgencmd.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 3041F2661F8267BD00F37B01;
-			remoteInfo = txtgencmdlib;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		08C011C0643D01CDBE66B80D /* include_juce_gui_extra.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_gui_extra.mm; path = ../../JuceLibraryCode/include_juce_gui_extra.mm; sourceTree = SOURCE_ROOT; };
 		0AA7A7F85A9AF48281C98130 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		1EE1B58388204FAF86EE8676 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		29458B98CE34EA0DF64C2DA7 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		2A8F450EDBD9AB56CAF6D493 /* include_juce_audio_devices.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_devices.mm; path = ../../JuceLibraryCode/include_juce_audio_devices.mm; sourceTree = SOURCE_ROOT; };
+		301A97171F8CE59300142DAA /* Platform.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.mm; path = ../../Source/Platform.mm; sourceTree = "<group>"; };
+		301A97181F8CE59300142DAA /* Platform.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Platform.hpp; path = ../../Source/Platform.hpp; sourceTree = "<group>"; };
+		301A971C1F8CE61000142DAA /* examples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = examples.h; sourceTree = "<group>"; };
+		301A971D1F8CE61000142DAA /* Lexer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Lexer.cpp; sourceTree = "<group>"; };
+		301A971E1F8CE61000142DAA /* Lexer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lexer.hpp; sourceTree = "<group>"; };
+		301A971F1F8CE61000142DAA /* LSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LSystem.cpp; sourceTree = "<group>"; };
+		301A97201F8CE61000142DAA /* LSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LSystem.h; sourceTree = "<group>"; };
+		301A97221F8CE61000142DAA /* Markov.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Markov.cpp; sourceTree = "<group>"; };
+		301A97231F8CE61000142DAA /* Markov.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Markov.hpp; sourceTree = "<group>"; };
+		301A97241F8CE61000142DAA /* NamShub.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NamShub.cpp; sourceTree = "<group>"; };
+		301A97251F8CE61000142DAA /* NamShub.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NamShub.hpp; sourceTree = "<group>"; };
+		301A97261F8CE61000142DAA /* Parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
+		301A97271F8CE61000142DAA /* Parser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Parser.hpp; sourceTree = "<group>"; };
+		301A97281F8CE61000142DAA /* Program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cpp; sourceTree = "<group>"; };
+		301A97291F8CE61000142DAA /* Program.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Program.hpp; sourceTree = "<group>"; };
+		301A972A1F8CE61000142DAA /* Tokenizer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tokenizer.cpp; sourceTree = "<group>"; };
+		301A972B1F8CE61000142DAA /* Tokenizer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tokenizer.hpp; sourceTree = "<group>"; };
+		301A972D1F8CE62300142DAA /* DOC.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DOC.md; sourceTree = "<group>"; };
+		301A97351F8CE7C800142DAA /* liblua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua.a; path = ../../../../../../../usr/local/lib/liblua.a; sourceTree = "<group>"; };
+		301A97371F8CEE7400142DAA /* German.dic */ = {isa = PBXFileReference; lastKnownFileType = text; path = German.dic; sourceTree = "<group>"; };
+		301A97381F8CEE7400142DAA /* German.aff */ = {isa = PBXFileReference; lastKnownFileType = text; path = German.aff; sourceTree = "<group>"; };
 		30321F451F8660EE00A23A6B /* Examples.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Examples.cpp; path = ../../Source/Examples.cpp; sourceTree = "<group>"; };
 		30321F461F8660EE00A23A6B /* Examples.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Examples.hpp; path = ../../Source/Examples.hpp; sourceTree = "<group>"; };
-		3041F2751F8267DF00F37B01 /* txtgencmd.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = txtgencmd.xcodeproj; path = ../../../txtgencmd.xcodeproj; sourceTree = "<group>"; };
 		3041F2811F82683000F37B01 /* Runner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Runner.cpp; path = ../../Source/Runner.cpp; sourceTree = "<group>"; };
 		3041F2821F82683000F37B01 /* Runner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Runner.hpp; path = ../../Source/Runner.hpp; sourceTree = "<group>"; };
 		3041F2951F826C2500F37B01 /* utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = ../../Source/utils.cpp; sourceTree = "<group>"; };
 		3041F2961F826C2500F37B01 /* utils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = utils.hpp; path = ../../Source/utils.hpp; sourceTree = "<group>"; };
+		3063DC231F8E4428009585FC /* UndoableActions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = UndoableActions.cpp; path = ../../Source/UndoableActions.cpp; sourceTree = "<group>"; };
+		3063DC241F8E4428009585FC /* UndoableActions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = UndoableActions.hpp; path = ../../Source/UndoableActions.hpp; sourceTree = "<group>"; };
+		306FAF171F8CC81400BFB61C /* LSystemTokeniser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LSystemTokeniser.cpp; path = ../../Source/LSystemTokeniser.cpp; sourceTree = "<group>"; };
+		306FAF181F8CC81400BFB61C /* LSystemTokeniser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LSystemTokeniser.hpp; path = ../../Source/LSystemTokeniser.hpp; sourceTree = "<group>"; };
 		3087D39C1F829090009C157F /* MainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainWindow.h; path = ../../Source/MainWindow.h; sourceTree = "<group>"; };
 		3087D39D1F8291B1009C157F /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = TODO.md; path = ../../Source/TODO.md; sourceTree = "<group>"; };
-		3087D39E1F82B60E009C157F /* AutomateTokeniser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AutomateTokeniser.cpp; path = ../../Source/AutomateTokeniser.cpp; sourceTree = "<group>"; };
-		3087D39F1F82B60E009C157F /* AutomateTokeniser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AutomateTokeniser.hpp; path = ../../Source/AutomateTokeniser.hpp; sourceTree = "<group>"; };
+		3087D39E1F82B60E009C157F /* GrammarTokeniser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GrammarTokeniser.cpp; path = ../../Source/GrammarTokeniser.cpp; sourceTree = "<group>"; };
+		3087D39F1F82B60E009C157F /* GrammarTokeniser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GrammarTokeniser.hpp; path = ../../Source/GrammarTokeniser.hpp; sourceTree = "<group>"; };
 		3087D3A11F82C55E009C157F /* Speaker.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Speaker.mm; path = ../../Source/Speaker.mm; sourceTree = "<group>"; };
 		3087D3A21F82C55E009C157F /* Speaker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Speaker.hpp; path = ../../Source/Speaker.hpp; sourceTree = "<group>"; };
+		308E2EB61F8CE20900001AA8 /* libhunspell-1.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libhunspell-1.2.tbd"; path = "usr/lib/libhunspell-1.2.tbd"; sourceTree = SDKROOT; };
+		308E2EBC1F8CE41E00001AA8 /* de_DE.aff */ = {isa = PBXFileReference; lastKnownFileType = text; path = de_DE.aff; sourceTree = "<group>"; };
+		308E2EBD1F8CE41E00001AA8 /* de_DE.dic */ = {isa = PBXFileReference; lastKnownFileType = text; path = de_DE.dic; sourceTree = "<group>"; };
+		308E2EBE1F8CE41E00001AA8 /* en_US.aff */ = {isa = PBXFileReference; lastKnownFileType = text; path = en_US.aff; sourceTree = "<group>"; };
+		308E2EBF1F8CE41E00001AA8 /* en_US.dic */ = {isa = PBXFileReference; lastKnownFileType = text; path = en_US.dic; sourceTree = "<group>"; };
 		30AF49179185AA832F3E631A /* Info-App.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-App.plist"; sourceTree = SOURCE_ROOT; };
 		357A8F7AF49826922CB6EFDF /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3D09E06C4E669C722463444E /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
@@ -136,7 +158,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3087D39B1F827DE6009C157F /* libtxtgencmdlib.a in Frameworks */,
+				301A97361F8CE7C800142DAA /* liblua.a in Frameworks */,
+				308E2EB81F8CE20900001AA8 /* libhunspell-1.2.tbd in Frameworks */,
 				1C1ABACA9750359D48EB5600 /* Accelerate.framework in Frameworks */,
 				C726DC7123DCFF4DA2264016 /* AudioToolbox.framework in Frameworks */,
 				3A316C9899964D338F9BFF44 /* AVFoundation.framework in Frameworks */,
@@ -164,28 +187,59 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		301A971B1F8CE61000142DAA /* txtgen */ = {
+			isa = PBXGroup;
+			children = (
+				301A971C1F8CE61000142DAA /* examples.h */,
+				301A971D1F8CE61000142DAA /* Lexer.cpp */,
+				301A971E1F8CE61000142DAA /* Lexer.hpp */,
+				301A971F1F8CE61000142DAA /* LSystem.cpp */,
+				301A97201F8CE61000142DAA /* LSystem.h */,
+				301A97221F8CE61000142DAA /* Markov.cpp */,
+				301A97231F8CE61000142DAA /* Markov.hpp */,
+				301A97251F8CE61000142DAA /* NamShub.hpp */,
+				301A97241F8CE61000142DAA /* NamShub.cpp */,
+				301A97261F8CE61000142DAA /* Parser.cpp */,
+				301A97271F8CE61000142DAA /* Parser.hpp */,
+				301A97281F8CE61000142DAA /* Program.cpp */,
+				301A97291F8CE61000142DAA /* Program.hpp */,
+				301A972A1F8CE61000142DAA /* Tokenizer.cpp */,
+				301A972B1F8CE61000142DAA /* Tokenizer.hpp */,
+			);
+			name = txtgen;
+			path = ../../Source;
+			sourceTree = "<group>";
+		};
 		3034D76F1F82CAB700761A03 /* platform dependent */ = {
 			isa = PBXGroup;
 			children = (
 				3087D3A11F82C55E009C157F /* Speaker.mm */,
+				301A97181F8CE59300142DAA /* Platform.hpp */,
+				301A97171F8CE59300142DAA /* Platform.mm */,
 			);
 			name = "platform dependent";
 			sourceTree = "<group>";
 		};
-		3087D38D1F827DB3009C157F /* Products */ = {
+		308E2EBB1F8CE41E00001AA8 /* dict */ = {
 			isa = PBXGroup;
 			children = (
-				3087D3961F827DB3009C157F /* txtgencmd */,
-				3087D3981F827DB3009C157F /* libtxtgencmdlib.a */,
+				308E2EBC1F8CE41E00001AA8 /* de_DE.aff */,
+				308E2EBD1F8CE41E00001AA8 /* de_DE.dic */,
+				308E2EBE1F8CE41E00001AA8 /* en_US.aff */,
+				308E2EBF1F8CE41E00001AA8 /* en_US.dic */,
+				301A97381F8CEE7400142DAA /* German.aff */,
+				301A97371F8CEE7400142DAA /* German.dic */,
 			);
-			name = Products;
+			path = dict;
 			sourceTree = "<group>";
 		};
 		52B0FB60DC822A9152557A20 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				3087D39F1F82B60E009C157F /* AutomateTokeniser.hpp */,
-				3087D39E1F82B60E009C157F /* AutomateTokeniser.cpp */,
+				3087D39F1F82B60E009C157F /* GrammarTokeniser.hpp */,
+				3087D39E1F82B60E009C157F /* GrammarTokeniser.cpp */,
+				306FAF181F8CC81400BFB61C /* LSystemTokeniser.hpp */,
+				306FAF171F8CC81400BFB61C /* LSystemTokeniser.cpp */,
 				8291C94EC20AC4AEA40111D5 /* MainComponent.h */,
 				C289E75BBC517E54A3469B06 /* MainComponent.cpp */,
 				3087D39C1F829090009C157F /* MainWindow.h */,
@@ -197,6 +251,8 @@
 				3087D3A21F82C55E009C157F /* Speaker.hpp */,
 				30321F461F8660EE00A23A6B /* Examples.hpp */,
 				30321F451F8660EE00A23A6B /* Examples.cpp */,
+				3063DC241F8E4428009585FC /* UndoableActions.hpp */,
+				3063DC231F8E4428009585FC /* UndoableActions.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -204,6 +260,7 @@
 		743FC3E3BDA6C1040584E7E0 /* txtgengui */ = {
 			isa = PBXGroup;
 			children = (
+				301A971B1F8CE61000142DAA /* txtgen */,
 				3034D76F1F82CAB700761A03 /* platform dependent */,
 				52B0FB60DC822A9152557A20 /* Source */,
 			);
@@ -255,6 +312,7 @@
 		E61D175CB824EC1037FF7B8E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				308E2EBB1F8CE41E00001AA8 /* dict */,
 				30AF49179185AA832F3E631A /* Info-App.plist */,
 				E221F4492AE3CCCF024BB289 /* RecentFilesMenuTemplate.nib */,
 			);
@@ -264,6 +322,8 @@
 		ECAD8E1AB83600C6785908EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				301A97351F8CE7C800142DAA /* liblua.a */,
+				308E2EB61F8CE20900001AA8 /* libhunspell-1.2.tbd */,
 				1EE1B58388204FAF86EE8676 /* Accelerate.framework */,
 				467435548BB10188093DFA34 /* AudioToolbox.framework */,
 				8975FE5A4ED205436B7A056A /* AVFoundation.framework */,
@@ -285,7 +345,7 @@
 			isa = PBXGroup;
 			children = (
 				3087D39D1F8291B1009C157F /* TODO.md */,
-				3041F2751F8267DF00F37B01 /* txtgencmd.xcodeproj */,
+				301A972D1F8CE62300142DAA /* DOC.md */,
 				743FC3E3BDA6C1040584E7E0 /* txtgengui */,
 				82FD58B68D6ACD98837B2298 /* Juce Modules */,
 				8CB775079824436AD4C11488 /* Juce Library Code */,
@@ -310,7 +370,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				3087D39A1F827DDE009C157F /* PBXTargetDependency */,
 			);
 			name = "txtgen - App";
 			productName = txtgengui;
@@ -355,12 +414,6 @@
 			);
 			mainGroup = EF141E39F4B62406B32D4FC1 /* Source */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 3087D38D1F827DB3009C157F /* Products */;
-					ProjectRef = 3041F2751F8267DF00F37B01 /* txtgencmd.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				24992F775770A3C042C1C9B3 /* txtgen - App */,
@@ -368,29 +421,18 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		3087D3961F827DB3009C157F /* txtgencmd */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = txtgencmd;
-			remoteRef = 3087D3951F827DB3009C157F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3087D3981F827DB3009C157F /* libtxtgencmdlib.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libtxtgencmdlib.a;
-			remoteRef = 3087D3971F827DB3009C157F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
 		D9A3BE29EB5BAA62C2CB8485 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				1D500F533ABB17B86277FAB6 /* RecentFilesMenuTemplate.nib in Resources */,
+				308E2EC11F8CE42900001AA8 /* de_DE.dic in Resources */,
+				308E2EC31F8CE42F00001AA8 /* en_US.dic in Resources */,
+				301A97391F8CEE9300142DAA /* German.aff in Resources */,
+				301A973A1F8CEE9700142DAA /* German.dic in Resources */,
+				308E2EC21F8CE42C00001AA8 /* en_US.aff in Resources */,
+				308E2EC01F8CE42700001AA8 /* de_DE.aff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,34 +447,36 @@
 				6044A842767BE43731FF240A /* MainComponent.cpp in Sources */,
 				3041F2971F826C2500F37B01 /* utils.cpp in Sources */,
 				15765B4A9BAB20C5982673D2 /* MainWindow.cpp in Sources */,
+				301A97301F8CE66500142DAA /* Markov.cpp in Sources */,
 				8BA786178024ECF0A519EC6C /* include_juce_audio_basics.mm in Sources */,
 				2BF8E7261D23D7BA28E3D688 /* include_juce_audio_devices.mm in Sources */,
 				EFFD96D1F3057CF5B0865EDA /* include_juce_audio_formats.mm in Sources */,
 				3041F2831F82683000F37B01 /* Runner.cpp in Sources */,
+				301A97341F8CE67300142DAA /* Tokenizer.cpp in Sources */,
 				214EEBD355C43B72E1862246 /* include_juce_audio_processors.mm in Sources */,
 				0FC2943757215E5690A68CFA /* include_juce_core.mm in Sources */,
-				3087D3A01F82B60E009C157F /* AutomateTokeniser.cpp in Sources */,
+				301A97191F8CE59300142DAA /* Platform.mm in Sources */,
+				3087D3A01F82B60E009C157F /* GrammarTokeniser.cpp in Sources */,
 				94D474A8630F15BBF85B5283 /* include_juce_cryptography.mm in Sources */,
+				301A97311F8CE66A00142DAA /* NamShub.cpp in Sources */,
+				301A972F1F8CE65B00142DAA /* LSystem.cpp in Sources */,
+				301A97331F8CE67000142DAA /* Program.cpp in Sources */,
+				306FAF191F8CC81400BFB61C /* LSystemTokeniser.cpp in Sources */,
+				301A972E1F8CE65700142DAA /* Lexer.cpp in Sources */,
 				B1D412381917298F6820866D /* include_juce_data_structures.mm in Sources */,
 				ACCAE6F4D4F2F09203E1B1B4 /* include_juce_events.mm in Sources */,
 				ED80387ED2B84BC7E2B5EF59 /* include_juce_graphics.mm in Sources */,
 				2AAFB6FAE1B64DF6D3EC62C5 /* include_juce_gui_basics.mm in Sources */,
+				301A97321F8CE66D00142DAA /* Parser.cpp in Sources */,
 				B66BE7EE0C011864278CFD29 /* include_juce_gui_extra.mm in Sources */,
 				250F966983052EF964E8D6C3 /* include_juce_opengl.mm in Sources */,
+				3063DC251F8E4428009585FC /* UndoableActions.cpp in Sources */,
 				3087D3A31F82C55E009C157F /* Speaker.mm in Sources */,
 				7F9F77A9693167216509740C /* include_juce_video.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		3087D39A1F827DDE009C157F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = txtgencmdlib;
-			targetProxy = 3087D3991F827DDE009C157F /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2C14B96010F29FFD2464B962 /* Debug */ = {
@@ -481,7 +525,7 @@
 		681BF3CEFE7CEF578EEC8B2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -515,6 +559,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = txtgen;
 				WARNING_CFLAGS = "-Wreorder";
@@ -569,7 +614,7 @@
 		AFDCF3457636B81BE9A73167 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -602,6 +647,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
 				PRODUCT_NAME = txtgen;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;

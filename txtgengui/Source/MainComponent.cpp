@@ -10,6 +10,8 @@
 #include "MainWindow.h"
 #include "Runner.hpp"
 
+#include "UndoableActions.hpp"
+
 #include <iostream>
 #include <fstream>
 
@@ -40,16 +42,16 @@ MainContentComponent::MainContentComponent()
     MenuBarModel::setMacMainMenu (this);
 #endif
 
-    runButton = new TextButton("Run");
+    runButton = std::make_shared<TextButton>("Run");
     runButton->addListener(this);
-    addAndMakeVisible (runButton);
+    addAndMakeVisible(*runButton);
 
-    speakButton = new TextButton("Speak");
+    speakButton = std::make_shared<TextButton>("Speak");
     speakButton->addListener(this);
-    addAndMakeVisible(speakButton);
-    stopSpeakButton = new TextButton("Stop");
+    addAndMakeVisible(*speakButton);
+    stopSpeakButton = std::make_shared<TextButton>("Stop");
     stopSpeakButton->addListener(this);
-    addAndMakeVisible(stopSpeakButton);
+    addAndMakeVisible(*stopSpeakButton);
     
     // specific parameters
     markovPrefixLabel = std::make_shared<Label>();
@@ -76,6 +78,7 @@ MainContentComponent::MainContentComponent()
         "dup", "reverse", "sort", "rip", "shuffle",
         "part", "split", "condense",
         "stretch", "vowels only", "cons only",
+        "fricatives only", "plosives only", //"suggest",
         "permutate"};
     
     for (auto s : methods) {
@@ -85,20 +88,14 @@ MainContentComponent::MainContentComponent()
         addParameterComponent(b);
         b->addListener(this);
     }
-    
-    // Create the editor..
-    addAndMakeVisible (editor = new CodeEditorComponent(codeDocument, &tokeniser));
-    Font font(Font::getDefaultMonospacedFontName(), 20, Font::plain);
-    editor->setFont(font);
-    
-    editor->setColour(CodeEditorComponent::backgroundColourId, Colour(0xff, 0xff, 0xff));
-    editor->setColour(CodeEditorComponent::lineNumberBackgroundId, Colour(0, 0, 0));
 
     // Create a file chooser control to load files into it..
     addAndMakeVisible(filenameComponent);
     filenameComponent.addListener(this);
     
-    addAndMakeVisible(results = new TextEditor());
+    Font font(Font::getDefaultMonospacedFontName(), 20, Font::plain);
+    results = std::make_shared<TextEditor>();
+    addAndMakeVisible(*results);
     results->setFont(font);
     results->setMultiLine(true);
     results->setColour(TextEditor::backgroundColourId, Colour(0xff, 0xff, 0xff));
@@ -111,7 +108,7 @@ MainContentComponent::MainContentComponent()
     speaker = createSpeakerInstance();
     
     for (int i = 0; i < runTypeNames.size(); ++i) {
-        TextButton *tb = addRunTypeButton(new TextButton(runTypeNames[i].first));
+        auto tb = addRunTypeButton(std::make_shared<TextButton>(runTypeNames[i].first));
         
         tb->setClickingTogglesState(true);
         tb->setRadioGroupId(123456);
@@ -168,6 +165,39 @@ void MainContentComponent::makeParametersVisible() {
     }
 }
 
+void MainContentComponent::changeCodeEditor() {
+    if (editor != nullptr) {
+        removeChildComponent(&*editor);
+        editor = nullptr;
+    }
+    tokeniser = nullptr;
+    switch (getCurrentRunnerType()) {
+        case jp::Markov:
+        case jp::NamShub:
+            editor = std::make_shared<CodeEditorComponent>(codeDocument, nullptr);
+            break;
+        case jp::LSystem:
+            tokeniser = std::make_shared<LSystemTokeniser>();
+            editor = std::make_shared<CodeEditorComponent>(codeDocument, &*tokeniser);
+            break;
+        case jp::Grammar:
+            tokeniser = std::make_shared<GrammarTokeniser>();
+            editor = std::make_shared<CodeEditorComponent>(codeDocument, &*tokeniser);
+            break;
+        case jp::Program:
+            tokeniser = std::make_shared<LuaTokeniser>();
+            editor = std::make_shared<CodeEditorComponent>(codeDocument, &*tokeniser);
+            break;
+    }
+    // Create the editor..
+    addAndMakeVisible(*editor);
+    Font font(Font::getDefaultMonospacedFontName(), 20, Font::plain);
+    editor->setFont(font);
+    editor->setColour(CodeEditorComponent::backgroundColourId, Colour(0xff, 0xff, 0xff));
+    editor->setColour(CodeEditorComponent::lineNumberBackgroundId, Colour(0, 0, 0));
+    editor->setColour(CodeEditorComponent::defaultTextColourId, Colour(0, 0, 0));
+}
+
 void MainContentComponent::resized() {
     bool showCode = true;
     Rectangle<int> r(getLocalBounds());
@@ -177,6 +207,7 @@ void MainContentComponent::resized() {
     runTypeGroup.setBounds(r.removeFromTop(30));
     
     makeParametersVisible();
+    changeCodeEditor();
     
     switch (getCurrentRunnerType()) {
         case jp::Markov: {
@@ -259,9 +290,9 @@ void MainContentComponent::filenameComponentChanged(FilenameComponent *) {
 }
 
 StringArray MainContentComponent::getMenuBarNames() {
-    const char* const names[] = { "File", nullptr };
+    const char *const names[] = { "File", "Edit", nullptr };
     
-    return StringArray (names);
+    return StringArray(names);
 }
 
 PopupMenu MainContentComponent::getMenuForIndex (int menuIndex, const String& menuName) {
@@ -269,13 +300,17 @@ PopupMenu MainContentComponent::getMenuForIndex (int menuIndex, const String& me
     
     PopupMenu menu;
     
-    if (menuIndex == 0) {
-        menu.addCommandItem (commandManager, MainContentComponent::newCmd);
+    if (menuIndex == 0) { // File
+        menu.addCommandItem(commandManager, MainContentComponent::newCmd);
         menu.addSeparator();
-        menu.addCommandItem (commandManager, MainContentComponent::openCmd);
-        menu.addCommandItem (commandManager, MainContentComponent::saveCmd);
+        menu.addCommandItem(commandManager, MainContentComponent::openCmd);
+        menu.addCommandItem(commandManager, MainContentComponent::saveCmd);
         menu.addSeparator();
-        menu.addCommandItem (commandManager, MainContentComponent::runCmd);
+        menu.addCommandItem(commandManager, MainContentComponent::runCmd);
+    }
+    else if (menuIndex == 1) { // Edit
+        menu.addCommandItem(commandManager, MainContentComponent::undoCmd);
+        menu.addCommandItem(commandManager, MainContentComponent::redoCmd);
     }
     /*else if (menuIndex == 1)
     {
@@ -378,16 +413,19 @@ void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
         MainContentComponent::saveCmd,
         MainContentComponent::openCmd,
         MainContentComponent::newCmd,
-        MainContentComponent::speakCmd
+        MainContentComponent::speakCmd,
+        MainContentComponent::undoCmd,
+        MainContentComponent::redoCmd
     };
     
-    commands.addArray (ids, numElementsInArray (ids));
+    commands.addArray (ids, numElementsInArray(ids));
 }
 
 void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) {
     const String generalCategory("General");
     const String codeCategory("Code");
-    
+    const String editCategory("Edit");
+
     switch (commandID) {
         case MainContentComponent::runCmd:
             result.setInfo("Run", "Run the code", codeCategory, 0);
@@ -408,6 +446,14 @@ void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationComman
         case MainContentComponent::speakCmd:
             result.setInfo("Speak", "Speak results", codeCategory, 0);
             result.addDefaultKeypress('t', ModifierKeys::commandModifier);
+            break;
+        case MainContentComponent::undoCmd:
+            result.setInfo("Undo", "Undo result changes", editCategory, 0);
+            result.addDefaultKeypress('z', ModifierKeys::commandModifier);
+            break;
+        case MainContentComponent::redoCmd:
+            result.setInfo("Redo", "Redo result changes", editCategory, 0);
+            result.addDefaultKeypress('z', ModifierKeys::commandModifier|ModifierKeys::shiftModifier);
             break;
     }
 }
@@ -435,6 +481,12 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
                 break;
             case MainContentComponent::speakCmd:
                 speak();
+                break;
+            case MainContentComponent::undoCmd:
+                undoManager.undo();
+                break;
+            case MainContentComponent::redoCmd:
+                undoManager.redo();
                 break;
             default:
                 return false;
@@ -510,6 +562,12 @@ void MainContentComponent::run() {
     else {
         results->setColour(TextEditor::textColourId, Colour(0, 0, 0));
     }
+    
+    // undo management
+    auto oldText = results->getText().toStdString();
+    undoManager.beginNewTransaction();
+    undoManager.perform(new UndoableModifyResultsAction(results, oldText));
+
     if (selection.isEmpty()) {
         results->setText(runnerResults);
     }
@@ -517,7 +575,7 @@ void MainContentComponent::run() {
         auto firstFragment = results->getText().substring(0, selection.getStart());
         auto secondFragment = results->getText().substring(selection.getStart()+selection.getLength());
         results->setText(firstFragment+runnerResults+secondFragment);
-        results->setHighlightedRegion(Range<int>(selection.getStart(), selection.getStart()+runnerResults.length()));
+        results->setHighlightedRegion(Range<int>(selection.getStart(), (int)selection.getStart()+(int)runnerResults.length()));
     }
 }
 
@@ -540,18 +598,18 @@ void MainContentComponent::setCurrentRunnerType(jp::RunnerType rt) {
 }
 
 void MainContentComponent::buttonClicked(Button *button) {
-    if (button == runButton) {
+    if (button == &*runButton) {
         run();
     }
-    else if (button == speakButton) {
+    else if (button == &*speakButton) {
         speak();
     }
-    else if (button == stopSpeakButton) {
+    else if (button == &*stopSpeakButton) {
         speaker->stop();
     }
     else {
         for (int i = 0; i < runTypeButtons.size(); i++) {
-            if (runTypeButtons[i] == button) {
+            if (&*runTypeButtons[i] == button) {
                 setCurrentRunnerType(runTypeNames[i].second);
                 return;
             }

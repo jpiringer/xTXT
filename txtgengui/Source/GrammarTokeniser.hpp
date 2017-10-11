@@ -10,7 +10,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class AutomateTokeniser : public CodeTokeniser {
+class GrammarTokeniser : public CodeTokeniser {
     
     
 public:
