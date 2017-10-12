@@ -12,10 +12,21 @@
 using namespace jp;
 
 bool isCapitalSymbol(const std::wstring &str) {
-    std::wstring symbolLetters = CAPITAL_SYMBOL_LETTERS;
+    static std::wstring symbolLetters = CAPITAL_SYMBOL_LETTERS;
     
     for (size_t cpos = 0; cpos < str.size(); cpos++) {
         if (symbolLetters.find(str[cpos]) == std::wstring::npos) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool isNumber(const std::wstring &str) {
+    static std::wstring numberLetters = NUMBER_LETTERS;
+    
+    for (size_t cpos = 0; cpos < str.size(); cpos++) {
+        if (numberLetters.find(str[cpos]) == std::wstring::npos) {
             return false;
         }
     }
@@ -33,10 +44,12 @@ std::vector<std::shared_ptr<Lexem>> Lexer::getLexemes() {
     bool stringCapture = false;
     std::wstring stringCharacter = L"";
     std::wstring currentString = L"";
+    std::wstring operatorString = L"";
     
     for (auto token : tokenizer.getTokens()) {
         switch (token->getType()) {
             case TokenWhitespace:
+                operatorString = L"";
                 if (stringCapture) {
                     currentString += token->getContent();
                 }
@@ -62,16 +75,27 @@ std::vector<std::shared_ptr<Lexem>> Lexer::getLexemes() {
                 else if (token->getContent() == L";") {
                     lexemes.push_back(std::make_shared<Lexem>(token->getContent(), LexemDelimiter, token->getLineNumber()));
                 }
+                else if (token->getContent() == L"{" || token->getContent() == L"}" || token->getContent() == L"[" || token->getContent() == L"]") {
+                    lexemes.push_back(std::make_shared<Lexem>(token->getContent(), LexemBracket, token->getLineNumber()));
+                }
                 else {
-                    lexemes.push_back(std::make_shared<Lexem>(token->getContent(), LexemOperator, token->getLineNumber()));
+                    if (!operatorString.empty()) { // remove last operator because current is a compound one
+                        lexemes.pop_back();
+                    }
+                    operatorString += token->getContent();
+                    lexemes.push_back(std::make_shared<Lexem>(operatorString, LexemOperator, token->getLineNumber()));
                 }
                 break;
             case TokenOther:
+                operatorString = L"";
                 if (stringCapture) {
                     currentString += token->getContent();
                 }
                 else {
-                    if (isCapitalSymbol(token->getContent())) {
+                    if (isNumber(token->getContent())) {
+                        lexemes.push_back(std::make_shared<Lexem>(token->getContent(), LexemNumber, token->getLineNumber()));
+                    }
+                    else if (isCapitalSymbol(token->getContent())) {
                         lexemes.push_back(std::make_shared<Lexem>(token->getContent(), LexemSymbol, token->getLineNumber()));
                     }
                     else {

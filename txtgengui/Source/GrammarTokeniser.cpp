@@ -420,15 +420,39 @@ struct GrammarTokeniserFunctions
                 skipQuotedString (source);
                 return GrammarTokeniser::tokenType_string;
                 
+            case '<':
+                source.skip();
+                skipIfNextCharMatches (source, '+', '=');
+                return GrammarTokeniser::tokenType_operator;
+            case '>':
+                source.skip();
+                skipIfNextCharMatches (source, '+', '=');
+                return GrammarTokeniser::tokenType_operator;
             case '+':
                 source.skip();
                 skipIfNextCharMatches (source, '+', '=');
+                return GrammarTokeniser::tokenType_operator;
+            case '-':
+                source.skip();
+                skipIfNextCharMatches (source, '-', '=');
+                return GrammarTokeniser::tokenType_operator;
+            case '*':
+                source.skip();
+                skipIfNextCharMatches (source, '*', '=');
+                return GrammarTokeniser::tokenType_operator;
+            case '/':
+                source.skip();
+                skipIfNextCharMatches (source, '/', '=');
                 return GrammarTokeniser::tokenType_operator;
             case '=':
                 source.skip();
                 skipIfNextCharMatches (source, '=');
                 return GrammarTokeniser::tokenType_operator;
-                
+            case '~':
+                source.skip();
+                skipIfNextCharMatches (source, '=');
+                return GrammarTokeniser::tokenType_operator;
+
             case '|':
                 source.skip();
                 skipIfNextCharMatches (source, firstChar);

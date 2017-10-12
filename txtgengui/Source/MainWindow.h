@@ -28,6 +28,7 @@ public:
     void handleAsyncUpdate() override;
 
     static ApplicationCommandManager &getApplicationCommandManager();
+    static ApplicationProperties &getApplicationProperties();
 
     /* Note: Be careful if you override any DocumentWindow methods - the base
      class uses a lot of them, so by overriding you might break its functionality.
@@ -38,6 +39,10 @@ public:
     
 private:
     ScopedPointer<MainContentComponent> contentComponent;
+    
+    static ScopedPointer<ApplicationCommandManager> applicationCommandManager;
+    static ScopedPointer<ApplicationProperties> applicationProperties;
+    static PropertiesFile::Options applicationPropertiesStorageOptions;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)
 };

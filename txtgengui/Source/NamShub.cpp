@@ -25,7 +25,7 @@
 #define ALPHA (VOWELS CONSONANTS)
 #define WHITESPACE L" \t\r\n"
 #define NEWLINE L"\n"
-#define STRETCHABLE L"aefhilmnorsuyzäöüAEFHILMNORSUYZÄÖÜ"
+#define STRETCHABLE L"aefhilmnorsuyäöüAEFHILMNORSUYÄÖÜ"
 #define NORMALCHARS L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ^°!\"$%&/()\\=?+*#'´`-_.:,;€@<>äöüÄÖÜß \t\r\t"
 
 static std::wstring vowels = std::wstring(VOWELS);
@@ -195,21 +195,61 @@ template <class S> S shuffle(S s) {
     return str;
 }
 
-template <class S> std::vector<S> &part(S in, float len) {
-    static std::vector<S> arr;
+template <class S> S &partRnd(S in, size_t maxlen) {
+    static S results;
     S str;
     int index = 0;
     
-    arr.clear();
+    results = L"";
     
-    for(index = 0; index < in.length(); index += len) {
-        arr.push_back(in.substr(index, len));
+    for(index = 0; index < in.length(); ) {
+        size_t l = std::rand() % maxlen + 1;
+        
+        results += in.substr(index, l) + L" ";
+        index += l;
     }
     
     if(index < in.length())
-        arr.push_back(in.substr(index));
+        results += in.substr(index);
     
-    return arr;
+    return results;
+}
+
+template <class S> S &stretch(S in) {
+    static S result;
+    
+    result = L"";
+    
+    for (size_t i = 0; i < in.length(); i++) {
+        if(stretchable.find(in[i]) != std::string::npos) {
+            result += in[i];
+        }
+        result += in[i];
+    }
+    
+    return result;
+}
+
+template <class S> S &condense(S in) {
+    static S result;
+    
+    result = L"";
+    
+    bool wasWhitespace = false;
+    for (size_t i = 0; i < in.length(); i++) {
+        if(whitespace.find(in[i]) != std::string::npos) {
+            if (!wasWhitespace) {
+                result += in[i];
+            }
+            wasWhitespace = true;
+        }
+        else {
+            result += in[i];
+            wasWhitespace = false;
+        }
+    }
+    
+    return result;
 }
 
 std::wstring split(const std::wstring &s) {
@@ -246,10 +286,10 @@ NamShubExecutor::NamShubExecutor() {
 }
 
 std::wstring NamShubExecutor::suggest(const std::wstring &s) {
-    char **slst = nullptr;
+    std::wstring result = L"";
+    /*char **slst = nullptr;
     int n = hunspell->suggest(&slst, toUTF8(s).c_str());
 
-    std::wstring result = L"";
     
     for (int i = 0; i < n; i++) {
         auto sg = std::string(slst[i]);
@@ -259,7 +299,7 @@ std::wstring NamShubExecutor::suggest(const std::wstring &s) {
         }
     }
     
-    hunspell->free_list(&slst, n);
+    hunspell->free_list(&slst, n);*/
     
     return result;
 }
@@ -288,15 +328,15 @@ std::wstring NamShubExecutor::executeCommand(const std::string &command, std::ws
             return shuffle(str);
         }},
         {"part", [](const std::wstring &str) {
-            return str;
+            return partRnd(str, 5);
         }},
         {"split", [](const std::wstring &str) {
             return split(str);
         }},
         {"condense", [](const std::wstring &str) {
-            return str;}},
+            return condense(str);}},
         {"stretch", [](const std::wstring &str) {
-            return str;}},
+            return stretch(str);}},
         {"vowels only", [](const std::wstring &str) {
             return vowelsOnly(str);}},
         {"cons only", [](const std::wstring &str) {

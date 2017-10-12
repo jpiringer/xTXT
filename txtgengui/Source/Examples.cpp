@@ -9,10 +9,15 @@
 
 std::vector<std::string> grammarExamples() {
     return {
-R"(START = A B;
-A = abc | def;
-B = A | B;
-)"        
+R"(START = {COUNTER = 0 END = 99} C;
+C {COUNTER <= END} = {COUNTER++} COUNTER C;
+C {COUNTER > END} = ende;
+)",
+R"(START = A B C C C C C C C C;
+A {permutate} = abc | def {COUNT = 1};
+B {random} = A | B;
+C {order} = eins | zwei | drei | vier;
+)"
     };
 }
 

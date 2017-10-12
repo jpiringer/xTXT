@@ -15,7 +15,7 @@
 #include <vector>
 
 #define WHITESPACE L" \n\r\t"
-#define DELIMITER L"=|\"\';{}[]+"
+#define DELIMITER L"=|\"\';{}[]+<>~-*/"
 
 namespace jp {
     

@@ -23,7 +23,9 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainContentComponent   : public Component, public MenuBarModel, private FilenameComponentListener,                        public ButtonListener, public ApplicationCommandTarget
+class MainContentComponent   : public Component, public MenuBarModel,
+    private FilenameComponentListener,
+    public ButtonListener, public ApplicationCommandTarget
 {
 public:
     //==============================================================================
@@ -42,13 +44,17 @@ public:
         speakCmd = 0x2500,
         undoCmd = 0x3100,
         redoCmd = 0x3200,
+        settingsCmd = 0x1100,
+        settingsLargeFontCmd = 0x1105
     };
 
 private:
+    void restoreSettings();
     void filenameComponentChanged (FilenameComponent*) override;
     void loadFileNow(File file);
     void loadFile(File file);
     void saveFile(const File &file);
+    void showSettings();
     
     StringArray getMenuBarNames() override;
     PopupMenu getMenuForIndex (int menuIndex, const String& /*menuName*/) override;
@@ -79,6 +85,9 @@ private:
         runTypeGroup.addAndMakeVisible(*newComp);
         return newComp;
     }
+    
+    // settings
+    SafePointer<DialogWindow> dialogWindow;
     
     // components
     std::shared_ptr<CodeEditorComponent> editor = nullptr;

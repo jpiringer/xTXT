@@ -3,13 +3,6 @@
 unsaved warnings bei quit
 und bei example change (run type change)
 
-more nam shub functions:
-* condense
-* stretch
-* part
-
-large editor font einstellbar machen
-
 more examples
 markov:
 * konjunktionen
@@ -18,22 +11,21 @@ lsystem:
 * rhythmus generator
 grammar:
 * rhythmus generator
+* tempora
+* wittgenstein
 
 more Grammar features:
-* permutate
-* exhaustive
-* statevariablen
-* arithmetische operationen, random
-* COUNTER++
 * string operationen
 * MSG = MSG + test
-* rule conditions
-* RULE{COUNTER == 3} = ...
 * parameter für rules
-
-alle scopedpointer und ownedarrays etc. wegbekommen
+-- modifier:    [X.inQuotes] [X.capitalizeAll]
+-- choice function: RULE = {choice = __pos("POSRULE", [scale]), "a", "b", "c", "d", "e"}
 
 windows version
+
+icon
+
+disable programming mode for episode 1
 
 freischaltungscodes für neue funktionen, damit nicht alle funktionalität gleich verfügbar ist?
 
@@ -96,3 +88,22 @@ lsystem tokenizer
 lua tokeniser
 
 undo
+
+alle scopedpointer und ownedarrays etc. wegbekommen
+
+* stretch
+* part
+
+more nam shub functions:
+* condense
+
+large editor font einstellbar machen
+
+* permutate
+* statevariablen
+
+* arithmetische operationen, random
+* COUNTER++
+
+* rule conditions
+* RULE{COUNTER == 3} = ...

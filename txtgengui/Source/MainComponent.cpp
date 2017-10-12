@@ -15,6 +15,19 @@
 #include <iostream>
 #include <fstream>
 
+#define COMPONENT_ID(i) static String i = #i
+
+COMPONENT_ID(LARGE_FONT_COMPONENT_ID);
+
+
+#define FONT_SIZE_SMALL 20
+#define FONT_SIZE_LARGE 40
+#define FONT_SIZE standardFontSize
+
+#define LARGE_FONT_SETTINGS "LARGE_FONT"
+
+static int standardFontSize = FONT_SIZE_SMALL;
+
 inline Colour getUIColourIfAvailable (LookAndFeel_V4::ColourScheme::UIColour uiColour, Colour fallback = Colour (0xff4d4d4d))
 {
     if (auto* v4 = dynamic_cast<LookAndFeel_V4*> (&LookAndFeel::getDefaultLookAndFeel()))
@@ -28,12 +41,21 @@ void MainContentComponent::addParameterComponent(std::shared_ptr<Component> c) {
     addChildComponent(*c);
 }
 
+void MainContentComponent::restoreSettings() {
+    auto settings = MainWindow::getApplicationProperties().getUserSettings();
+    
+    bool largeFont = settings->getBoolValue(LARGE_FONT_SETTINGS, false);
+    standardFontSize = largeFont ? FONT_SIZE_LARGE : FONT_SIZE_SMALL;
+}
+
 //==============================================================================
 MainContentComponent::MainContentComponent()
 : filenameComponent("File", File(), true, false, false,
 "*.*", String(),
                "Choose a file to open it in the editor") {
     setOpaque (true);
+    
+    restoreSettings();
     
     addAndMakeVisible (menuBar = new MenuBarComponent (this));
     
@@ -93,7 +115,7 @@ MainContentComponent::MainContentComponent()
     addAndMakeVisible(filenameComponent);
     filenameComponent.addListener(this);
     
-    Font font(Font::getDefaultMonospacedFontName(), 20, Font::plain);
+    Font font(Font::getDefaultMonospacedFontName(), FONT_SIZE, Font::plain);
     results = std::make_shared<TextEditor>();
     addAndMakeVisible(*results);
     results->setFont(font);
@@ -103,7 +125,7 @@ MainContentComponent::MainContentComponent()
 
     getLookAndFeel().setUsingNativeAlertWindows(true);
 
-    setSize(600, 800);
+    setSize(800, 1000);
     
     speaker = createSpeakerInstance();
     
@@ -133,9 +155,12 @@ MainContentComponent::MainContentComponent()
 }
 
 MainContentComponent::~MainContentComponent() {
-    filenameComponent.removeListener (this);
+    dialogWindow->exitModalState(0);
+    dialogWindow.deleteAndZero();
+    
+    filenameComponent.removeListener(this);
 #if JUCE_MAC
-    MenuBarModel::setMacMainMenu (nullptr);
+    MenuBarModel::setMacMainMenu(nullptr);
 #endif
 }
 
@@ -191,7 +216,7 @@ void MainContentComponent::changeCodeEditor() {
     }
     // Create the editor..
     addAndMakeVisible(*editor);
-    Font font(Font::getDefaultMonospacedFontName(), 20, Font::plain);
+    Font font(Font::getDefaultMonospacedFontName(), FONT_SIZE, Font::plain);
     editor->setFont(font);
     editor->setColour(CodeEditorComponent::backgroundColourId, Colour(0xff, 0xff, 0xff));
     editor->setColour(CodeEditorComponent::lineNumberBackgroundId, Colour(0, 0, 0));
@@ -243,7 +268,7 @@ void MainContentComponent::resized() {
     
     // results & run
     if (showCode) {
-        results->setBounds(r.removeFromBottom(200));
+        results->setBounds(r.removeFromBottom(400));
         runButton->setBounds(r.removeFromBottom(25));
         editor->setVisible(true);
         editor->setBounds(r.withTrimmedTop(8));
@@ -307,7 +332,9 @@ PopupMenu MainContentComponent::getMenuForIndex (int menuIndex, const String& me
         menu.addCommandItem(commandManager, MainContentComponent::saveCmd);
         menu.addSeparator();
         menu.addCommandItem(commandManager, MainContentComponent::runCmd);
-    }
+        menu.addSeparator();
+        menu.addCommandItem(commandManager, MainContentComponent::settingsCmd);
+   }
     else if (menuIndex == 1) { // Edit
         menu.addCommandItem(commandManager, MainContentComponent::undoCmd);
         menu.addCommandItem(commandManager, MainContentComponent::redoCmd);
@@ -415,7 +442,8 @@ void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
         MainContentComponent::newCmd,
         MainContentComponent::speakCmd,
         MainContentComponent::undoCmd,
-        MainContentComponent::redoCmd
+        MainContentComponent::redoCmd,
+        MainContentComponent::settingsCmd
     };
     
     commands.addArray (ids, numElementsInArray(ids));
@@ -455,6 +483,10 @@ void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationComman
             result.setInfo("Redo", "Redo result changes", editCategory, 0);
             result.addDefaultKeypress('z', ModifierKeys::commandModifier|ModifierKeys::shiftModifier);
             break;
+        case MainContentComponent::settingsCmd:
+            result.setInfo("Settings...", "Show Settings", generalCategory, 0);
+            result.addDefaultKeypress(',', ModifierKeys::commandModifier);
+            break;
     }
 }
 
@@ -487,6 +519,9 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
                 break;
             case MainContentComponent::redoCmd:
                 undoManager.redo();
+                break;
+            case MainContentComponent::settingsCmd:
+                showSettings();
                 break;
             default:
                 return false;
@@ -527,6 +562,37 @@ void MainContentComponent::newFile() {
     }
     else {
         editor->loadContent("");
+    }
+}
+
+#define SETTINGS_WIDTH 300
+#define SETTINGS_HEIGHT 200
+void MainContentComponent::showSettings() {
+    DialogWindow::LaunchOptions options;
+    
+    ToggleButton *toggle = new ToggleButton("Large font");
+    toggle->setComponentID(LARGE_FONT_COMPONENT_ID);
+    toggle->setToggleState(standardFontSize == FONT_SIZE_LARGE, dontSendNotification);
+    toggle->setColour(ToggleButton::textColourId, Colours::black);
+    toggle->setColour(ToggleButton::tickColourId, Colours::black);
+    toggle->setColour(ToggleButton::tickDisabledColourId, Colours::darkgrey);
+    toggle->addListener(this);
+    options.content.setOwned(toggle);
+    
+    Rectangle<int> area(0, 0, SETTINGS_WIDTH, SETTINGS_HEIGHT);
+    
+    options.content->setSize(area.getWidth(), area.getHeight());
+    
+    options.dialogTitle                   = "Settings";
+    options.dialogBackgroundColour        = Colour(0xff, 0xff, 0xff);
+    options.escapeKeyTriggersCloseButton  = true;
+    options.useNativeTitleBar             = true;
+    options.resizable                     = false;
+    
+    dialogWindow = options.launchAsync();
+    
+    if (dialogWindow != nullptr) {
+        dialogWindow->centreWithSize(SETTINGS_WIDTH, SETTINGS_HEIGHT);
     }
 }
 
@@ -607,7 +673,25 @@ void MainContentComponent::buttonClicked(Button *button) {
     else if (button == &*stopSpeakButton) {
         speaker->stop();
     }
+    else if (button->getComponentID() == LARGE_FONT_COMPONENT_ID) {
+        ToggleButton *tb = (ToggleButton *)button;
+        
+        if (tb->getToggleState() == true) {
+            standardFontSize = FONT_SIZE_LARGE;
+        }
+        else {
+            standardFontSize = FONT_SIZE_SMALL;
+        }
+        
+        Font font(Font::getDefaultMonospacedFontName(), FONT_SIZE, Font::plain);
+        results->setFont(font);
+        
+        auto settings = MainWindow::getApplicationProperties().getUserSettings();
+        
+        settings->setValue(LARGE_FONT_SETTINGS, tb->getToggleState());
+    }
     else {
+        
         for (int i = 0; i < runTypeButtons.size(); i++) {
             if (&*runTypeButtons[i] == button) {
                 setCurrentRunnerType(runTypeNames[i].second);

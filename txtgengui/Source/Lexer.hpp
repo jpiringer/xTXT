@@ -13,10 +13,11 @@
 #include <string>
 
 #define CAPITAL_SYMBOL_LETTERS L"ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ0123456789_"
+#define NUMBER_LETTERS L"0123456789"
 
 namespace jp {
     enum LexemType {
-        LexemSymbol, LexemString, LexemNumber, LexemOperator, LexemDelimiter, LexemNone
+        LexemSymbol, LexemString, LexemNumber, LexemBool, LexemOperator, LexemDelimiter, LexemBracket, LexemNone
     };
     
     class Lexem {
@@ -26,7 +27,7 @@ namespace jp {
         
     public:
         Lexem(const Lexem &source) : content(source.content), type(source.type), lineNumber(source.lineNumber) {}
-        Lexem(const std::wstring &c, enum LexemType t, int lnr) : content(c), type(t), lineNumber(lnr) {}
+        Lexem(std::wstring c, enum LexemType t, int lnr) : content(c), type(t), lineNumber(lnr) {}
         
         const std::wstring &getContent() {return content;}
         enum LexemType getType() {return type;}
@@ -41,11 +42,17 @@ namespace jp {
                 case LexemNumber:
                     return L"L-NUMBER";
                     break;
+                case LexemBool:
+                    return L"L-BOOL";
+                    break;
                 case LexemOperator:
                     return L"L-OPERATOR";
                     break;
                 case LexemDelimiter:
                     return L"L-DELIMITER";
+                    break;
+                case LexemBracket:
+                    return L"L-BRACKET";
                     break;
                 case LexemNone:
                     return L"L-NONE";
@@ -70,3 +77,4 @@ namespace jp {
 }
 
 #endif /* Lexer_hpp */
+

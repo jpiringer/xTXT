@@ -11,7 +11,9 @@
 #include "MainWindow.h"
 #include "MainComponent.h"
 
-static ScopedPointer<ApplicationCommandManager> applicationCommandManager;
+ScopedPointer<ApplicationCommandManager> MainWindow::applicationCommandManager = nullptr;
+ScopedPointer<ApplicationProperties> MainWindow::applicationProperties = nullptr;
+PropertiesFile::Options MainWindow::applicationPropertiesStorageOptions;
 
 MainWindow::MainWindow (String name)  : DocumentWindow (name, 
                                             Desktop::getInstance().getDefaultLookAndFeel()
@@ -33,6 +35,7 @@ MainWindow::MainWindow (String name)  : DocumentWindow (name,
 
 MainWindow::~MainWindow() {
     applicationCommandManager = nullptr;
+    applicationProperties = nullptr;
 }
 
 void MainWindow::closeButtonPressed() {
@@ -47,6 +50,19 @@ ApplicationCommandManager &MainWindow::getApplicationCommandManager() {
         applicationCommandManager = new ApplicationCommandManager();
     
     return *applicationCommandManager;
+}
+
+ApplicationProperties &MainWindow::getApplicationProperties() {
+    if (applicationProperties == nullptr) {
+        applicationProperties = new ApplicationProperties();
+        applicationPropertiesStorageOptions.applicationName = "txtgen";
+        applicationPropertiesStorageOptions.filenameSuffix = "settings";
+        applicationPropertiesStorageOptions.osxLibrarySubFolder = "Application Support/txtgen/";
+        applicationProperties->setStorageParameters(applicationPropertiesStorageOptions);
+    }
+    
+    return *applicationProperties;
+    
 }
 
 void MainWindow::handleAsyncUpdate() {
