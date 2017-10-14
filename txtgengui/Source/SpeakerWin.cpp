@@ -7,25 +7,46 @@
 
 #include "Speaker.hpp"
 
+#include "utils.hpp"
+
+#include <sapi.h>
+
+
 namespace jp {
     class SpeakerWin : public Speaker {
-       // NSSpeechSynthesizer *speechSynthesizer = nil;
+		ISpVoice *pVoice = NULL;
+		bool valid = false;
         
     public:
 		SpeakerWin() {
-            //speechSynthesizer = [[NSSpeechSynthesizer alloc] init];
+			if (!FAILED(::CoInitialize(NULL))) {
+				HRESULT hr = CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, (void **)&pVoice);
+				if (SUCCEEDED(hr)) {
+					valid = true;
+				}
+			}
         }
         
         ~SpeakerWin() {
-            //speechSynthesizer = nil;
+			if (valid) {
+				pVoice->Release();
+				pVoice = nullptr;
+
+				::CoUninitialize();
+			}
         }
 
         void speak(const std::string &str) override {
-            //[speechSynthesizer startSpeakingString:[NSString stringWithCString:str.c_str() encoding:NSUTF8StringEncoding]];
+			if (valid) {
+				HRESULT hr = pVoice->Speak(fromUTF8(str).c_str(), SPF_ASYNC | SPF_PURGEBEFORESPEAK, nullptr);
+				pVoice->Resume();
+			}
         }
         
         void stop() override {
-            //[speechSynthesizer stopSpeaking];
+			if (valid) {
+				pVoice->Pause();
+			}
         }
     };
 }
