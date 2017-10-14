@@ -1,1 +1,5 @@
 txtgengui/Builds/MacOSX/build
+txtgengui/Builds/VisualStudio2017/x64/Debug/
+txtgengui/Builds/VisualStudio2017/.vs/txtgengui/v15/Browse.VC.db
+txtgengui/Builds/VisualStudio2017/.vs/
+.vs/slnx.sqlite

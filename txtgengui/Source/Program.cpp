@@ -8,7 +8,11 @@
 
 #include "Program.hpp"
 
+#if TARGET_MACOS
 #include <lua.hpp>
+#else
+#include "lua.hpp"
+#endif
 
 static std::string programOutput = "";
 

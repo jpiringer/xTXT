@@ -9,6 +9,8 @@
 #include "Lexer.hpp"
 #include "Tokenizer.hpp"
 
+#include <memory>
+
 using namespace jp;
 
 bool isCapitalSymbol(const std::wstring &str) {

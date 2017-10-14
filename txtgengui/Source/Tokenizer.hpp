@@ -13,6 +13,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #define WHITESPACE L" \n\r\t"
 #define DELIMITER L"=|\"\';{}[]+<>~-*/"

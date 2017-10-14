@@ -10,6 +10,7 @@
 #define NamShub_hpp
 
 #include <string>
+#include <memory>
 
 class Hunspell;
 

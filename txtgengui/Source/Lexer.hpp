@@ -11,6 +11,8 @@
 
 #include <stdio.h>
 #include <string>
+#include <vector>
+#include <memory>
 
 #define CAPITAL_SYMBOL_LETTERS L"ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ0123456789_"
 #define NUMBER_LETTERS L"0123456789"

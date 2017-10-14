@@ -1,4 +1,4 @@
-//
+﻿//
 //  NamShub.cpp
 //  txtgencmd
 //
@@ -10,8 +10,10 @@
 
 #include <vector>
 #include <functional>
+#include <locale>
+#include <algorithm>
 
-#include <hunspell/hunspell.hxx>
+//#include <hunspell/hunspell.hxx>
 
 #include "utils.hpp"
 #include "Platform.hpp"
@@ -84,58 +86,42 @@ std::wstring plosivesOnly(const std::wstring &s) {
     return str;
 }
 
+wchar_t transformSortChar(wchar_t c) {
+	switch (c) {
+	case L'ä':
+		c = 'a';
+		break;
+	case L'ö':
+		c = 'o';
+		break;
+	case L'ü':
+		c = 'u';
+		break;
+	case L'ß':
+		c = 's';
+		break;
+	case L'Ä':
+		c = 'A';
+		break;
+	case L'Ö':
+		c = 'O';
+		break;
+	case L'Ü':
+		c = 'U';
+		break;
+	}
+	return c;
+}
+
 int sort_compare(const void *arg1, const void *arg2) {
+	static std::locale locale("");
     wchar_t c1 = *(wchar_t*)arg1 , c2 = *(wchar_t*)arg2;
     
-    switch(c1) {
-        case L'ä' :
-            c1 = 'a';
-            break;
-        case L'ö' :
-            c1 = 'o';
-            break;
-        case L'ü' :
-            c1 = 'u';
-            break;
-        case L'ß' :
-            c1 = 's';
-            break;
-        case L'Ä' :
-            c1 = 'A';
-            break;
-        case L'Ö' :
-            c1 = 'O';
-            break;
-        case L'Ü' :
-            c1 = 'U';
-            break;
-    }
-    switch(c2) {
-        case L'ä' :
-            c2 = 'a';
-            break;
-        case L'ö' :
-            c2 = 'o';
-            break;
-        case L'ü' :
-            c2 = 'u';
-            break;
-        case L'ß' :
-            c2 = 's';
-            break;
-        case L'Ä' :
-            c2 = 'A';
-            break;
-        case L'Ö' :
-            c2 = 'O';
-            break;
-        case L'Ü' :
-            c2 = 'U';
-            break;
-    }
+	c1 = transformSortChar(c1);
+	c2 = transformSortChar(c2);
     
-    c1 = tolower(c1);
-    c2 = tolower(c2);
+    c1 = std::tolower(c1, locale);
+    c2 = std::tolower(c2, locale);
     
     if(c1 == c2)
         return 0;
@@ -146,8 +132,8 @@ int sort_compare(const void *arg1, const void *arg2) {
 
 std::wstring rip(const std::wstring &s) {
     std::wstring str(L"");
-    unsigned cnt;
-    int sz = (int)s.length();
+    size_t cnt;
+    size_t sz = s.length();
     wchar_t c, c2;
     
     for(cnt = 0; cnt < sz;) {
@@ -198,7 +184,7 @@ template <class S> S shuffle(S s) {
 template <class S> S &partRnd(S in, size_t maxlen) {
     static S results;
     S str;
-    int index = 0;
+    size_t index = 0;
     
     results = L"";
     

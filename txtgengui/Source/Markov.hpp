@@ -11,6 +11,7 @@
 
 #include <unordered_map>
 #include <string>
+#include <memory>
 
 class MarkovProbTable {
     std::unordered_map<wchar_t, int> mappings;
