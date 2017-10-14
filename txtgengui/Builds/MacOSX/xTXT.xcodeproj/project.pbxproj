@@ -33,6 +33,7 @@
 		3041F2971F826C2500F37B01 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3041F2951F826C2500F37B01 /* utils.cpp */; };
 		3063DC251F8E4428009585FC /* UndoableActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3063DC231F8E4428009585FC /* UndoableActions.cpp */; };
 		306FAF191F8CC81400BFB61C /* LSystemTokeniser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306FAF171F8CC81400BFB61C /* LSystemTokeniser.cpp */; };
+		30739E531F92293700C1D7A0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30739E521F92293700C1D7A0 /* Images.xcassets */; };
 		3087D3A01F82B60E009C157F /* GrammarTokeniser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3087D39E1F82B60E009C157F /* GrammarTokeniser.cpp */; };
 		3087D3A31F82C55E009C157F /* Speaker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3087D3A11F82C55E009C157F /* Speaker.mm */; };
 		308E2EB81F8CE20900001AA8 /* libhunspell-1.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 308E2EB61F8CE20900001AA8 /* libhunspell-1.2.tbd */; };
@@ -99,6 +100,7 @@
 		3063DC261F8E5D63009585FC /* PROGRAM.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PROGRAM.md; sourceTree = "<group>"; };
 		306FAF171F8CC81400BFB61C /* LSystemTokeniser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LSystemTokeniser.cpp; path = ../../Source/LSystemTokeniser.cpp; sourceTree = "<group>"; };
 		306FAF181F8CC81400BFB61C /* LSystemTokeniser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LSystemTokeniser.hpp; path = ../../Source/LSystemTokeniser.hpp; sourceTree = "<group>"; };
+		30739E521F92293700C1D7A0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "xTXT - App/Images.xcassets"; sourceTree = "<group>"; };
 		3087D39C1F829090009C157F /* MainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainWindow.h; path = ../../Source/MainWindow.h; sourceTree = "<group>"; };
 		3087D39D1F8291B1009C157F /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = TODO.md; path = ../../Source/TODO.md; sourceTree = "<group>"; };
 		3087D39E1F82B60E009C157F /* GrammarTokeniser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GrammarTokeniser.cpp; path = ../../Source/GrammarTokeniser.cpp; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 		E61D175CB824EC1037FF7B8E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				30739E521F92293700C1D7A0 /* Images.xcassets */,
 				308E2EBB1F8CE41E00001AA8 /* dict */,
 				30AF49179185AA832F3E631A /* Info-App.plist */,
 				E221F4492AE3CCCF024BB289 /* RecentFilesMenuTemplate.nib */,
@@ -429,6 +432,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D500F533ABB17B86277FAB6 /* RecentFilesMenuTemplate.nib in Resources */,
+				30739E531F92293700C1D7A0 /* Images.xcassets in Resources */,
 				308E2EC11F8CE42900001AA8 /* de_DE.dic in Resources */,
 				308E2EC31F8CE42F00001AA8 /* en_US.dic in Resources */,
 				301A97391F8CEE9300142DAA /* German.aff in Resources */,
@@ -485,6 +489,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -574,6 +579,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;

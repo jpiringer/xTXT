@@ -13,8 +13,6 @@ grammar:
 
 windows version
 
-icon
-
 
 # LATER
 
@@ -110,3 +108,4 @@ more examples
 unsaved warnings bei quit
 und bei example change (run type change)
 
+icon
