@@ -75,6 +75,11 @@ MainContentComponent::MainContentComponent()
     stopSpeakButton->addListener(this);
     addAndMakeVisible(*stopSpeakButton);
     
+    examplesComboBox = std::make_shared<ComboBox>("Examples");
+    examplesComboBox->setEditableText(false);
+    addAndMakeVisible(*examplesComboBox);
+    examplesComboBox->addListener(this);
+    
     // specific parameters
     markovPrefixLabel = std::make_shared<Label>();
     markovPrefixLabel->setText("Prefix:", dontSendNotification);
@@ -151,6 +156,7 @@ MainContentComponent::MainContentComponent()
     }
     addAndMakeVisible(runTypeGroup);
     
+    editor->loadContent("");
     setCurrentRunnerType(getCurrentRunnerType());
 }
 
@@ -158,6 +164,8 @@ MainContentComponent::~MainContentComponent() {
     dialogWindow->exitModalState(0);
     dialogWindow.deleteAndZero();
     
+    PopupMenu::dismissAllActiveMenus();
+
     filenameComponent.removeListener(this);
 #if JUCE_MAC
     MenuBarModel::setMacMainMenu(nullptr);
@@ -229,8 +237,17 @@ void MainContentComponent::resized() {
 
     // top
     filenameComponent.setBounds(r.removeFromTop(25));
-    runTypeGroup.setBounds(r.removeFromTop(30));
-    
+    Rectangle<int> runTypeArea(r.removeFromTop(30));
+    int runTypeAreaWidth = runTypeArea.getWidth();
+    runTypeGroup.setBounds(runTypeArea.removeFromLeft(runTypeAreaWidth/3*2));
+    if( getCurrentRunnerType() == jp::NamShub) {
+        examplesComboBox->setVisible(false);
+    }
+    else {
+        examplesComboBox->setVisible(true);
+        examplesComboBox->setBounds(runTypeArea.removeFromRight(runTypeAreaWidth/3));
+    }
+
     makeParametersVisible();
     changeCodeEditor();
     
@@ -285,7 +302,7 @@ void MainContentComponent::loadFileNow(File file) {
 }
 
 void MainContentComponent::loadFile(File file) {
-    if (editor->getDocument().hasChangedSinceSavePoint()) {
+    if (hasUnsavedChanges()) {
         AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
                                      "Unsaved Changes",
                                      "You have unsaved changes. Do you want to discard them?",
@@ -547,7 +564,7 @@ void MainContentComponent::saveFile() {
 }
 
 void MainContentComponent::newFile() {
-    if (editor->getDocument().hasChangedSinceSavePoint()) {
+    if (hasUnsavedChanges()) {
         AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
                                      "Unsaved Changes",
                                      "You have unsaved changes. Do you want to discard them?",
@@ -654,23 +671,60 @@ void MainContentComponent::speak() {
 void MainContentComponent::setCurrentRunnerType(jp::RunnerType rt) {
     runner.setType(rt);
     //if (!editor->getDocument().hasChangedSinceSavePoint()) {
-        auto examples = runner.getExamples();
-        
-        if (examples.size() > 0) {
-            editor->loadContent(examples[0]);
-        }
+    auto examples = runner.getExamples();
+    
+    int exampleID = 1;
+    examplesComboBox->clear();
+    for (auto pair : examples) {
+        examplesComboBox->addItem(pair.first, exampleID++);
+    }
+    ignoreExampleComboBoxNotification = true;
+    examplesComboBox->setSelectedId(1);
+    
+    chooseExample(0);
+
     resized();
     //}
 }
 
+void MainContentComponent::chooseExample(int exampleNr) {
+    auto examples = runner.getExamples();
+
+    if (examples.size() > 0) {
+        if (hasUnsavedChanges()) {
+            AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
+                                         "Unsaved Changes",
+                                         "You have unsaved changes. Do you want to discard them?",
+                                         "Cancel",
+                                         "Discard",
+                                         0,
+                                         ModalCallbackFunction::create([this, exampleNr, examples](int result) {
+                if (result == 1) { // ok
+                    editor->loadContent(examples[exampleNr].second);
+                }
+            }));
+        }
+        else {
+            editor->loadContent(examples[exampleNr].second);
+        }
+    }
+}
+
+void MainContentComponent::comboBoxChanged(ComboBox *comboBoxThatHasChanged) {
+    if (comboBoxThatHasChanged->getSelectedId() > 0 && !ignoreExampleComboBoxNotification) {
+        chooseExample(comboBoxThatHasChanged->getSelectedId()-1);
+    }
+    ignoreExampleComboBoxNotification = false;
+}
+
 void MainContentComponent::buttonClicked(Button *button) {
-    if (button == &*runButton) {
+    if (button == runButton.get()) {
         run();
     }
-    else if (button == &*speakButton) {
+    else if (button == speakButton.get()) {
         speak();
     }
-    else if (button == &*stopSpeakButton) {
+    else if (button == stopSpeakButton.get()) {
         speaker->stop();
     }
     else if (button->getComponentID() == LARGE_FONT_COMPONENT_ID) {
@@ -691,11 +745,12 @@ void MainContentComponent::buttonClicked(Button *button) {
         settings->setValue(LARGE_FONT_SETTINGS, tb->getToggleState());
     }
     else {
-        
-        for (int i = 0; i < runTypeButtons.size(); i++) {
-            if (&*runTypeButtons[i] == button) {
-                setCurrentRunnerType(runTypeNames[i].second);
-                return;
+        if (button->getToggleState()) {
+            for (int i = 0; i < runTypeButtons.size(); i++) {
+                if (&*runTypeButtons[i] == button) {
+                    setCurrentRunnerType(runTypeNames[i].second);
+                    return;
+                }
             }
         }
         if (getCurrentRunnerType() == jp::NamShub) {
@@ -705,4 +760,8 @@ void MainContentComponent::buttonClicked(Button *button) {
             run();
         }
     }
+}
+
+bool MainContentComponent::hasUnsavedChanges() {
+    return editor->getDocument().hasChangedSinceSavePoint();
 }

@@ -74,11 +74,33 @@ void MainWindow::handleAsyncUpdate() {
     commandManager.registerAllCommandsForTarget(JUCEApplication::getInstance());
 }
 
+bool MainWindow::hasUnsavedChanges() {
+    return contentComponent->hasUnsavedChanges();
+}
+
+bool MainWindow::canQuit() {
+    if (hasUnsavedChanges()) {
+        if (AlertWindow::showYesNoCancelBox(AlertWindow::QuestionIcon,
+                                            "Unsaved Changes",
+                                            "You have unsaved changes. Do you want to discard them and quit?",
+                                            "Quit without Saving",
+                                            "No",
+                                            "Cancel",
+                                            0) == 1) {
+            return true;
+        }
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
 //==============================================================================
-class txtgenguiApplication  : public JUCEApplication {
+class xTXTApplication  : public JUCEApplication {
 public:
     //==============================================================================
-    txtgenguiApplication() {}
+    xTXTApplication() {}
 
     const String getApplicationName() override       { return ProjectInfo::projectName; }
     const String getApplicationVersion() override    { return ProjectInfo::versionString; }
@@ -86,30 +108,37 @@ public:
 
     //==============================================================================
     void initialise (const String& commandLine) override {
-        // This method is where you should put your application's initialisation code..
-
         mainWindow = new MainWindow (getApplicationName());
     }
 
     void shutdown() override {
-        // Add your application's shutdown code here..
-
         mainWindow = nullptr; // (deletes our window)
     }
 
     //==============================================================================
     void systemRequestedQuit() override {
-        // This is called when the app is being asked to quit: you can ignore this
-        // request and let the app carry on running, or call quit() to allow the app to close.
-        quit();
+        if (mainWindow->canQuit()) {
+            quit();
+        }
     }
 
     void anotherInstanceStarted (const String& commandLine) override {
-        // When another instance of the app is launched while this one is running,
-        // this method is invoked, and the commandLine parameter tells you what
-        // the other instance's command-line arguments were.
     }
-
+    
+    void unhandledException(const std::exception *e, const String &sourceFilename, int lineNumber) override {
+        String msg = "";
+        
+        if (e != nullptr) {
+            msg += e->what();
+            msg += "\n";
+        }
+        msg += "in file: \"";
+        msg += sourceFilename;
+        msg += "\" at line number: ";
+        msg += lineNumber;
+        
+        AlertWindow::showMessageBoxAsync(AlertWindow::WarningIcon, "Exception", msg);
+    }
 
 private:
     ScopedPointer<MainWindow> mainWindow;
@@ -117,4 +146,4 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION (txtgenguiApplication)
+START_JUCE_APPLICATION (xTXTApplication)

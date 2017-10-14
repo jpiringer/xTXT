@@ -29,6 +29,9 @@ public:
 
     static ApplicationCommandManager &getApplicationCommandManager();
     static ApplicationProperties &getApplicationProperties();
+    
+    bool hasUnsavedChanges();
+    bool canQuit();
 
     /* Note: Be careful if you override any DocumentWindow methods - the base
      class uses a lot of them, so by overriding you might break its functionality.

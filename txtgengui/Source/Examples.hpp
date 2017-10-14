@@ -13,9 +13,9 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> grammarExamples();
-std::vector<std::string> LSystemExamples();
-std::vector<std::string> markovExamples();
-std::vector<std::string> programExamples();
+std::vector<std::pair<std::string,std::string>> grammarExamples();
+std::vector<std::pair<std::string,std::string>> LSystemExamples();
+std::vector<std::pair<std::string,std::string>> markovExamples();
+std::vector<std::pair<std::string,std::string>> programExamples();
 
 #endif /* Examples_hpp */

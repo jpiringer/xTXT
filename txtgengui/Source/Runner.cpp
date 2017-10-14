@@ -118,7 +118,7 @@ std::string jp::Runner::run() {
     return "Unknown Runner Type";
 }
 
-std::vector<std::string> jp::Runner::getExamples() {
+std::vector<std::pair<std::string,std::string>> jp::Runner::getExamples() {
     switch (runnerType) {
         case Grammar:
             return grammarExamples();

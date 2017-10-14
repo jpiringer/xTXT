@@ -23,9 +23,13 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainContentComponent   : public Component, public MenuBarModel,
+class MainContentComponent :
+    public Component,
+    public MenuBarModel,
     private FilenameComponentListener,
-    public ButtonListener, public ApplicationCommandTarget
+    public ButtonListener,
+    public ComboBoxListener,
+    public ApplicationCommandTarget
 {
 public:
     //==============================================================================
@@ -34,6 +38,8 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;
+    
+    bool hasUnsavedChanges();
     
     //==============================================================================
     enum CommandIDs {
@@ -50,7 +56,7 @@ public:
 
 private:
     void restoreSettings();
-    void filenameComponentChanged (FilenameComponent*) override;
+    void filenameComponentChanged(FilenameComponent*) override;
     void loadFileNow(File file);
     void loadFile(File file);
     void saveFile(const File &file);
@@ -64,7 +70,9 @@ private:
     ApplicationCommandTarget* getNextCommandTarget() override;
     bool perform (const InvocationInfo& info) override;
     
+    // listeners
     void buttonClicked (Button* button) override;
+    void comboBoxChanged(ComboBox *comboBoxThatHasChanged) override;
     
     // commands
     void run();
@@ -96,6 +104,9 @@ private:
     std::shared_ptr<TextButton> speakButton = nullptr;
     std::shared_ptr<TextButton> stopSpeakButton = nullptr;
     FilenameComponent filenameComponent;
+
+    bool ignoreExampleComboBoxNotification = false;
+    std::shared_ptr<ComboBox> examplesComboBox;
     
     // specific parameters
     std::shared_ptr<Label> markovPrefixLabel;
@@ -116,14 +127,15 @@ private:
         {"Markov", jp::Markov},
         {"Methods", jp::NamShub},
         {"L-System", jp::LSystem},
-        {"Grammar", jp::Grammar},
-        {"Program", jp::Program}
+        {"Grammar", jp::Grammar}//,
+        //{"Program", jp::Program}
     };
     Component runTypeGroup;
     std::vector<std::shared_ptr<TextButton>> runTypeButtons;
     
     void setCurrentRunnerType(jp::RunnerType rt);
     jp::RunnerType getCurrentRunnerType() {return runner.getType();}
+    void chooseExample(int exampleNr);
     
     UndoManager undoManager;
 

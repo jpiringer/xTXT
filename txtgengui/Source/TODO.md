@@ -1,8 +1,5 @@
 #  TODO
 
-unsaved warnings bei quit
-und bei example change (run type change)
-
 more examples
 markov:
 * konjunktionen
@@ -14,23 +11,21 @@ grammar:
 * tempora
 * wittgenstein
 
+windows version
+
+icon
+
+
+# LATER
+
+reenable mode "program"
+
 more Grammar features:
 * string operationen
 * MSG = MSG + test
 * parameter für rules
 -- modifier:    [X.inQuotes] [X.capitalizeAll]
 -- choice function: RULE = {choice = __pos("POSRULE", [scale]), "a", "b", "c", "d", "e"}
-
-windows version
-
-icon
-
-disable programming mode for episode 1
-
-freischaltungscodes für neue funktionen, damit nicht alle funktionalität gleich verfügbar ist?
-
-
-# LATER
 
 sprache & stimme verstellbar machen
 
@@ -107,3 +102,11 @@ large editor font einstellbar machen
 
 * rule conditions
 * RULE{COUNTER == 3} = ...
+
+disable mode "program" for episode 1
+
+more examples
+
+unsaved warnings bei quit
+und bei example change (run type change)
+

@@ -185,6 +185,9 @@ bool Rule::matches(Parser &parser, int lineNr) {
     else {
         auto result = ruleOperation->execute(parser, lineNr);
         
+        if (result == nullptr) {
+            return true;
+        }
         if (result->getType() == LexemBool) {
             return result->getContent() == TRUE_LEX;
         }

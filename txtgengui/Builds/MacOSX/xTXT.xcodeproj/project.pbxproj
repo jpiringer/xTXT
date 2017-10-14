@@ -116,7 +116,7 @@
 		41064F35812828A6A8EC752D /* include_juce_video.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_video.mm; path = ../../JuceLibraryCode/include_juce_video.mm; sourceTree = SOURCE_ROOT; };
 		467435548BB10188093DFA34 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		4786A42B644081DF9D8382BE /* include_juce_gui_basics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_gui_basics.mm; path = ../../JuceLibraryCode/include_juce_gui_basics.mm; sourceTree = SOURCE_ROOT; };
-		4C4FC23EA25438B1152C87DC /* txtgen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = txtgen.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C4FC23EA25438B1152C87DC /* xTXT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xTXT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E138F888313321D47F4C989 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		511F4132C538C0AFFA4F3FFF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		73E966A67152F929A71CEFF6 /* juce_audio_basics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_basics; path = /Users/joerg/developer/lib/JUCE/modules/juce_audio_basics; sourceTree = "<absolute>"; };
@@ -183,7 +183,7 @@
 		1E8FE6543D8D28F554CAFB1E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4C4FC23EA25438B1152C87DC /* txtgen.app */,
+				4C4FC23EA25438B1152C87DC /* xTXT.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -361,9 +361,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		24992F775770A3C042C1C9B3 /* txtgen - App */ = {
+		24992F775770A3C042C1C9B3 /* xTXT - App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 543621D636D2D10AD1B3C6D5 /* Build configuration list for PBXNativeTarget "txtgen - App" */;
+			buildConfigurationList = 543621D636D2D10AD1B3C6D5 /* Build configuration list for PBXNativeTarget "xTXT - App" */;
 			buildPhases = (
 				D9A3BE29EB5BAA62C2CB8485 /* Resources */,
 				BE399A41470953D102FC6344 /* Sources */,
@@ -373,9 +373,9 @@
 			);
 			dependencies = (
 			);
-			name = "txtgen - App";
+			name = "xTXT - App";
 			productName = txtgengui;
-			productReference = 4C4FC23EA25438B1152C87DC /* txtgen.app */;
+			productReference = 4C4FC23EA25438B1152C87DC /* xTXT.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -407,7 +407,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1C2DE636C704D63F56A78E61 /* Build configuration list for PBXProject "txtgen" */;
+			buildConfigurationList = 1C2DE636C704D63F56A78E61 /* Build configuration list for PBXProject "xTXT" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -418,7 +418,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				24992F775770A3C042C1C9B3 /* txtgen - App */,
+				24992F775770A3C042C1C9B3 /* xTXT - App */,
 			);
 		};
 /* End PBXProject section */
@@ -518,6 +518,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.piringer.txtgen;
+				PRODUCT_NAME = xTXT;
 				SDKROOT_ppc = macosx10.5;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../txtgen\"";
 				USE_HEADERMAP = NO;
@@ -607,6 +608,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = net.piringer.txtgen;
+				PRODUCT_NAME = xTXT;
 				SDKROOT_ppc = macosx10.5;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../../txtgen\"";
 				USE_HEADERMAP = NO;
@@ -659,7 +661,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1C2DE636C704D63F56A78E61 /* Build configuration list for PBXProject "txtgen" */ = {
+		1C2DE636C704D63F56A78E61 /* Build configuration list for PBXProject "xTXT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				681BF3CEFE7CEF578EEC8B2D /* Debug */,
@@ -668,7 +670,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		543621D636D2D10AD1B3C6D5 /* Build configuration list for PBXNativeTarget "txtgen - App" */ = {
+		543621D636D2D10AD1B3C6D5 /* Build configuration list for PBXNativeTarget "xTXT - App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2C14B96010F29FFD2464B962 /* Debug */,
