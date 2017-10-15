@@ -502,8 +502,14 @@ void Parser::parse() {
     }
 }
 
-std::wstring Parser::expandRule(const std::wstring &ruleName, int lineNr) {
+#define MAX_RECURSION_DEPTH 1000
+std::wstring Parser::expandRule(const std::wstring &ruleName, int lineNr, int recursionDepth) {
     std::wstring result = L"";
+    
+    if (recursionDepth > MAX_RECURSION_DEPTH) {
+        _error(std::wstring(L"potential infinite recursion in rule \"")+ruleName+std::wstring(L"\""), lineNr);
+        return L"";
+    }
     
     if (rules.find(ruleName) == rules.end()) {
         if (isVariableDefined(ruleName)) {
@@ -544,7 +550,7 @@ std::wstring Parser::expandRule(const std::wstring &ruleName, int lineNr) {
                     if (lexem != nullptr) {
                         switch (lexem->getType()) {
                             case LexemSymbol:
-                                result += expandRule(lexem->getContent(), lexem->getLineNumber());
+                                result += expandRule(lexem->getContent(), lexem->getLineNumber(), recursionDepth+1);
                                 break;
                             case LexemNumber:
                             case LexemString:

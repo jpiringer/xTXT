@@ -70,7 +70,6 @@
 		2A8F450EDBD9AB56CAF6D493 /* include_juce_audio_devices.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_devices.mm; path = ../../JuceLibraryCode/include_juce_audio_devices.mm; sourceTree = SOURCE_ROOT; };
 		301A97171F8CE59300142DAA /* Platform.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.mm; path = ../../Source/Platform.mm; sourceTree = "<group>"; };
 		301A97181F8CE59300142DAA /* Platform.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Platform.hpp; path = ../../Source/Platform.hpp; sourceTree = "<group>"; };
-		301A971C1F8CE61000142DAA /* examples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = examples.h; sourceTree = "<group>"; };
 		301A971D1F8CE61000142DAA /* Lexer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Lexer.cpp; sourceTree = "<group>"; };
 		301A971E1F8CE61000142DAA /* Lexer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lexer.hpp; sourceTree = "<group>"; };
 		301A971F1F8CE61000142DAA /* LSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LSystem.cpp; sourceTree = "<group>"; };
@@ -193,7 +192,6 @@
 		301A971B1F8CE61000142DAA /* txtgen */ = {
 			isa = PBXGroup;
 			children = (
-				301A971C1F8CE61000142DAA /* examples.h */,
 				301A971E1F8CE61000142DAA /* Lexer.hpp */,
 				301A971D1F8CE61000142DAA /* Lexer.cpp */,
 				301A97201F8CE61000142DAA /* LSystem.h */,

@@ -25,6 +25,7 @@ std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring 
     wchar_t currentHead = '\0';
     std::wstring currentTail = L"";
     int lineNr = 0;
+    bool comment = false;
     
     for (size_t i = 0; i < code.size(); i++) {
         wchar_t c = code[i];
@@ -33,7 +34,15 @@ std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring 
             lineNr++;
         }
         
-        if (lookingForHead) {
+        if (comment) {
+            if (c == '\n') {
+                comment = false;
+            }
+        }
+        else if (c == '#') {
+            comment = true;
+        }
+        else if (lookingForHead) {
             if (whitespace.find(c) == std::wstring::npos) {
                 currentHead = c;
                 currentTail = L"";

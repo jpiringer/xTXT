@@ -325,6 +325,10 @@ struct LSystemTokeniserFunctions {
             case 0:
                 break;
                 
+            case '#':
+                source.skipToEndOfLine();
+                return LuaTokeniser::tokenType_comment;
+            
             case ';':
             case '=':
                 source.skip();
@@ -497,7 +501,7 @@ CodeEditorComponent::ColourScheme LSystemTokeniser::getDefaultColourScheme() {
     
     const Type types[] = {
         { "Error",              0xffcc0000 },
-        { "Comment",            0xff00aa00 },
+        { "Comment",            0xffcccccc },
         { "Keyword",            0xff0000cc },
         { "Operator",           0xff00A000 },
         { "Identifier",         0xff000000 },

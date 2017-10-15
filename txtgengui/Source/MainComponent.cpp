@@ -15,6 +15,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "utils.hpp"
+
 #define COMPONENT_ID(i) static String i = #i
 
 COMPONENT_ID(LARGE_FONT_COMPONENT_ID);
@@ -131,7 +133,7 @@ MainContentComponent::MainContentComponent()
 
     getLookAndFeel().setUsingNativeAlertWindows(true);
 
-    setSize(800, 1000);
+    setSize(800, 700);
     
     speaker = createSpeakerInstance();
     
@@ -291,7 +293,7 @@ void MainContentComponent::resized() {
     
     // results & run
     if (showCode) {
-        results->setBounds(r.removeFromBottom(400));
+        results->setBounds(r.removeFromBottom(r.getHeight()/2));
         runButton->setBounds(r.removeFromBottom(25));
         editor->setVisible(true);
         editor->setBounds(r.withTrimmedTop(8));
@@ -706,12 +708,12 @@ void MainContentComponent::chooseExample(int exampleNr) {
                                          0,
                                          ModalCallbackFunction::create([this, exampleNr, examples](int result) {
                 if (result == 1) { // ok
-                    editor->loadContent(examples[exampleNr].second);
+                    editor->loadContent(toUTF8(examples[exampleNr].second));
                 }
             }));
         }
         else {
-            editor->loadContent(examples[exampleNr].second);
+            editor->loadContent(toUTF8(examples[exampleNr].second));
         }
     }
 }

@@ -149,7 +149,7 @@ namespace jp {
         std::wstring errors;
 
     protected:
-        std::wstring expandRule(const std::wstring &ruleName, int lineNr);
+        std::wstring expandRule(const std::wstring &ruleName, int lineNr, int recursionDepth = 0);
         
     public:
         Parser(const std::wstring &str);

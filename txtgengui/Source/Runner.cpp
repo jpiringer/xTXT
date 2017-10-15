@@ -63,7 +63,6 @@ std::string jp::Runner::runLSystem() {
     else {
         lsystem->setState(fromUTF8(text));
         
-        lsystem->addRule('a', L"aba");
         lsystem->iterate();
         
         return toUTF8(lsystem->getState());
@@ -118,7 +117,7 @@ std::string jp::Runner::run() {
     return "Unknown Runner Type";
 }
 
-std::vector<std::pair<std::string,std::string>> jp::Runner::getExamples() {
+std::vector<std::pair<std::string,std::wstring>> jp::Runner::getExamples() {
     switch (runnerType) {
         case Grammar:
             return grammarExamples();

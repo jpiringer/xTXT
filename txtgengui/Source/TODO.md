@@ -4,14 +4,12 @@ more examples
 markov:
 * konjunktionen
 lsystem:
-* österreichisches buchstabieralphabet (polizeifunk)
 * rhythmus generator
 grammar:
+* tutorial: permutate, order, variables, conditions, arithmetik
 * rhythmus generator
 * tempora
 * wittgenstein
-
-windows version
 
 
 # LATER
@@ -31,8 +29,14 @@ show
 * animation des textes
 
 visualisierung
-* graphics für lsystem?
-* text turtle graphics?
+* text turtle graphics
+* + - drehen die turtle, buchstaben geben die buchstaben an,
+* () pushen und poppen den stack
+* | 180 grad drehung
+* schriftgrössenänderung?
+* step mode lässt jeden schritt durchsteppen
+* zoom
+* save to image
 
 print
 * auf receipt-drucker ausdrucken
@@ -109,3 +113,10 @@ unsaved warnings bei quit
 und bei example change (run type change)
 
 icon
+
+* österreichisches buchstabieralphabet (polizeifunk)
+
+infinite recurson detection
+
+windows version
+

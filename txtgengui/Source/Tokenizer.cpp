@@ -20,13 +20,20 @@ std::vector<std::shared_ptr<Token>> Tokenizer::getTokens() {
     std::wstring delimiter = DELIMITER;
     int lineNr = 0;
     bool escape = false;
+    bool comment = false;
     
     std::wstring collectedString = L"";
     enum TokenType currentType = TokenNone;
     for (size_t cpos = 0; cpos < input.size(); cpos++) {
         wchar_t c = input[cpos];
         
-        if (escape) {
+        if (comment) {
+            if (c == '\n') {
+                lineNr++;
+                comment = false;
+            }
+        }
+        else if (escape) {
             escape = false;
             switch (c) {
                 case 'n':
@@ -51,6 +58,9 @@ std::vector<std::shared_ptr<Token>> Tokenizer::getTokens() {
             else {
                 collectedString += c;
             }
+        }
+        else if (c == L'#') {
+            comment = true;
         }
         else if (whitespace.find(c) != std::wstring::npos) {
             if (currentType == TokenOther) {

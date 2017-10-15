@@ -55,7 +55,7 @@ namespace jp {
         void setStringParameter(const std::string &parName, std::string value) {stringParameters[parName] = value;}
         std::string getStringParameter(const std::string &parName);
         
-        std::vector<std::pair<std::string,std::string>> getExamples();
+        std::vector<std::pair<std::string,std::wstring>> getExamples();
     };
 };
 
