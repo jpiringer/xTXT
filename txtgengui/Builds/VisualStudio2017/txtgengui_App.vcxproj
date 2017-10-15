@@ -177,7 +177,6 @@
     <ClCompile Include="..\..\Source\LSystem.cpp" />
     <ClCompile Include="..\..\Source\LSystemTokeniser.cpp" />
     <ClCompile Include="..\..\Source\MainComponent.cpp" />
-    <ClCompile Include="..\..\Source\Main.cpp" />
     <ClCompile Include="..\..\Source\MainWindow.cpp" />
     <ClCompile Include="..\..\Source\Markov.cpp" />
     <ClCompile Include="..\..\Source\NamShub.cpp" />

@@ -502,7 +502,7 @@ void Parser::parse() {
     }
 }
 
-#define MAX_RECURSION_DEPTH 1000
+#define MAX_RECURSION_DEPTH 500
 std::wstring Parser::expandRule(const std::wstring &ruleName, int lineNr, int recursionDepth) {
     std::wstring result = L"";
     
