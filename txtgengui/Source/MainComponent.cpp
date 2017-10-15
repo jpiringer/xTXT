@@ -57,11 +57,12 @@ MainContentComponent::MainContentComponent()
     
     restoreSettings();
     
-    addAndMakeVisible (menuBar = new MenuBarComponent (this));
+    addAndMakeVisible(menuBar = new MenuBarComponent(this));
     
 #if JUCE_MAC
-    menuBar->setModel (nullptr);
-    MenuBarModel::setMacMainMenu (this);
+    menuBar->setModel(nullptr);
+    MenuBarModel::setMacMainMenu(this);
+#else
 #endif
 
     runButton = std::make_shared<TextButton>("Run");
@@ -234,6 +235,11 @@ void MainContentComponent::changeCodeEditor() {
 void MainContentComponent::resized() {
     bool showCode = true;
     Rectangle<int> r(getLocalBounds());
+    
+    // menu
+#if !JUCE_MAC
+    menuBar->setBounds(r.removeFromTop(LookAndFeel::getDefaultLookAndFeel().getDefaultMenuBarHeight()));
+#endif
 
     // top
     filenameComponent.setBounds(r.removeFromTop(25));
