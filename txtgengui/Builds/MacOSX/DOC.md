@@ -7,7 +7,7 @@ SYMBOL2 = SYMBOL1 | START | "a" + START;
 A{permutation} = a | b | c;
 A{random} = a | b | c;
 A{order} = a | b | c;
-A{X=2} = a | b | c;
+A{X==2} = a | b | c;
 
 
 START = {COUNTER = 1} COUNT COUNT COUNT COUNT;
@@ -23,6 +23,6 @@ random: standard
 order: one after the other
 
 
-operatoren für variablen: ++, --, =
+operatoren für variablen: ++, --, =, ==, <=, >=, ~=, +=, -=, *=, /=
 
 

@@ -1,16 +1,5 @@
 #  TODO
 
-more examples
-markov:
-* konjunktionen
-lsystem:
-* rhythmus generator
-grammar:
-* tutorial: permutate, order, variables, conditions, arithmetik
-* rhythmus generator
-* tempora
-* wittgenstein
-
 
 # LATER
 
@@ -120,3 +109,18 @@ infinite recurson detection
 
 windows version
 
+* tempora
+
+lsystem:
+* rhythmus generator
+* tutorial: permutate, order, variables, conditions, arithmetik
+
+* wittgenstein
+
+grammar:
+* rhythmus generator
+
+
+more examples
+markov:
+* konjunktionen
