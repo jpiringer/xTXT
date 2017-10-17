@@ -3,6 +3,10 @@
 
 # LATER
 
+markov prefix len 0: so you can shuffle with a given output text length
+
+word level markov
+
 reenable mode "program"
 
 more Grammar features:
@@ -124,3 +128,5 @@ grammar:
 more examples
 markov:
 * konjunktionen
+
+about

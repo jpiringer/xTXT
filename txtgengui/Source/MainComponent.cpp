@@ -63,8 +63,11 @@ MainContentComponent::MainContentComponent()
     
 #if JUCE_MAC
     menuBar->setModel(nullptr);
-    MenuBarModel::setMacMainMenu(this);
-#else
+    extraAppleMenuItems = std::make_shared<PopupMenu>();
+    extraAppleMenuItems->addItem(aboutCmd, "About...");
+    MenuBarModel::setMacMainMenu(this, extraAppleMenuItems.get());
+#elif JUCE_WINDOWS
+    
 #endif
 
     runButton = std::make_shared<TextButton>("Run");
@@ -340,12 +343,12 @@ void MainContentComponent::filenameComponentChanged(FilenameComponent *) {
 }
 
 StringArray MainContentComponent::getMenuBarNames() {
-    const char *const names[] = { "File", "Edit", nullptr };
-    
+    const char *const names[] = { "File", "Edit", "Help", nullptr };
+
     return StringArray(names);
 }
 
-PopupMenu MainContentComponent::getMenuForIndex (int menuIndex, const String& menuName) {
+PopupMenu MainContentComponent::getMenuForIndex(int menuIndex, const String& menuName) {
     ApplicationCommandManager *commandManager = &MainWindow::getApplicationCommandManager();
     
     PopupMenu menu;
@@ -359,10 +362,16 @@ PopupMenu MainContentComponent::getMenuForIndex (int menuIndex, const String& me
         menu.addCommandItem(commandManager, MainContentComponent::runCmd);
         menu.addSeparator();
         menu.addCommandItem(commandManager, MainContentComponent::settingsCmd);
-   }
+    }
     else if (menuIndex == 1) { // Edit
         menu.addCommandItem(commandManager, MainContentComponent::undoCmd);
         menu.addCommandItem(commandManager, MainContentComponent::redoCmd);
+    }
+    else if (menuIndex == 2) { // Help
+#if JUCE_WINDOWS
+        menu.addCommandItem(commandManager, MainContentComponent::aboutCmd);
+#endif
+        menu.addCommandItem(commandManager, MainContentComponent::websiteCmd);
     }
     /*else if (menuIndex == 1)
     {
@@ -424,7 +433,10 @@ void MainContentComponent::menuItemSelected (int menuItemID, int topLevelMenuInd
     // most of our menu items are invoked automatically as commands, but we can handle the
     // other special cases here..
     
-    if (menuItemID == 6000)
+    if (topLevelMenuIndex == -1 && menuItemID == aboutCmd) {
+        showAbout();
+    }
+    else if (menuItemID == 6000)
     {
 #if JUCE_MAC
         if (MenuBarModel::getMacMainMenu() != nullptr)
@@ -439,7 +451,7 @@ void MainContentComponent::menuItemSelected (int menuItemID, int topLevelMenuInd
         }
 #endif
     }
-    else if (menuItemID >= 3000 && menuItemID <= 3003)
+    /*else if (menuItemID >= 3000 && menuItemID <= 3003)
     {
         if (TabbedComponent* tabs = findParentComponentOfClass<TabbedComponent>())
         {
@@ -455,7 +467,7 @@ void MainContentComponent::menuItemSelected (int menuItemID, int topLevelMenuInd
     else if (menuItemID >= 12298 && menuItemID <= 12305)
     {
         //sendChangeMessage();
-    }
+    }*/
 }
 
 void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
@@ -468,16 +480,20 @@ void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
         MainContentComponent::speakCmd,
         MainContentComponent::undoCmd,
         MainContentComponent::redoCmd,
-        MainContentComponent::settingsCmd
+        MainContentComponent::settingsCmd,
+        MainContentComponent::aboutCmd,
+        MainContentComponent::websiteCmd
     };
     
     commands.addArray (ids, numElementsInArray(ids));
 }
 
-void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) {
+void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationCommandInfo &result) {
     const String generalCategory("General");
     const String codeCategory("Code");
     const String editCategory("Edit");
+    const String appleCategory("Apple");
+    const String helpCategory("Help");
 
     switch (commandID) {
         case MainContentComponent::runCmd:
@@ -512,6 +528,12 @@ void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationComman
             result.setInfo("Settings...", "Show Settings", generalCategory, 0);
             result.addDefaultKeypress(',', ModifierKeys::commandModifier);
             break;
+        case MainContentComponent::aboutCmd:
+            result.setInfo("About xTXT...", "Show About", appleCategory, 0);
+            break;
+        case MainContentComponent::websiteCmd:
+            result.setInfo("More info...", "Show joerg piringer's website", helpCategory, 0);
+            break;
     }
 }
 
@@ -522,36 +544,40 @@ ApplicationCommandTarget *MainContentComponent::getNextCommandTarget() {
 }
 
 bool MainContentComponent::perform(const InvocationInfo& info) {
-    //if (auto *mainWindow = MainWindow::getMainAppWindow()) {
-        switch (info.commandID) {
-            case MainContentComponent::runCmd:
-                run();
-                break;
-            case MainContentComponent::saveCmd:
-                saveFile();
-                break;
-            case MainContentComponent::openCmd:
-                openFile();
-                break;
-            case MainContentComponent::newCmd:
-                newFile();
-                break;
-            case MainContentComponent::speakCmd:
-                speak();
-                break;
-            case MainContentComponent::undoCmd:
-                undoManager.undo();
-                break;
-            case MainContentComponent::redoCmd:
-                undoManager.redo();
-                break;
-            case MainContentComponent::settingsCmd:
-                showSettings();
-                break;
-            default:
-                return false;
-        }
-    //}
+    switch (info.commandID) {
+        case MainContentComponent::runCmd:
+            run();
+            break;
+        case MainContentComponent::saveCmd:
+            saveFile();
+            break;
+        case MainContentComponent::openCmd:
+            openFile();
+            break;
+        case MainContentComponent::newCmd:
+            newFile();
+            break;
+        case MainContentComponent::speakCmd:
+            speak();
+            break;
+        case MainContentComponent::undoCmd:
+            undoManager.undo();
+            break;
+        case MainContentComponent::redoCmd:
+            undoManager.redo();
+            break;
+        case MainContentComponent::settingsCmd:
+            showSettings();
+            break;
+        case MainContentComponent::aboutCmd:
+            showAbout();
+            break;
+        case MainContentComponent::websiteCmd:
+            showWebsite();
+            break;
+        default:
+            return false;
+    }
     return true;
 }
 
@@ -716,6 +742,19 @@ void MainContentComponent::chooseExample(int exampleNr) {
             editor->loadContent(toUTF8(examples[exampleNr].second));
         }
     }
+}
+
+void MainContentComponent::showAbout() {
+    AlertWindow::AlertIconType icon = AlertWindow::InfoIcon;
+    
+    AlertWindow::showMessageBoxAsync (icon,
+                                      "xTXT by joerg piringer",
+                                      "xTXT was created by joerg piringer in 2017.\nfor more info look at http://joerg.piringer.net/xTXT",
+                                      "OK");
+}
+
+void MainContentComponent::showWebsite() {
+    Process::openDocument("http://joerg.piringer.net/xTXT", String::empty);
 }
 
 void MainContentComponent::comboBoxChanged(ComboBox *comboBoxThatHasChanged) {

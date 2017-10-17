@@ -51,19 +51,21 @@ public:
         undoCmd = 0x3100,
         redoCmd = 0x3200,
         settingsCmd = 0x1100,
-        settingsLargeFontCmd = 0x1105
+        settingsLargeFontCmd = 0x1105,
+        aboutCmd = 0x10101,
+        websiteCmd = 0x10102
     };
 
 private:
     void restoreSettings();
-    void filenameComponentChanged(FilenameComponent*) override;
+    void filenameComponentChanged(FilenameComponent *) override;
     void loadFileNow(File file);
     void loadFile(File file);
     void saveFile(const File &file);
     void showSettings();
     
     StringArray getMenuBarNames() override;
-    PopupMenu getMenuForIndex (int menuIndex, const String& /*menuName*/) override;
+    PopupMenu getMenuForIndex(int menuIndex, const String& /*menuName*/) override;
     void menuItemSelected (int menuItemID, int /*topLevelMenuIndex*/) override;
     void getCommandInfo (CommandID commandID, ApplicationCommandInfo& result) override;
     void getAllCommands (Array<CommandID>& commands) override;
@@ -80,8 +82,11 @@ private:
     void saveFile();
     void newFile();
     void speak();
+    void showAbout();
+    void showWebsite();
     
     ScopedPointer<MenuBarComponent> menuBar;
+    std::shared_ptr<PopupMenu> extraAppleMenuItems = nullptr;
 
     // this is the document that the editor component is showing
     CodeDocument codeDocument;
