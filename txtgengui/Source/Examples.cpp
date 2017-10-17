@@ -359,7 +359,7 @@ verschon uns, gott! mit strafen,
 und laß uns ruhig schlafen!
 und unsern kranken nachbar auch!)"
 },
-{"wörter",
+{"woerter",
 LR"(abgekratzter
 abkoche
 abgefülltem

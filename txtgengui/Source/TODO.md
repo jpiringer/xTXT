@@ -3,6 +3,8 @@
 
 # LATER
 
+title for examples utf8 compatible on windows (use std::wstring)
+
 markov prefix len 0: so you can shuffle with a given output text length
 
 word level markov
