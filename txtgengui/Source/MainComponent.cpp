@@ -64,7 +64,7 @@ MainContentComponent::MainContentComponent()
 #if JUCE_MAC
     menuBar->setModel(nullptr);
     extraAppleMenuItems = std::make_shared<PopupMenu>();
-    extraAppleMenuItems->addItem(aboutCmd, "About...");
+    extraAppleMenuItems->addItem(aboutCmd, "About xTXT...");
     MenuBarModel::setMacMainMenu(this, extraAppleMenuItems.get());
 #elif JUCE_WINDOWS
     
