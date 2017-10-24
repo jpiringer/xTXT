@@ -26,9 +26,31 @@ std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring 
     std::wstring currentTail = L"";
     int lineNr = 0;
     bool comment = false;
+    bool lookingForEscape = false;
     
     for (size_t i = 0; i < code.size(); i++) {
         wchar_t c = code[i];
+        auto escapeTrans = [&c, lookingForEscape, lineNr, lsystem] {
+            if (lookingForEscape) {
+                switch (c) {
+                    case 'n':
+                        c = '\n';
+                        break;
+                    case 's':
+                        c = ' ';
+                        break;
+                    case '\\':
+                        c = '\\';
+                        break;
+                    default: {
+                        std::wstring cstr = L"";
+                        cstr += c;
+                        lsystem->_error(L"wrong escape sequence '\\"+cstr+L"'", lineNr);
+                        break;
+                    }
+                }
+            }
+        };
         
         if (c == '\n') {
             lineNr++;
@@ -44,10 +66,17 @@ std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring 
         }
         else if (lookingForHead) {
             if (whitespace.find(c) == std::wstring::npos) {
-                currentHead = c;
-                currentTail = L"";
-                lookingForHead = false;
-                lookingForEqual = true;
+                if (c == '\\' && !lookingForEscape) {
+                    lookingForEscape = true;
+                }
+                else {
+                    escapeTrans();
+                    currentHead = c;
+                    currentTail = L"";
+                    lookingForHead = false;
+                    lookingForEqual = true;
+                    lookingForEscape = false;
+                }
             }
         }
         else if (lookingForEqual) {
@@ -57,44 +86,40 @@ std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring 
                     lookingForTailStart = true;
                 }
                 else { // error
-                    error(L"no '=' found", lineNr);
+                    error(L"no '=' found. maybe your rule head is too long?", lineNr);
                 }
             }
         }
         else if (lookingForTailStart) {
             if (whitespace.find(c) == std::wstring::npos) {
-                lookingForTailStart = false;
-                lookingForSemicolon = true;
-                currentTail += c;
+                if (c == '\\' && !lookingForEscape) {
+                    lookingForEscape = true;
+                }
+                else {
+                    lookingForTailStart = false;
+                    lookingForSemicolon = true;
+                    escapeTrans();
+                    currentTail += c;
+                }
             }
         }
         else if (lookingForSemicolon) {
-            if (c == ';') {
-                lookingForSemicolon = false;
-                lookingForHead = true;
-                lsystem->addRule(currentHead, currentTail);
+            if (c == '\\' && !lookingForEscape) {
+                lookingForEscape = true;
             }
             else {
-                currentTail += c;
+                if (c == ';') {
+                    lookingForSemicolon = false;
+                    lookingForHead = true;
+                    lsystem->addRule(currentHead, currentTail);
+                }
+                else {
+                    escapeTrans();
+                    currentTail += c;
+                }
             }
         }
     }
     
     return lsystem;
-}
-
-void initLSystem()
-{
-	/*LSystem<char, string> test;
-	
-	test.setState("geschmurgel");
-	test.addRule('e', "ebe");
-	test.addRule('u', "ubu");
-	
-	test.iterate();
-	printf("state1: %s\n", test.getState().c_str());
-	test.iterate();
-	printf("state2: %s\n", test.getState().c_str());
-	test.iterate();
-	printf("state3: %s\n", test.getState().c_str());*/
 }

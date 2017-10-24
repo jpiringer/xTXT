@@ -48,11 +48,14 @@ void MarkovTable::addPrefixWithChar(std::wstring prefix, wchar_t c) {
 }
 
 void MarkovTable::addString(const std::wstring &str) {
-    for (size_t pos = 0; pos < str.length(); pos++) {
-        std::wstring sub = str.substr(pos, prefixLen+1);
-        
-        if (sub.length() == prefixLen+1) {
-            addPrefixWithChar(sub.substr(0,prefixLen), sub[prefixLen]);
+    source = str;
+    if (prefixLen > 0) {
+        for (size_t pos = 0; pos < str.length(); pos++) {
+            std::wstring sub = str.substr(pos, prefixLen+1);
+            
+            if (sub.length() == prefixLen+1) {
+                addPrefixWithChar(sub.substr(0,prefixLen), sub[prefixLen]);
+            }
         }
     }
 }
@@ -77,21 +80,31 @@ std::wstring MarkovTable::generateSeed() {
 
 std::wstring MarkovTable::getString(size_t len) {
     std::wstring result = L"";
-    std::wstring seed = generateSeed();
     
-    for (int i = 0; i < len; i++) {
-        auto probtable = chains[seed];
+    if (prefixLen > 0) {
+        std::wstring seed = generateSeed();
         
-        while (probtable == nullptr) {
-            seed = generateSeed();
-            probtable = chains[seed];
+        for (int i = 0; i < len; i++) {
+            auto probtable = chains[seed];
+            
+            while (probtable == nullptr) {
+                seed = generateSeed();
+                probtable = chains[seed];
+            }
+            wchar_t c = probtable->generateChar();
+            
+            result += c;
+            
+            seed += c;
+            seed = seed.substr(1);
         }
-        wchar_t c = probtable->generateChar();
-        
-        result += c;
-        
-        seed += c;
-        seed = seed.substr(1);
+    }
+    else {
+        for (int i = 0; i < len; i++) {
+            int charPos = rand() % source.length();
+
+            result += source[charPos];
+        }
     }
     
     return result;

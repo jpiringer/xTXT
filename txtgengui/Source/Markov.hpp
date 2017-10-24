@@ -27,6 +27,7 @@ public:
 class MarkovTable {
     std::unordered_map<std::wstring, std::shared_ptr<MarkovProbTable>> chains;
     size_t prefixLen;
+    std::wstring source;
     
 protected:
     void addPrefixWithChar(std::wstring prefix, wchar_t c);

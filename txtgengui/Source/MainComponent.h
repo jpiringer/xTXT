@@ -15,6 +15,8 @@
 #include "GrammarTokeniser.hpp"
 #include "LSystemTokeniser.hpp"
 
+#include "ShowWindow.hpp"
+
 #include <memory>
 #include <vector>
 
@@ -28,7 +30,8 @@ class MainContentComponent :
     public MenuBarModel,
     private FilenameComponentListener,
     public ButtonListener,
-    public ComboBoxListener,
+    public Slider::Listener,
+    public ComboBox::Listener,
     public ApplicationCommandTarget
 {
 public:
@@ -48,6 +51,7 @@ public:
         openCmd = 0x2300,
         newCmd = 0x2400,
         speakCmd = 0x2500,
+        showCmd = 0x2505,
         undoCmd = 0x3100,
         redoCmd = 0x3200,
         settingsCmd = 0x1100,
@@ -75,6 +79,7 @@ private:
     // listeners
     void buttonClicked (Button* button) override;
     void comboBoxChanged(ComboBox *comboBoxThatHasChanged) override;
+    void sliderValueChanged(Slider *slider) override;
     
     // commands
     void run();
@@ -84,6 +89,7 @@ private:
     void speak();
     void showAbout();
     void showWebsite();
+    void show();
     
     ScopedPointer<MenuBarComponent> menuBar;
     std::shared_ptr<PopupMenu> extraAppleMenuItems = nullptr;
@@ -101,13 +107,15 @@ private:
     
     // settings
     SafePointer<DialogWindow> dialogWindow;
-    
+    SafePointer<ShowWindow> showWindow;
+
     // components
     std::shared_ptr<CodeEditorComponent> editor = nullptr;
     std::shared_ptr<TextEditor> results = nullptr;
     std::shared_ptr<TextButton> runButton = nullptr;
     std::shared_ptr<TextButton> speakButton = nullptr;
     std::shared_ptr<TextButton> stopSpeakButton = nullptr;
+    std::shared_ptr<TextButton> showButton = nullptr;
     FilenameComponent filenameComponent;
 
     bool ignoreExampleComboBoxNotification = false;
@@ -119,13 +127,16 @@ private:
     std::shared_ptr<Slider> markovPrefixLen = nullptr;
     std::shared_ptr<Slider> markovTextLen = nullptr;
     std::vector<std::shared_ptr<TextButton>> methodButtons;
+    
+    std::shared_ptr<Label> lsystemAngleLabel;
+    std::shared_ptr<Slider> lsystemAngle = nullptr;
 
     std::vector<std::shared_ptr<Component>> parameterComponents;
     void makeParametersVisible();
     void addParameterComponent(std::shared_ptr<Component> c);
     void changeCodeEditor();
 
-    jp::Runner runner;
+    std::shared_ptr<jp::Runner> runner;
     std::shared_ptr<jp::Speaker> speaker;
     
     std::vector<std::pair<std::string, jp::RunnerType>> runTypeNames = {
@@ -139,7 +150,7 @@ private:
     std::vector<std::shared_ptr<TextButton>> runTypeButtons;
     
     void setCurrentRunnerType(jp::RunnerType rt);
-    jp::RunnerType getCurrentRunnerType() {return runner.getType();}
+    jp::RunnerType getCurrentRunnerType() {if (runner == nullptr) return jp::Markov; else return runner->getType();}
     void chooseExample(int exampleNr);
     
     UndoManager undoManager;

@@ -17,12 +17,9 @@
 
 #include "Examples.hpp"
 
-#include <iostream>
+#include "TextTurtleGraphics.hpp"
 
-jp::Runner::Runner(enum RunnerType rtype)
-: runnerType(rtype) {
-    
-}
+#include <iostream>
 
 double jp::Runner::getParameter(const std::string &parName) {
     if (parameters.find(parName) == parameters.end()) {
@@ -38,7 +35,11 @@ std::string jp::Runner::getStringParameter(const std::string &parName) {
     return stringParameters[parName];
 }
 
-std::string jp::Runner::runAutomate() {
+// ====================================================================================
+// AutomateRunner
+// ====================================================================================
+
+std::string jp::AutomateRunner::run() {
     std::wstring expression = fromUTF8(code);
     jp::Parser parser(expression);
     
@@ -53,7 +54,25 @@ std::string jp::Runner::runAutomate() {
     return toUTF8(result);
 }
 
-std::string jp::Runner::runLSystem() {
+std::vector<std::pair<std::string,std::wstring>> jp::AutomateRunner::getExamples() {
+    return grammarExamples();
+}
+
+DrawFunction jp::AutomateRunner::getDrawFunction() {
+    return [](Graphics &g, int width, int height, const std::wstring &, double time) {
+        
+    };
+}
+
+bool jp::AutomateRunner::isAnimated() {
+    return true;
+}
+
+// ====================================================================================
+// LSystemRunner
+// ====================================================================================
+
+std::string jp::LSystemRunner::run() {
     auto lsystem = parseLSystem(fromUTF8(code));
     
     if (lsystem->getErrorCount() > 0) {
@@ -69,7 +88,23 @@ std::string jp::Runner::runLSystem() {
     }
 }
 
-std::string jp::Runner::runMarkov() {
+std::vector<std::pair<std::string,std::wstring>> jp::LSystemRunner::getExamples() {
+    return LSystemExamples();
+}
+
+DrawFunction jp::LSystemRunner::getDrawFunction() {
+    return TextTurtleGraphics::getDrawFunction(this);
+}
+
+bool jp::LSystemRunner::isAnimated() {
+    return false;
+}
+
+// ====================================================================================
+// MarkovRunner
+// ====================================================================================
+
+std::string jp::MarkovRunner::run() {
     auto source = fromUTF8(code);
     MarkovTable markov(getParameter("prefixLen"));
     markov.addString(source);
@@ -77,7 +112,25 @@ std::string jp::Runner::runMarkov() {
     return toUTF8(markov.getString(getParameter("textLen")));
 }
 
-std::string jp::Runner::runProgram() {
+std::vector<std::pair<std::string,std::wstring>> jp::MarkovRunner::getExamples() {
+    return markovExamples();
+}
+
+DrawFunction jp::MarkovRunner::getDrawFunction() {
+    return [](Graphics &g, int width, int height, const std::wstring &, double time) {
+        
+    };
+}
+
+bool jp::MarkovRunner::isAnimated() {
+    return true;
+}
+
+// ====================================================================================
+// ProgramRunner
+// ====================================================================================
+
+std::string jp::ProgramRunner::run() {
     LuaProgram program;
     
     program.setCode(code);
@@ -93,42 +146,40 @@ std::string jp::Runner::runProgram() {
     return result;
 }
 
-std::string jp::Runner::runNamShub() {
+std::vector<std::pair<std::string,std::wstring>> jp::ProgramRunner::getExamples() {
+    return programExamples();
+}
+
+DrawFunction jp::ProgramRunner::getDrawFunction() {
+    return [](Graphics &g, int width, int height, const std::wstring &, double time) {
+        
+    };
+}
+
+bool jp::ProgramRunner::isAnimated() {
+    return true;
+}
+
+// ====================================================================================
+// NamShubRunner
+// ====================================================================================
+
+std::string jp::NamShubRunner::run() {
     NamShubExecutor namShub;
     
     return toUTF8(namShub.executeCommand(getStringParameter("command"), fromUTF8(text)));
 }
 
-std::string jp::Runner::run() {
-    switch (runnerType) {
-        case Grammar:
-            return runAutomate();
-        case LSystem:
-            return runLSystem();
-        case Markov:
-            return runMarkov();
-        case Program:
-            return runProgram();
-        case NamShub:
-            return runNamShub();
-        default:
-            break;
-    }
-    return "Unknown Runner Type";
+std::vector<std::pair<std::string,std::wstring>> jp::NamShubRunner::getExamples() {
+    return {};
 }
 
-std::vector<std::pair<std::string,std::wstring>> jp::Runner::getExamples() {
-    switch (runnerType) {
-        case Grammar:
-            return grammarExamples();
-        case LSystem:
-            return LSystemExamples();
-        case Markov:
-            return markovExamples();
-        case Program:
-            return programExamples();
-        default:
-            break;
-    }
-    return {};
+DrawFunction jp::NamShubRunner::getDrawFunction() {
+    return [](Graphics &g, int width, int height, const std::wstring &, double time) {
+        
+    };
+}
+
+bool jp::NamShubRunner::isAnimated() {
+    return true;
 }

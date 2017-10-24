@@ -28,6 +28,8 @@
 		301A97361F8CE7C800142DAA /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301A97351F8CE7C800142DAA /* liblua.a */; };
 		301A97391F8CEE9300142DAA /* German.aff in Resources */ = {isa = PBXBuildFile; fileRef = 301A97381F8CEE7400142DAA /* German.aff */; };
 		301A973A1F8CEE9700142DAA /* German.dic in Resources */ = {isa = PBXBuildFile; fileRef = 301A97371F8CEE7400142DAA /* German.dic */; };
+		302866EB1F9F64FE00187E85 /* ShowWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302866E91F9F64FE00187E85 /* ShowWindow.cpp */; };
+		302866EE1F9FB81F00187E85 /* TextTurtleGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302866EC1F9FB81F00187E85 /* TextTurtleGraphics.cpp */; };
 		30321F471F8660EE00A23A6B /* Examples.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30321F451F8660EE00A23A6B /* Examples.cpp */; };
 		3041F2831F82683000F37B01 /* Runner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3041F2811F82683000F37B01 /* Runner.cpp */; };
 		3041F2971F826C2500F37B01 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3041F2951F826C2500F37B01 /* utils.cpp */; };
@@ -88,6 +90,10 @@
 		301A97351F8CE7C800142DAA /* liblua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua.a; path = ../../../../../../../usr/local/lib/liblua.a; sourceTree = "<group>"; };
 		301A97371F8CEE7400142DAA /* German.dic */ = {isa = PBXFileReference; lastKnownFileType = text; path = German.dic; sourceTree = "<group>"; };
 		301A97381F8CEE7400142DAA /* German.aff */ = {isa = PBXFileReference; lastKnownFileType = text; path = German.aff; sourceTree = "<group>"; };
+		302866E91F9F64FE00187E85 /* ShowWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ShowWindow.cpp; path = ../../Source/ShowWindow.cpp; sourceTree = "<group>"; };
+		302866EA1F9F64FE00187E85 /* ShowWindow.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ShowWindow.hpp; path = ../../Source/ShowWindow.hpp; sourceTree = "<group>"; };
+		302866EC1F9FB81F00187E85 /* TextTurtleGraphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TextTurtleGraphics.cpp; path = ../../Source/TextTurtleGraphics.cpp; sourceTree = "<group>"; };
+		302866ED1F9FB81F00187E85 /* TextTurtleGraphics.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TextTurtleGraphics.hpp; path = ../../Source/TextTurtleGraphics.hpp; sourceTree = "<group>"; };
 		30321F451F8660EE00A23A6B /* Examples.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Examples.cpp; path = ../../Source/Examples.cpp; sourceTree = "<group>"; };
 		30321F461F8660EE00A23A6B /* Examples.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Examples.hpp; path = ../../Source/Examples.hpp; sourceTree = "<group>"; };
 		3041F2811F82683000F37B01 /* Runner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Runner.cpp; path = ../../Source/Runner.cpp; sourceTree = "<group>"; };
@@ -111,6 +117,7 @@
 		308E2EBD1F8CE41E00001AA8 /* de_DE.dic */ = {isa = PBXFileReference; lastKnownFileType = text; path = de_DE.dic; sourceTree = "<group>"; };
 		308E2EBE1F8CE41E00001AA8 /* en_US.aff */ = {isa = PBXFileReference; lastKnownFileType = text; path = en_US.aff; sourceTree = "<group>"; };
 		308E2EBF1F8CE41E00001AA8 /* en_US.dic */ = {isa = PBXFileReference; lastKnownFileType = text; path = en_US.dic; sourceTree = "<group>"; };
+		309318FE1F98F75C00D8A760 /* CHANGES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGES.md; sourceTree = "<group>"; };
 		30AF49179185AA832F3E631A /* Info-App.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-App.plist"; sourceTree = SOURCE_ROOT; };
 		357A8F7AF49826922CB6EFDF /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3D09E06C4E669C722463444E /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
@@ -254,6 +261,10 @@
 				30321F451F8660EE00A23A6B /* Examples.cpp */,
 				3063DC241F8E4428009585FC /* UndoableActions.hpp */,
 				3063DC231F8E4428009585FC /* UndoableActions.cpp */,
+				302866EA1F9F64FE00187E85 /* ShowWindow.hpp */,
+				302866E91F9F64FE00187E85 /* ShowWindow.cpp */,
+				302866ED1F9FB81F00187E85 /* TextTurtleGraphics.hpp */,
+				302866EC1F9FB81F00187E85 /* TextTurtleGraphics.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -349,6 +360,7 @@
 				3087D39D1F8291B1009C157F /* TODO.md */,
 				301A972D1F8CE62300142DAA /* DOC.md */,
 				3063DC261F8E5D63009585FC /* PROGRAM.md */,
+				309318FE1F98F75C00D8A760 /* CHANGES.md */,
 				743FC3E3BDA6C1040584E7E0 /* txtgengui */,
 				82FD58B68D6ACD98837B2298 /* Juce Modules */,
 				8CB775079824436AD4C11488 /* Juce Library Code */,
@@ -464,6 +476,7 @@
 				301A97191F8CE59300142DAA /* Platform.mm in Sources */,
 				3087D3A01F82B60E009C157F /* GrammarTokeniser.cpp in Sources */,
 				94D474A8630F15BBF85B5283 /* include_juce_cryptography.mm in Sources */,
+				302866EB1F9F64FE00187E85 /* ShowWindow.cpp in Sources */,
 				301A97311F8CE66A00142DAA /* NamShub.cpp in Sources */,
 				301A972F1F8CE65B00142DAA /* LSystem.cpp in Sources */,
 				301A97331F8CE67000142DAA /* Program.cpp in Sources */,
@@ -477,6 +490,7 @@
 				B66BE7EE0C011864278CFD29 /* include_juce_gui_extra.mm in Sources */,
 				250F966983052EF964E8D6C3 /* include_juce_opengl.mm in Sources */,
 				3063DC251F8E4428009585FC /* UndoableActions.cpp in Sources */,
+				302866EE1F9FB81F00187E85 /* TextTurtleGraphics.cpp in Sources */,
 				3087D3A31F82C55E009C157F /* Speaker.mm in Sources */,
 				7F9F77A9693167216509740C /* include_juce_video.mm in Sources */,
 			);

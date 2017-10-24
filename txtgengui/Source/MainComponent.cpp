@@ -74,6 +74,9 @@ MainContentComponent::MainContentComponent()
     runButton->addListener(this);
     addAndMakeVisible(*runButton);
 
+    showButton = std::make_shared<TextButton>("Show");
+    showButton->addListener(this);
+    addAndMakeVisible(*showButton);
     speakButton = std::make_shared<TextButton>("Speak");
     speakButton->addListener(this);
     addAndMakeVisible(*speakButton);
@@ -94,7 +97,7 @@ MainContentComponent::MainContentComponent()
     markovPrefixLen = std::make_shared<Slider>();
     markovPrefixLen->setSliderStyle(Slider::LinearHorizontal);
     markovPrefixLen->setTextBoxStyle(Slider::TextBoxRight, false, 80, 20);
-    markovPrefixLen->setRange(1, 10, 1);
+    markovPrefixLen->setRange(0, 10, 1);
     markovPrefixLen->setValue(3);
     markovTextLen = std::make_shared<Slider>();
     markovTextLen->setSliderStyle(Slider::LinearHorizontal);
@@ -106,6 +109,17 @@ MainContentComponent::MainContentComponent()
     addParameterComponent(markovTextLabel);
     addParameterComponent(markovPrefixLen);
     addParameterComponent(markovTextLen);
+    
+    lsystemAngleLabel = std::make_shared<Label>();
+    lsystemAngleLabel->setText("Angle:", dontSendNotification);
+    lsystemAngle = std::make_shared<Slider>();
+    lsystemAngle->setSliderStyle(Slider::LinearHorizontal);
+    lsystemAngle->setTextBoxStyle(Slider::TextBoxRight, false, 80, 20);
+    lsystemAngle->setRange(0, 360, 1);
+    lsystemAngle->setValue(10);
+    lsystemAngle->addListener(this);
+    addParameterComponent(lsystemAngleLabel);
+    addParameterComponent(lsystemAngle);
     
     std::vector<std::string> methods = {
         "dup", "reverse", "sort", "rip", "shuffle",
@@ -135,9 +149,9 @@ MainContentComponent::MainContentComponent()
     results->setColour(TextEditor::textColourId, Colour(0, 0, 0));
 
     getLookAndFeel().setUsingNativeAlertWindows(true);
-
+   
     setSize(800, 700);
-    
+
     speaker = createSpeakerInstance();
     
     for (int i = 0; i < runTypeNames.size(); ++i) {
@@ -170,6 +184,8 @@ MainContentComponent::~MainContentComponent() {
     dialogWindow->exitModalState(0);
     dialogWindow.deleteAndZero();
     
+    showWindow.deleteAndZero();
+    
     PopupMenu::dismissAllActiveMenus();
 
     filenameComponent.removeListener(this);
@@ -194,6 +210,10 @@ void MainContentComponent::makeParametersVisible() {
             markovTextLen->setVisible(true);
             markovPrefixLabel->setVisible(true);
             markovTextLabel->setVisible(true);
+            break;
+        case jp::LSystem:
+            lsystemAngleLabel->setVisible(true);
+            lsystemAngle->setVisible(true);
             break;
         case jp::NamShub:
             for (auto b : methodButtons) {
@@ -251,7 +271,8 @@ void MainContentComponent::resized() {
     Rectangle<int> runTypeArea(r.removeFromTop(30));
     int runTypeAreaWidth = runTypeArea.getWidth();
     runTypeGroup.setBounds(runTypeArea.removeFromLeft(runTypeAreaWidth/3*2));
-    if( getCurrentRunnerType() == jp::NamShub) {
+    
+    if (getCurrentRunnerType() == jp::NamShub) {
         examplesComboBox->setVisible(false);
     }
     else {
@@ -270,6 +291,13 @@ void MainContentComponent::resized() {
             markovPrefixLen->setBounds(markovArea.removeFromLeft(partition*3));
             markovTextLabel->setBounds(markovArea.removeFromLeft(partition));
             markovTextLen->setBounds(markovArea.removeFromLeft(partition*3));
+            break;
+        }
+        case jp::LSystem: {
+            Rectangle<int> lsystemArea(r.removeFromTop(25));
+            int partition = lsystemArea.getWidth()/8;
+            lsystemAngleLabel->setBounds(lsystemArea.removeFromLeft(partition));
+            lsystemAngle->setBounds(lsystemArea.removeFromLeft(partition*3));
             break;
         }
         case jp::NamShub: {
@@ -291,7 +319,9 @@ void MainContentComponent::resized() {
     
     // speak
     Rectangle<int> speakArea(r.removeFromBottom(25));
-    speakButton->setBounds(speakArea.removeFromLeft(speakArea.getWidth()/2));
+    int bw = speakArea.getWidth()/3;
+    showButton->setBounds(speakArea.removeFromLeft(bw));
+    speakButton->setBounds(speakArea.removeFromLeft(bw));
     stopSpeakButton->setBounds(speakArea);
     
     // results & run
@@ -478,6 +508,7 @@ void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
         MainContentComponent::openCmd,
         MainContentComponent::newCmd,
         MainContentComponent::speakCmd,
+        MainContentComponent::showCmd,
         MainContentComponent::undoCmd,
         MainContentComponent::redoCmd,
         MainContentComponent::settingsCmd,
@@ -515,6 +546,10 @@ void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationComman
         case MainContentComponent::speakCmd:
             result.setInfo("Speak", "Speak results", codeCategory, 0);
             result.addDefaultKeypress('t', ModifierKeys::commandModifier);
+            break;
+        case MainContentComponent::showCmd:
+            result.setInfo("Show", "Show results", codeCategory, 0);
+            result.addDefaultKeypress('d', ModifierKeys::commandModifier);
             break;
         case MainContentComponent::undoCmd:
             result.setInfo("Undo", "Undo result changes", editCategory, 0);
@@ -559,6 +594,9 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
             break;
         case MainContentComponent::speakCmd:
             speak();
+            break;
+        case MainContentComponent::showCmd:
+            show();
             break;
         case MainContentComponent::undoCmd:
             undoManager.undo();
@@ -659,21 +697,23 @@ void MainContentComponent::run() {
         text = results->getHighlightedText().toStdString();
     }
     
-    runner.resetErrors();
-    runner.setCode(content);
-    runner.setText(text);
-    
     switch (getCurrentRunnerType()) {
         case jp::Markov:
-            runner.setParameter("prefixLen", markovPrefixLen->getValue());
-            runner.setParameter("textLen", markovTextLen->getValue());
+            runner->setParameter("prefixLen", markovPrefixLen->getValue());
+            runner->setParameter("textLen", markovTextLen->getValue());
             break;
+        case jp::LSystem:
+            runner->setParameter("angle", lsystemAngle->getValue());
         default:
             break;
     }
 
-    auto runnerResults = runner.run();
-    if (runner.hasErrors()) {
+    runner->resetErrors();
+    runner->setCode(content);
+    runner->setText(text);
+
+    auto runnerResults = runner->run();
+    if (runner->hasErrors()) {
         results->setColour(TextEditor::textColourId, Colour(0xff, 0, 0));
     }
     else {
@@ -694,6 +734,10 @@ void MainContentComponent::run() {
         results->setText(firstFragment+runnerResults+secondFragment);
         results->setHighlightedRegion(Range<int>(selection.getStart(), (int)selection.getStart()+(int)runnerResults.length()));
     }
+    
+    if (showWindow != nullptr) {
+        showWindow->update(fromUTF8(results->getText().toStdString()));
+    }
 }
 
 void MainContentComponent::speak() {
@@ -702,10 +746,68 @@ void MainContentComponent::speak() {
     speaker->speak(content.toStdString());
 }
 
+inline Colour getRandomColour (float brightness)
+{
+    return Colour::fromHSV (Random::getSystemRandom().nextFloat(), 0.5f, brightness, 1.0f);
+}
+
+inline Colour getRandomBrightColour()   { return getRandomColour (0.8f); }
+
+void MainContentComponent::show() {
+    bool native = true;
+
+    if (showWindow != nullptr) {
+        showWindow->stopAnimation();
+        showWindow.deleteAndZero();
+    }
+    
+    showWindow = new ShowWindow();
+    
+    Rectangle<int> area (0, 0, 600, 400);
+    
+    RectanglePlacement placement((native ? RectanglePlacement::xLeft
+                                   : RectanglePlacement::xRight)
+                                  | RectanglePlacement::yTop
+                                  | RectanglePlacement::doNotResize);
+    
+    Rectangle<int> result(placement.appliedTo(area, Desktop::getInstance().getDisplays()
+                                                .getMainDisplay().userArea.reduced (20)));
+    showWindow->setBounds(result);
+    
+    showWindow->setResizable(true, !native);
+    showWindow->setUsingNativeTitleBar(native);
+    showWindow->setVisible(true);
+    
+    showWindow->setDrawFunction(runner->getDrawFunction());
+    showWindow->update(fromUTF8(results->getText().toStdString()));
+
+    if (runner->isAnimated()) {
+        showWindow->startAnimation();
+    }
+}
+
 void MainContentComponent::setCurrentRunnerType(jp::RunnerType rt) {
-    runner.setType(rt);
-    //if (!editor->getDocument().hasChangedSinceSavePoint()) {
-    auto examples = runner.getExamples();
+    switch (rt) {
+        case jp::Grammar:
+            runner = std::make_shared<jp::AutomateRunner>();
+            break;
+        case jp::LSystem:
+            runner = std::make_shared<jp::LSystemRunner>();
+            break;
+        case jp::Markov:
+            runner = std::make_shared<jp::MarkovRunner>();
+            break;
+        case jp::Program:
+            runner = std::make_shared<jp::ProgramRunner>();
+            break;
+        case jp::NamShub:
+            runner = std::make_shared<jp::NamShubRunner>();
+            break;
+            
+        default:
+            break;
+    }
+    auto examples = runner->getExamples();
     
     int exampleID = 1;
     examplesComboBox->clear();
@@ -718,11 +820,10 @@ void MainContentComponent::setCurrentRunnerType(jp::RunnerType rt) {
     chooseExample(0);
 
     resized();
-    //}
 }
 
 void MainContentComponent::chooseExample(int exampleNr) {
-    auto examples = runner.getExamples();
+    auto examples = runner->getExamples();
 
     if (examples.size() > 0) {
         if (hasUnsavedChanges()) {
@@ -764,9 +865,21 @@ void MainContentComponent::comboBoxChanged(ComboBox *comboBoxThatHasChanged) {
     ignoreExampleComboBoxNotification = false;
 }
 
+void MainContentComponent::sliderValueChanged(Slider *slider) {
+    if (slider == lsystemAngle.get()) {
+        runner->setParameter("angle", lsystemAngle->getValue());
+        if (showWindow != nullptr) {
+            showWindow->update(fromUTF8(results->getText().toStdString()));
+        }
+    }
+}
+
 void MainContentComponent::buttonClicked(Button *button) {
     if (button == runButton.get()) {
         run();
+    }
+    else if (button == showButton.get()) {
+        show();
     }
     else if (button == speakButton.get()) {
         speak();
@@ -803,7 +916,7 @@ void MainContentComponent::buttonClicked(Button *button) {
         if (getCurrentRunnerType() == jp::NamShub) {
             auto command = button->getButtonText().toStdString();
             
-            runner.setStringParameter("command", command);
+            runner->setStringParameter("command", command);
             run();
         }
     }

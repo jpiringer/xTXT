@@ -1,4 +1,4 @@
-﻿//
+//
 //  Examples.cpp
 //  txtgen - App
 //
@@ -240,7 +240,7 @@ y = yby;
 LR"(# österreichisches buchstabieralphabet
 a = anton ;
 b = berta ;
-c = cäsar ;
+c = cäsar ;
 d = dora ;
 e = emil ;
 f = friedrich ;
@@ -264,8 +264,8 @@ w = wilhelm ;
 x = xaver ;
 y = ypsilon ;
 z = zeppelin ;
-ä = ärger ;
-ö = ökonom ;
+ä = ärger ;
+ö = ökonom ;
 ü = übermut ;
 ß = scharfes s ;)"
 },
@@ -302,6 +302,13 @@ i = iof;
 o = oaouf;
 u = ufuue;
 e = effei;
+)"
+},
+{"sierpinski",
+LR"(# sierpinski
+# start with: X--X--X
+# set angle to 60
+X = X+X--X+X;
 )"
 }
     };

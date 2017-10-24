@@ -1,15 +1,15 @@
 #  TODO
 
-
-# LATER
+L-system:
+längere heads? oder bessere fehlermeldung, wenn mehr als ein zeichen ersetzt werden soll.
 
 title for examples utf8 compatible on windows (use std::wstring)
 
-markov prefix len 0: so you can shuffle with a given output text length
+change app name for win10 (on output in the project)
 
 word level markov
 
-reenable mode "program"
+sprache & stimme verstellbar machen
 
 more Grammar features:
 * string operationen
@@ -18,14 +18,11 @@ more Grammar features:
 -- modifier:    [X.inQuotes] [X.capitalizeAll]
 -- choice function: RULE = {choice = __pos("POSRULE", [scale]), "a", "b", "c", "d", "e"}
 
-sprache & stimme verstellbar machen
+## print
+* auf receipt-drucker ausdrucken?
+* stop print
 
-show
-* animation des textes
-
-visualisierung
-* text turtle graphics
-* + - drehen die turtle, buchstaben geben die buchstaben an,
+## visualisierung
 * () pushen und poppen den stack
 * | 180 grad drehung
 * schriftgrössenänderung?
@@ -33,13 +30,25 @@ visualisierung
 * zoom
 * save to image
 
-print
-* auf receipt-drucker ausdrucken
-* stop print
+
+# LATER
+
+## show / animate
+* animation des textes
+* skripte
+* wie bei namshub osx
+
+## interaktiv
+* erweiterung von show?
+* oder lua skripts?
+* oder eine kombi aus beiden?
 
 methods:
 * suggest (siehe nam shub osx)
 
+grammar: baum visualisieren
+
+reenable mode "program"
 
 
 # DONE
@@ -132,3 +141,10 @@ markov:
 * konjunktionen
 
 about
+
+markov prefix len 0: so you can shuffle with a given output text length
+
+sonderzeichen ersetzen. z.b. whitespace, newline mittels escape
+
+* text turtle graphics
+* + - drehen die turtle, buchstaben geben die buchstaben an,
