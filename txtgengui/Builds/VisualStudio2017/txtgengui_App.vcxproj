@@ -183,7 +183,9 @@
     <ClCompile Include="..\..\Source\Parser.cpp" />
     <ClCompile Include="..\..\Source\Program.cpp" />
     <ClCompile Include="..\..\Source\Runner.cpp" />
+    <ClCompile Include="..\..\Source\ShowWindow.cpp" />
     <ClCompile Include="..\..\Source\SpeakerWin.cpp" />
+    <ClCompile Include="..\..\Source\TextTurtleGraphics.cpp" />
     <ClCompile Include="..\..\Source\Tokenizer.cpp" />
     <ClCompile Include="..\..\Source\UndoableActions.cpp" />
     <ClCompile Include="..\..\Source\utils.cpp" />
@@ -1780,7 +1782,9 @@
     <ClInclude Include="..\..\Source\Platform.hpp" />
     <ClInclude Include="..\..\Source\Program.hpp" />
     <ClInclude Include="..\..\Source\Runner.hpp" />
+    <ClInclude Include="..\..\Source\ShowWindow.hpp" />
     <ClInclude Include="..\..\Source\Speaker.hpp" />
+    <ClInclude Include="..\..\Source\TextTurtleGraphics.hpp" />
     <ClInclude Include="..\..\Source\Tokenizer.hpp" />
     <ClInclude Include="..\..\Source\UndoableActions.hpp" />
     <ClInclude Include="..\..\Source\utils.hpp" />

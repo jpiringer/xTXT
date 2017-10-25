@@ -2088,6 +2088,12 @@
     <ClCompile Include="..\..\Source\SpeakerWin.cpp">
       <Filter>txtgengui\Platform</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\ShowWindow.cpp">
+      <Filter>txtgengui\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\TextTurtleGraphics.cpp">
+      <Filter>txtgengui\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainComponent.h">
@@ -4008,6 +4014,12 @@
       <Filter>txtgengui\lua</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="..\..\Source\ShowWindow.hpp">
+      <Filter>txtgengui\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\TextTurtleGraphics.hpp">
+      <Filter>txtgengui\Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\JUCE\modules\juce_audio_formats\codecs\flac\Flac Licence.txt">

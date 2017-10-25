@@ -12,6 +12,7 @@
 
 #include "Runner.hpp"
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 class TextTurtleGraphics {
