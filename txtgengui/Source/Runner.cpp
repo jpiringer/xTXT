@@ -72,6 +72,10 @@ bool jp::AutomateRunner::isAnimated() {
 // LSystemRunner
 // ====================================================================================
 
+jp::LSystemRunner::LSystemRunner() {
+    textTurtleGraphics = std::make_shared<jp::TextTurtleGraphics>();
+}
+
 std::string jp::LSystemRunner::run() {
     auto lsystem = parseLSystem(fromUTF8(code));
     
@@ -93,11 +97,17 @@ std::vector<std::pair<std::string,std::wstring>> jp::LSystemRunner::getExamples(
 }
 
 DrawFunction jp::LSystemRunner::getDrawFunction() {
-    return TextTurtleGraphics::getDrawFunction(this);
+    return [this](Graphics &g, int width, int height, const std::wstring &str, double time) {
+        textTurtleGraphics->draw(this, g, width, height, str, time);
+    };
 }
 
 bool jp::LSystemRunner::isAnimated() {
     return false;
+}
+
+void jp::LSystemRunner::saveAsImage(const std::string &fileName) {
+    textTurtleGraphics->saveAsImage(this, fileName);
 }
 
 // ====================================================================================

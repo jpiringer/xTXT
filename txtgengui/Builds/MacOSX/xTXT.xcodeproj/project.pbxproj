@@ -94,7 +94,7 @@
 		302866EA1F9F64FE00187E85 /* ShowWindow.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ShowWindow.hpp; path = ../../Source/ShowWindow.hpp; sourceTree = "<group>"; };
 		302866EC1F9FB81F00187E85 /* TextTurtleGraphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TextTurtleGraphics.cpp; path = ../../Source/TextTurtleGraphics.cpp; sourceTree = "<group>"; };
 		302866ED1F9FB81F00187E85 /* TextTurtleGraphics.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TextTurtleGraphics.hpp; path = ../../Source/TextTurtleGraphics.hpp; sourceTree = "<group>"; };
-		30321F451F8660EE00A23A6B /* Examples.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Examples.cpp; path = ../../Source/Examples.cpp; sourceTree = "<group>"; };
+		30321F451F8660EE00A23A6B /* Examples.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Examples.cpp; path = ../../Source/Examples.cpp; sourceTree = "<group>"; };
 		30321F461F8660EE00A23A6B /* Examples.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Examples.hpp; path = ../../Source/Examples.hpp; sourceTree = "<group>"; };
 		3041F2811F82683000F37B01 /* Runner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Runner.cpp; path = ../../Source/Runner.cpp; sourceTree = "<group>"; };
 		3041F2821F82683000F37B01 /* Runner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Runner.hpp; path = ../../Source/Runner.hpp; sourceTree = "<group>"; };

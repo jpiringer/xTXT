@@ -116,7 +116,7 @@ MainContentComponent::MainContentComponent()
     lsystemAngle->setSliderStyle(Slider::LinearHorizontal);
     lsystemAngle->setTextBoxStyle(Slider::TextBoxRight, false, 80, 20);
     lsystemAngle->setRange(0, 360, 1);
-    lsystemAngle->setValue(10);
+    lsystemAngle->setValue(60);
     lsystemAngle->addListener(this);
     addParameterComponent(lsystemAngleLabel);
     addParameterComponent(lsystemAngle);
@@ -388,6 +388,7 @@ PopupMenu MainContentComponent::getMenuForIndex(int menuIndex, const String& men
         menu.addSeparator();
         menu.addCommandItem(commandManager, MainContentComponent::openCmd);
         menu.addCommandItem(commandManager, MainContentComponent::saveCmd);
+        menu.addCommandItem(commandManager, MainContentComponent::exportCmd);
         menu.addSeparator();
         menu.addCommandItem(commandManager, MainContentComponent::runCmd);
         menu.addSeparator();
@@ -403,58 +404,6 @@ PopupMenu MainContentComponent::getMenuForIndex(int menuIndex, const String& men
 #endif
         menu.addCommandItem(commandManager, MainContentComponent::websiteCmd);
     }
-    /*else if (menuIndex == 1)
-    {
-        menu.addCommandItem (commandManager, MainAppWindow::useLookAndFeelV1);
-        menu.addCommandItem (commandManager, MainAppWindow::useLookAndFeelV2);
-        menu.addCommandItem (commandManager, MainAppWindow::useLookAndFeelV3);
-        
-        PopupMenu v4SubMenu;
-        v4SubMenu.addCommandItem (commandManager, MainAppWindow::useLookAndFeelV4Dark);
-        v4SubMenu.addCommandItem (commandManager, MainAppWindow::useLookAndFeelV4Midnight);
-        v4SubMenu.addCommandItem (commandManager, MainAppWindow::useLookAndFeelV4Grey);
-        v4SubMenu.addCommandItem (commandManager, MainAppWindow::useLookAndFeelV4Light);
-        
-        menu.addSubMenu ("Use LookAndFeel_V4", v4SubMenu);
-        
-        menu.addSeparator();
-        menu.addCommandItem (commandManager, MainAppWindow::useNativeTitleBar);
-        
-#if JUCE_MAC
-        menu.addItem (6000, "Use Native Menu Bar");
-#endif
-        
-#if ! JUCE_LINUX
-        menu.addCommandItem (commandManager, MainAppWindow::goToKioskMode);
-#endif
-        
-        if (MainAppWindow* mainWindow = MainAppWindow::getMainAppWindow())
-        {
-            StringArray engines (mainWindow->getRenderingEngines());
-            
-            if (engines.size() > 1)
-            {
-                menu.addSeparator();
-                
-                for (int i = 0; i < engines.size(); ++i)
-                    menu.addCommandItem (commandManager, MainAppWindow::renderingEngineOne + i);
-            }
-        }
-    }
-    else if (menuIndex == 2)
-    {
-        if (TabbedComponent* tabs = findParentComponentOfClass<TabbedComponent>())
-        {
-            menu.addItem (3000, "Tabs at Top",    true, tabs->getOrientation() == TabbedButtonBar::TabsAtTop);
-            menu.addItem (3001, "Tabs at Bottom", true, tabs->getOrientation() == TabbedButtonBar::TabsAtBottom);
-            menu.addItem (3002, "Tabs on Left",   true, tabs->getOrientation() == TabbedButtonBar::TabsAtLeft);
-            menu.addItem (3003, "Tabs on Right",  true, tabs->getOrientation() == TabbedButtonBar::TabsAtRight);
-        }
-    }
-    else if (menuIndex == 3)
-    {
-        return getDummyPopupMenu();
-    }*/
     
     return menu;
 }
@@ -469,35 +418,16 @@ void MainContentComponent::menuItemSelected (int menuItemID, int topLevelMenuInd
     else if (menuItemID == 6000)
     {
 #if JUCE_MAC
-        if (MenuBarModel::getMacMainMenu() != nullptr)
-        {
+        if (MenuBarModel::getMacMainMenu() != nullptr) {
             MenuBarModel::setMacMainMenu (nullptr);
             menuBar->setModel (this);
         }
-        else
-        {
+        else {
             menuBar->setModel (nullptr);
             MenuBarModel::setMacMainMenu (this);
         }
 #endif
     }
-    /*else if (menuItemID >= 3000 && menuItemID <= 3003)
-    {
-        if (TabbedComponent* tabs = findParentComponentOfClass<TabbedComponent>())
-        {
-            TabbedButtonBar::Orientation o = TabbedButtonBar::TabsAtTop;
-            
-            if (menuItemID == 3001) o = TabbedButtonBar::TabsAtBottom;
-            if (menuItemID == 3002) o = TabbedButtonBar::TabsAtLeft;
-            if (menuItemID == 3003) o = TabbedButtonBar::TabsAtRight;
-            
-            tabs->setOrientation (o);
-        }
-    }
-    else if (menuItemID >= 12298 && menuItemID <= 12305)
-    {
-        //sendChangeMessage();
-    }*/
 }
 
 void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
@@ -505,6 +435,7 @@ void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
     const CommandID ids[] = {
         MainContentComponent::runCmd,
         MainContentComponent::saveCmd,
+        MainContentComponent::exportCmd,
         MainContentComponent::openCmd,
         MainContentComponent::newCmd,
         MainContentComponent::speakCmd,
@@ -534,6 +465,10 @@ void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationComman
         case MainContentComponent::saveCmd:
             result.setInfo("Save", "Save the code", codeCategory, 0);
             result.addDefaultKeypress('s', ModifierKeys::commandModifier);
+            break;
+        case MainContentComponent::exportCmd:
+            result.setInfo("Export", "Export image", codeCategory, 0);
+            result.addDefaultKeypress('e', ModifierKeys::commandModifier);
             break;
         case MainContentComponent::openCmd:
             result.setInfo("Open", "Open code file", codeCategory, 0);
@@ -585,6 +520,11 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
             break;
         case MainContentComponent::saveCmd:
             saveFile();
+            break;
+        case MainContentComponent::exportCmd:
+            if (showWindow != nullptr) {
+                showWindow->exportImage(runner.get());
+            }
             break;
         case MainContentComponent::openCmd:
             openFile();
@@ -778,6 +718,7 @@ void MainContentComponent::show() {
     showWindow->setUsingNativeTitleBar(native);
     showWindow->setVisible(true);
     
+    runner->setParameter("angle", lsystemAngle->getValue());
     showWindow->setDrawFunction(runner->getDrawFunction());
     showWindow->update(fromUTF8(results->getText().toStdString()));
 

@@ -7,7 +7,9 @@
 
 #include "ShowWindow.hpp"
 
-#define SHOW_FPS 1
+#include "MainComponent.h"
+
+#define SHOW_FPS 0
 
 ShowComponent::ShowComponent(const String& name)
 : Component (name),
@@ -69,6 +71,57 @@ void ShowComponent::paint(Graphics &g) {
 #endif
 }
 
+void ShowComponent::getAllCommands(Array<CommandID>& commands) {
+    // this returns the set of all commands that this target can perform..
+    const CommandID ids[] = {
+        MainContentComponent::exportCmd,
+    };
+    
+    commands.addArray (ids, numElementsInArray(ids));
+}
+
+void ShowComponent::getCommandInfo(CommandID commandID, ApplicationCommandInfo &result) {
+    const String generalCategory("General");
+    const String codeCategory("Code");
+    const String editCategory("Edit");
+    const String appleCategory("Apple");
+    const String helpCategory("Help");
+    
+    switch (commandID) {
+        case MainContentComponent::exportCmd:
+            result.setInfo("Export", "Export image", codeCategory, 0);
+            result.addDefaultKeypress('e', ModifierKeys::commandModifier);
+            break;
+    }
+}
+
+ApplicationCommandTarget *ShowComponent::getNextCommandTarget() {
+    // this will return the next parent component that is an ApplicationCommandTarget (in this
+    // case, there probably isn't one, but it's best to use this method in your own apps).
+    return findFirstTargetParentComponent();
+}
+
+bool ShowComponent::perform(const InvocationInfo& info) {
+    switch (info.commandID) {
+        case MainContentComponent::exportCmd:
+            //exportImage();
+            break;
+        default:
+            return false;
+    }
+    return true;
+}
+
+void ShowComponent::exportImage(jp::Runner *runner) {
+    FileChooser fileChooser("Save File", File(), "*.png");
+    
+    if (fileChooser.browseForFileToSave(true)) {
+        std::cout << "export: " << fileChooser.getResult().getFullPathName() << std::endl;
+        runner->saveAsImage(fileChooser.getResult().getFullPathName().toStdString());
+        //saveFile(fileChooser.getResult());
+    }
+}
+
 // =======================================================================================
 // ShowWindow
 // =======================================================================================
@@ -106,5 +159,9 @@ void ShowWindow::update(std::wstring str) {
     if (!animated) {
         contentComponent->repaint();
     }
+}
+
+void ShowWindow::exportImage(jp::Runner *runner) {
+    contentComponent->exportImage(runner);
 }
 

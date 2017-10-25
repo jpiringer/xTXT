@@ -14,7 +14,14 @@
 
 typedef std::function<void(Graphics &, int, int, const std::wstring &, double)> DrawFunction;
 
-class ShowComponent : public Component {
+namespace jp {
+    class Runner;
+}
+
+class ShowComponent :
+public Component,
+public ApplicationCommandTarget
+{
     double lastRenderStartTime, averageTimeMs, averageActualFPS;
     Font displayFont;
     
@@ -27,6 +34,11 @@ class ShowComponent : public Component {
 public:
     ShowComponent(const String& name);
     
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo &result) override;
+    ApplicationCommandTarget *getNextCommandTarget() override;
+    bool perform(const InvocationInfo& info) override;
+    
     void paint(Graphics &g) override;
     void drawShow(Graphics &g);
     
@@ -36,6 +48,8 @@ public:
     
     void startAnimation();
     void stopAnimation();
+    
+    void exportImage(jp::Runner *runner);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ShowComponent)
 };
@@ -59,6 +73,8 @@ public:
     
     void setDrawFunction(DrawFunction df) {contentComponent->setDrawFunction(df);}
     void update(std::wstring str);
+    
+    void exportImage(jp::Runner *runner);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ShowWindow)
 };

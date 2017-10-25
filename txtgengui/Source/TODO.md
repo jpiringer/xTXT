@@ -7,16 +7,7 @@ title for examples utf8 compatible on windows (use std::wstring)
 
 change app name for win10 (on output in the project)
 
-word level markov
-
 sprache & stimme verstellbar machen
-
-more Grammar features:
-* string operationen
-* MSG = MSG + test
-* parameter für rules
--- modifier:    [X.inQuotes] [X.capitalizeAll]
--- choice function: RULE = {choice = __pos("POSRULE", [scale]), "a", "b", "c", "d", "e"}
 
 ## print
 * auf receipt-drucker ausdrucken?
@@ -24,11 +15,7 @@ more Grammar features:
 
 ## visualisierung
 * () pushen und poppen den stack
-* | 180 grad drehung
-* schriftgrössenänderung?
 * step mode lässt jeden schritt durchsteppen
-* zoom
-* save to image
 
 
 # LATER
@@ -49,6 +36,16 @@ methods:
 grammar: baum visualisieren
 
 reenable mode "program"
+
+word level markov
+
+
+more Grammar features:
+* string operationen
+* MSG = MSG + test
+* parameter für rules
+-- modifier:    [X.inQuotes] [X.capitalizeAll]
+-- choice function: RULE = {choice = __pos("POSRULE", [scale]), "a", "b", "c", "d", "e"}
 
 
 # DONE
@@ -148,3 +145,11 @@ sonderzeichen ersetzen. z.b. whitespace, newline mittels escape
 
 * text turtle graphics
 * + - drehen die turtle, buchstaben geben die buchstaben an,
+
+* | 180 grad drehung
+
+* zoom
+
+* > < schriftgrössenänderung?
+
+* save to image

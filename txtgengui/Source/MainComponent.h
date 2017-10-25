@@ -48,6 +48,7 @@ public:
     enum CommandIDs {
         runCmd = 0x2100,
         saveCmd = 0x2200,
+        exportCmd = 0x2210,
         openCmd = 0x2300,
         newCmd = 0x2400,
         speakCmd = 0x2500,

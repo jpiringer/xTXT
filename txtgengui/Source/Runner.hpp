@@ -14,6 +14,8 @@
 
 #include "ShowWindow.hpp"
 
+#include "TextTurtleGraphics.hpp"
+
 namespace jp {
     enum RunnerType {
         Grammar = 0,
@@ -22,6 +24,8 @@ namespace jp {
         Program,
         NamShub
     };
+    
+    class TextTurtleGraphics;
     
     class Runner {
     protected:
@@ -55,6 +59,8 @@ namespace jp {
         
         virtual DrawFunction getDrawFunction() = 0;
         virtual bool isAnimated() = 0;
+        
+        virtual void saveAsImage(const std::string &fileName) = 0;
     };
     
     class AutomateRunner : public Runner {
@@ -69,10 +75,15 @@ namespace jp {
         
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
+        
+        virtual void saveAsImage(const std::string &fileName) override {};
     };
 
     class LSystemRunner : public Runner {
+        std::shared_ptr<TextTurtleGraphics> textTurtleGraphics;
     public:
+        LSystemRunner();
+        
         virtual ~LSystemRunner() {}
         
         virtual RunnerType getType() override {return LSystem;}
@@ -83,6 +94,8 @@ namespace jp {
         
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
+
+        virtual void saveAsImage(const std::string &fileName) override;
     };
     
     class MarkovRunner : public Runner {
@@ -97,6 +110,8 @@ namespace jp {
         
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
+
+        virtual void saveAsImage(const std::string &fileName) override {};
     };
 
     class ProgramRunner : public Runner {
@@ -111,6 +126,8 @@ namespace jp {
         
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
+
+        virtual void saveAsImage(const std::string &fileName) override {};
     };
 
     class NamShubRunner : public Runner {
@@ -125,6 +142,8 @@ namespace jp {
         
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
+
+        virtual void saveAsImage(const std::string &fileName) override {};
     };
 
 };
