@@ -29,8 +29,10 @@ namespace jp {
     
     class TextTurtleGraphics : public GraphicsDisplay {
         std::shared_ptr<Font> displayFont;
-        float fontSize = 15.f;
+        std::vector<std::tuple<float, float, float, float>> stack;
+        float fontSize;
         float standardAngle = 90.f/180.0f*M_PI;
+        float randomAngleDeviation = 0;
         float minx, miny, maxx, maxy;
         
         float posx = 0;
@@ -47,6 +49,9 @@ namespace jp {
         void processCharacter(Graphics &g, wchar_t c, bool draw = true);
         void initState(jp::Runner *r, Graphics &g, int width, int height, float _offsx = 0, float _offsy = 0, float _scale = 1);
         void checkLimits();
+        
+        void pushStack();
+        void popStack();
         
     public:
         TextTurtleGraphics();

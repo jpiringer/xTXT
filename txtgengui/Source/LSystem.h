@@ -14,24 +14,26 @@
 #include <memory>
 #include <string>
 
-template<typename Element, class Sequence> class LSystem {
+class LSystem {
 	class LSystemRule {
-		Element head;
-		Sequence tail;
+        std::wstring head;
+		std::wstring tail;
 	public:
-		LSystemRule(Element hd, Sequence tl) {head = hd; tail = tl;}
+		LSystemRule(const std::wstring &hd, const std::wstring &tl) {head = hd; tail = tl;}
 		
-		bool isMatch(Element hd) {return hd == head;}
-		Sequence &getTail() {return tail;}
+		bool isMatch(const std::wstring &str) {return str.substr(0, head.length()) == head;}
+        const std::wstring &getHead() {return head;}
+		const std::wstring &getTail() {return tail;}
 	};
 	
-	Sequence state;
+	std::wstring state;
     std::vector<std::shared_ptr<LSystemRule>> rules;
     
     int errorCount = 0;
     std::wstring errors;
-
+    
 public:
+
     void _error(const std::wstring &msg, int lineNr) {
         std::wstring errStr = L"ERROR at line number ";
         errStr += std::to_wstring(lineNr+1);
@@ -43,38 +45,55 @@ public:
         
         errorCount++;
     }
-
+    
     LSystem() {}
 	
-	void setState(Sequence st) {state = st;}
-	Sequence &getState() {return state;}
+	void setState(const std::wstring &st) {state = st;}
+	std::wstring &getState() {return state;}
 	
-    void addRule(Element hd, Sequence tl) {
+    void addRule(const std::wstring &hd, const std::wstring &tl) {
         rules.push_back(std::make_shared<LSystemRule>(hd, tl));
     }
-	
-    Sequence &replace(Element &hd) {
-        static Sequence seq;
-        
-        seq.clear();
+    
+    std::wstring longestReplacement(const std::wstring &str, size_t &matchLength) {
+        size_t length = 0;
+        std::shared_ptr<LSystemRule> longestRule = nullptr;
         
         for(int i = 0; i < rules.size(); i++) {
-            if(rules[i]->isMatch(hd))
-                return rules[i]->getTail();
+            if (rules[i]->isMatch(str)) {
+                size_t l = rules[i]->getHead().length();
+                
+                if (l > length) {
+                    longestRule = rules[i];
+                    length = l;
+                }
+            }
         }
         
-        seq.push_back(hd);
-        return seq;
+        if (longestRule == nullptr) {
+            matchLength = 0;
+            return L"";
+        }
+        else {
+            matchLength = length;
+            return longestRule->getTail();
+        }
     }
 	
     void iterate() {
-        Sequence newstate;
+        std::wstring newstate = L"";
         
-        for(int i = 0; i < state.size(); i++) {
-            Sequence &replacement = replace(state[i]);
-            
-            for(int e = 0; e < replacement.size(); e++) {
-                newstate.push_back(replacement[e]);
+        for(int i = 0; i < state.size();) {
+            size_t matchLength = 0;
+            std::wstring replacement = longestReplacement(state.substr(i), matchLength);
+
+            if (matchLength > 0) {
+                newstate += replacement;
+                i += matchLength;
+            }
+            else {
+                newstate += state[i];
+                i++;
             }
         }
         
@@ -83,8 +102,8 @@ public:
     
     int getErrorCount() {return errorCount;}
     const std::wstring &getErrors() {return errors;}
-};
 
-std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring &code);
+    static std::shared_ptr<LSystem> parseLSystem(const std::wstring &code);
+};
 
 #endif

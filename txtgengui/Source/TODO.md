@@ -1,22 +1,13 @@
 #  TODO
 
-L-system:
-längere heads? oder bessere fehlermeldung, wenn mehr als ein zeichen ersetzt werden soll.
-
 title for examples utf8 compatible on windows (use std::wstring)
 
 change app name for win10 (on output in the project)
 
-sprache & stimme verstellbar machen
 
 ## print
 * auf receipt-drucker ausdrucken?
 * stop print
-
-## visualisierung
-* () pushen und poppen den stack
-* step mode lässt jeden schritt durchsteppen
-
 
 # LATER
 
@@ -46,6 +37,8 @@ more Grammar features:
 * parameter für rules
 -- modifier:    [X.inQuotes] [X.capitalizeAll]
 -- choice function: RULE = {choice = __pos("POSRULE", [scale]), "a", "b", "c", "d", "e"}
+
+sprache & stimme verstellbar machen
 
 
 # DONE
@@ -153,3 +146,14 @@ sonderzeichen ersetzen. z.b. whitespace, newline mittels escape
 * > < schriftgrössenänderung?
 
 * save to image
+
+L-system:
+längere heads
+
+* [] pushen und poppen den stack
+
+* mehr beispiele
+
+
+## visualisierung
+* random angle deviation

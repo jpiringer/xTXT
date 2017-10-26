@@ -16,6 +16,10 @@
 
 #include "TextTurtleGraphics.hpp"
 
+#include "LSystem.h"
+
+class LSystem;
+
 namespace jp {
     enum RunnerType {
         Grammar = 0,
@@ -51,11 +55,11 @@ namespace jp {
         void resetErrors() {errorsHappened = false;}
         
         void setParameter(const std::string &parName, double value) {parameters[parName] = value;}
-        double getParameter(const std::string &parName);
+        double getParameter(const std::string &parName, float defValue = 0);
         void setStringParameter(const std::string &parName, std::string value) {stringParameters[parName] = value;}
         std::string getStringParameter(const std::string &parName);
         
-        virtual std::vector<std::pair<std::string,std::wstring>> getExamples() = 0;
+        virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() = 0;
         
         virtual DrawFunction getDrawFunction() = 0;
         virtual bool isAnimated() = 0;
@@ -71,7 +75,7 @@ namespace jp {
         
         virtual std::string run() override;
 
-        virtual std::vector<std::pair<std::string,std::wstring>> getExamples() override;
+        virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() override;
         
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
@@ -81,6 +85,8 @@ namespace jp {
 
     class LSystemRunner : public Runner {
         std::shared_ptr<TextTurtleGraphics> textTurtleGraphics;
+        std::shared_ptr<::LSystem> lsystem;
+        
     public:
         LSystemRunner();
         
@@ -90,7 +96,7 @@ namespace jp {
         
         virtual std::string run() override;
         
-        virtual std::vector<std::pair<std::string,std::wstring>> getExamples() override;
+        virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() override;
         
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
@@ -106,7 +112,7 @@ namespace jp {
         
         virtual std::string run() override;
         
-        virtual std::vector<std::pair<std::string,std::wstring>> getExamples() override;
+        virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() override;
         
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
@@ -122,7 +128,7 @@ namespace jp {
         
         virtual std::string run() override;
         
-        virtual std::vector<std::pair<std::string,std::wstring>> getExamples() override;
+        virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() override;
         
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
@@ -138,7 +144,7 @@ namespace jp {
         
         virtual std::string run() override;
         
-        virtual std::vector<std::pair<std::string,std::wstring>> getExamples() override;
+        virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() override;
         
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;

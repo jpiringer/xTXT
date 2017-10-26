@@ -11,21 +11,24 @@
 
 #include <string>
 
+#include <iostream>
+
 #define WHITESPACE L" \n\r\t"
 
 #define error(msg, lineNr) {lsystem->_error(msg, lineNr); return lsystem;}
 
-std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring &code) {
+std::shared_ptr<LSystem> LSystem::parseLSystem(const std::wstring &code) {
     std::wstring whitespace = WHITESPACE;
-    auto lsystem = std::make_shared<LSystem<wchar_t, std::wstring>>();
+    auto lsystem = std::make_shared<LSystem>();
     bool lookingForHead = true;
     bool lookingForEqual = false;
     bool lookingForTailStart = false;
     bool lookingForSemicolon = false;
-    wchar_t currentHead = '\0';
+    std::wstring currentHead = L"";
     std::wstring currentTail = L"";
     int lineNr = 0;
     bool comment = false;
+    std::wstring commentContent = L"";
     bool lookingForEscape = false;
     
     for (size_t i = 0; i < code.size(); i++) {
@@ -38,6 +41,9 @@ std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring 
                         break;
                     case 's':
                         c = ' ';
+                        break;
+                    case '=':
+                        c = '=';
                         break;
                     case '\\':
                         c = '\\';
@@ -58,10 +64,15 @@ std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring 
         
         if (comment) {
             if (c == '\n') {
+                //lsystem->parseComment(commentContent);
                 comment = false;
+            }
+            else {
+                commentContent += c;
             }
         }
         else if (c == '#') {
+            commentContent = L"";
             comment = true;
         }
         else if (lookingForHead) {
@@ -69,10 +80,19 @@ std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring 
                 if (c == '\\' && !lookingForEscape) {
                     lookingForEscape = true;
                 }
+                else if (c == '=') {
+                    lookingForEqual = false;
+                    lookingForTailStart = true;
+                }
                 else {
                     escapeTrans();
-                    currentHead = c;
+                    currentHead += c;
                     currentTail = L"";
+                    lookingForEscape = false;
+                }
+            }
+            else {
+                if (currentHead.length() > 0) {
                     lookingForHead = false;
                     lookingForEqual = true;
                     lookingForEscape = false;
@@ -86,7 +106,7 @@ std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring 
                     lookingForTailStart = true;
                 }
                 else { // error
-                    error(L"no '=' found. maybe your rule head is too long?", lineNr);
+                    error(L"'=' expected", lineNr);
                 }
             }
         }
@@ -112,6 +132,7 @@ std::shared_ptr<LSystem<wchar_t, std::wstring>> parseLSystem(const std::wstring 
                     lookingForSemicolon = false;
                     lookingForHead = true;
                     lsystem->addRule(currentHead, currentTail);
+                    currentHead = L"";
                 }
                 else {
                     escapeTrans();

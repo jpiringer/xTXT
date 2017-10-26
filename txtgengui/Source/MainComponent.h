@@ -131,11 +131,14 @@ private:
     
     std::shared_ptr<Label> lsystemAngleLabel;
     std::shared_ptr<Slider> lsystemAngle = nullptr;
+    std::shared_ptr<Label> lsystemAngleDeviationLabel;
+    std::shared_ptr<Slider> lsystemAngleDeviation = nullptr;
 
     std::vector<std::shared_ptr<Component>> parameterComponents;
     void makeParametersVisible();
     void addParameterComponent(std::shared_ptr<Component> c);
     void changeCodeEditor();
+    void parseParameters(const std::vector<std::wstring> parameters);
 
     std::shared_ptr<jp::Runner> runner;
     std::shared_ptr<jp::Speaker> speaker;

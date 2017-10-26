@@ -10,8 +10,10 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#define FONT_SIZE_INC 5.f
+#define FONT_SIZE_FACT 0.6f
 #define FONT_SIZE_MIN 5.f
+
+#define START_FONT_SIZE 250.f
 
 jp::TextTurtleGraphics::TextTurtleGraphics() {
 }
@@ -44,9 +46,10 @@ void jp::TextTurtleGraphics::checkLimits() {
 
 void jp::TextTurtleGraphics::initState(jp::Runner *runner, Graphics &g, int width, int height, float _offsx, float _offsy, float _scale) {
     standardAngle = runner->getParameter("angle")/180.0f*M_PI;
+    randomAngleDeviation = runner->getParameter("angleDeviation");
     g.setColour(Colours::black);
     
-    fontSize = 15.f;
+    fontSize = START_FONT_SIZE;
     displayFont = std::make_shared<Font>(Font::getDefaultMonospacedFontName(), fontSize, Font::plain);
     g.setFont(*displayFont);
 
@@ -66,25 +69,53 @@ void jp::TextTurtleGraphics::initState(jp::Runner *runner, Graphics &g, int widt
     checkLimits();
 }
 
+void jp::TextTurtleGraphics::pushStack() {
+    stack.push_back(std::make_tuple(posx, posy, angle, fontSize));
+}
+
+void jp::TextTurtleGraphics::popStack() {
+    if (stack.size() > 0) {
+        
+        auto stackTuple = stack.back();
+        
+        stack.pop_back();
+        
+        posx = std::get<0>(stackTuple);
+        posy = std::get<1>(stackTuple);
+        angle = std::get<2>(stackTuple);
+        fontSize = std::get<3>(stackTuple);
+    }
+}
+
+float randFloatRange(float a, float b) {
+    return ((b - a) * ((float)rand() / (float)RAND_MAX)) + a;
+}
+
 void jp::TextTurtleGraphics::processCharacter(Graphics &g, wchar_t c, bool draw) {
     switch (c) {
         case '+':
-            angle += standardAngle;
+            angle += standardAngle + randFloatRange(-randomAngleDeviation, randomAngleDeviation)*standardAngle;
             break;
         case '-':
-            angle -= standardAngle;
+            angle -= standardAngle + randFloatRange(-randomAngleDeviation, randomAngleDeviation)*standardAngle;
             break;
         case '<':
-            fontSize -= FONT_SIZE_INC;
+            fontSize *= FONT_SIZE_FACT;
             if (fontSize < FONT_SIZE_MIN) {
                 fontSize = FONT_SIZE_MIN;
             }
             break;
         case '>':
-            fontSize += FONT_SIZE_INC;
+            fontSize /= FONT_SIZE_FACT;
+            break;
+        case '[':
+            pushStack();
+            break;
+        case ']':
+            popStack();
             break;
         case '|':
-            angle += M_PI; // turn 180°
+            angle += M_PI + randFloatRange(-randomAngleDeviation, randomAngleDeviation)*M_PI; // turn 180°
             break;
         default: {
             if (draw) {

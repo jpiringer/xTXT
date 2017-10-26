@@ -118,9 +118,21 @@ MainContentComponent::MainContentComponent()
     lsystemAngle->setRange(0, 360, 1);
     lsystemAngle->setValue(60);
     lsystemAngle->addListener(this);
+    
+    lsystemAngleDeviationLabel = std::make_shared<Label>();
+    lsystemAngleDeviationLabel->setText("Deviation:", dontSendNotification);
+    lsystemAngleDeviation = std::make_shared<Slider>();
+    lsystemAngleDeviation->setSliderStyle(Slider::LinearHorizontal);
+    lsystemAngleDeviation->setTextBoxStyle(Slider::TextBoxRight, false, 80, 20);
+    lsystemAngleDeviation->setRange(0, 1, 0.001);
+    lsystemAngleDeviation->setValue(0);
+    lsystemAngleDeviation->addListener(this);
+    
     addParameterComponent(lsystemAngleLabel);
     addParameterComponent(lsystemAngle);
-    
+    addParameterComponent(lsystemAngleDeviationLabel);
+    addParameterComponent(lsystemAngleDeviation);
+
     std::vector<std::string> methods = {
         "dup", "reverse", "sort", "rip", "shuffle",
         "part", "split", "condense",
@@ -214,6 +226,8 @@ void MainContentComponent::makeParametersVisible() {
         case jp::LSystem:
             lsystemAngleLabel->setVisible(true);
             lsystemAngle->setVisible(true);
+            lsystemAngleDeviationLabel->setVisible(true);
+            lsystemAngleDeviation->setVisible(true);
             break;
         case jp::NamShub:
             for (auto b : methodButtons) {
@@ -298,6 +312,8 @@ void MainContentComponent::resized() {
             int partition = lsystemArea.getWidth()/8;
             lsystemAngleLabel->setBounds(lsystemArea.removeFromLeft(partition));
             lsystemAngle->setBounds(lsystemArea.removeFromLeft(partition*3));
+            lsystemAngleDeviationLabel->setBounds(lsystemArea.removeFromLeft(partition));
+            lsystemAngleDeviation->setBounds(lsystemArea.removeFromLeft(partition*3));
             break;
         }
         case jp::NamShub: {
@@ -644,6 +660,7 @@ void MainContentComponent::run() {
             break;
         case jp::LSystem:
             runner->setParameter("angle", lsystemAngle->getValue());
+            runner->setParameter("angleDeviation", lsystemAngleDeviation->getValue());
         default:
             break;
     }
@@ -719,6 +736,7 @@ void MainContentComponent::show() {
     showWindow->setVisible(true);
     
     runner->setParameter("angle", lsystemAngle->getValue());
+    runner->setParameter("angleDeviation", lsystemAngleDeviation->getValue());
     showWindow->setDrawFunction(runner->getDrawFunction());
     showWindow->update(fromUTF8(results->getText().toStdString()));
 
@@ -752,8 +770,8 @@ void MainContentComponent::setCurrentRunnerType(jp::RunnerType rt) {
     
     int exampleID = 1;
     examplesComboBox->clear();
-    for (auto pair : examples) {
-        examplesComboBox->addItem(pair.first, exampleID++);
+    for (auto tuple : examples) {
+        examplesComboBox->addItem(std::get<0>(tuple), exampleID++);
     }
     ignoreExampleComboBoxNotification = true;
     examplesComboBox->setSelectedId(1);
@@ -761,6 +779,32 @@ void MainContentComponent::setCurrentRunnerType(jp::RunnerType rt) {
     chooseExample(0);
 
     resized();
+}
+
+void MainContentComponent::parseParameters(const std::vector<std::wstring> parameters) {
+    for (std::wstring parameter : parameters) {
+        std::wstring trimmed = trim(parameter);
+        
+        size_t colonPos = trimmed.find_first_of(':');
+        
+        if (colonPos != std::string::npos) {
+            std::wstring head = trimmed.substr(0,colonPos);
+            head = trim(head);
+            
+            std::wstring tail = trimmed.substr(colonPos+1);
+            tail = trim(tail);
+            
+            if (head == L"axiom") {
+                std::wcout << "axiom: " << tail << std::endl;
+                results->setText(toUTF8(tail));
+            }
+            else if (head == L"angle") {
+                std::wcout << "angle: " << tail << std::endl;
+                float angle = std::atof(toUTF8(tail).c_str());
+                lsystemAngle->setValue(angle);
+            }
+        }
+    }
 }
 
 void MainContentComponent::chooseExample(int exampleNr) {
@@ -776,12 +820,16 @@ void MainContentComponent::chooseExample(int exampleNr) {
                                          0,
                                          ModalCallbackFunction::create([this, exampleNr, examples](int result) {
                 if (result == 1) { // ok
-                    editor->loadContent(toUTF8(examples[exampleNr].second));
+                    editor->loadContent(toUTF8(std::get<1>(examples[exampleNr])));
+                    auto parameters = std::get<2>(examples[exampleNr]);
+                    parseParameters(parameters);
                 }
             }));
         }
         else {
-            editor->loadContent(toUTF8(examples[exampleNr].second));
+            editor->loadContent(toUTF8(std::get<1>(examples[exampleNr])));
+            auto parameters = std::get<2>(examples[exampleNr]);
+            parseParameters(parameters);
         }
     }
 }
@@ -809,6 +857,12 @@ void MainContentComponent::comboBoxChanged(ComboBox *comboBoxThatHasChanged) {
 void MainContentComponent::sliderValueChanged(Slider *slider) {
     if (slider == lsystemAngle.get()) {
         runner->setParameter("angle", lsystemAngle->getValue());
+        if (showWindow != nullptr) {
+            showWindow->update(fromUTF8(results->getText().toStdString()));
+        }
+    }
+    else if (slider == lsystemAngleDeviation.get()) {
+        runner->setParameter("angleDeviation", lsystemAngleDeviation->getValue());
         if (showWindow != nullptr) {
             showWindow->update(fromUTF8(results->getText().toStdString()));
         }

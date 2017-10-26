@@ -13,4 +13,6 @@
 std::string toUTF8(const std::wstring &str);
 std::wstring fromUTF8(const std::string &str);
 
+std::wstring trim(const std::wstring &s);
+
 #endif /* utils_hpp */

@@ -21,9 +21,9 @@
 
 #include <iostream>
 
-double jp::Runner::getParameter(const std::string &parName) {
+double jp::Runner::getParameter(const std::string &parName, float defValue) {
     if (parameters.find(parName) == parameters.end()) {
-        return 0;
+        return defValue;
     }
     return parameters[parName];
 }
@@ -54,7 +54,7 @@ std::string jp::AutomateRunner::run() {
     return toUTF8(result);
 }
 
-std::vector<std::pair<std::string,std::wstring>> jp::AutomateRunner::getExamples() {
+std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> jp::AutomateRunner::getExamples() {
     return grammarExamples();
 }
 
@@ -77,7 +77,7 @@ jp::LSystemRunner::LSystemRunner() {
 }
 
 std::string jp::LSystemRunner::run() {
-    auto lsystem = parseLSystem(fromUTF8(code));
+    auto lsystem = LSystem::parseLSystem(fromUTF8(code));
     
     if (lsystem->getErrorCount() > 0) {
         errorsHappened = true;
@@ -92,7 +92,7 @@ std::string jp::LSystemRunner::run() {
     }
 }
 
-std::vector<std::pair<std::string,std::wstring>> jp::LSystemRunner::getExamples() {
+std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> jp::LSystemRunner::getExamples() {
     return LSystemExamples();
 }
 
@@ -122,7 +122,7 @@ std::string jp::MarkovRunner::run() {
     return toUTF8(markov.getString(getParameter("textLen")));
 }
 
-std::vector<std::pair<std::string,std::wstring>> jp::MarkovRunner::getExamples() {
+std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> jp::MarkovRunner::getExamples() {
     return markovExamples();
 }
 
@@ -156,7 +156,7 @@ std::string jp::ProgramRunner::run() {
     return result;
 }
 
-std::vector<std::pair<std::string,std::wstring>> jp::ProgramRunner::getExamples() {
+std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> jp::ProgramRunner::getExamples() {
     return programExamples();
 }
 
@@ -180,7 +180,7 @@ std::string jp::NamShubRunner::run() {
     return toUTF8(namShub.executeCommand(getStringParameter("command"), fromUTF8(text)));
 }
 
-std::vector<std::pair<std::string,std::wstring>> jp::NamShubRunner::getExamples() {
+std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> jp::NamShubRunner::getExamples() {
     return {};
 }
 
