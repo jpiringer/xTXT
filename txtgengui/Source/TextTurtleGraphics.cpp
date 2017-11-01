@@ -20,8 +20,15 @@ jp::TextTurtleGraphics::TextTurtleGraphics() {
 
 void jp::TextTurtleGraphics::saveAsImage(jp::Runner *runner, const std::string &fileName) {
     float imageScale = 10;
-    float drawingWidth = (maxx - minx)*imageScale;
-    float drawingHeight = (maxy - miny)*imageScale;
+	float drawingWidthOptimal = (maxx - minx)*imageScale;
+	float drawingHeightOptimal = (maxy - miny)*imageScale;
+    float drawingWidthCapped = std::min(drawingWidthOptimal, 10000.0f);
+    float drawingHeightCapped = std::min(drawingHeightOptimal, 10000.0f);
+
+	float rescale = std::min(drawingWidthCapped / drawingWidthOptimal, drawingHeightCapped / drawingHeightOptimal);
+	float drawingWidth = drawingWidthOptimal*rescale;
+	float drawingHeight = drawingHeightOptimal*rescale;
+
     Image image(Image::RGB, drawingWidth, drawingHeight, true);
     Graphics g(image);
     PNGImageFormat imageFormat;

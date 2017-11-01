@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <codecvt>
 #include <locale>
+#include <string>
 
 std::string convertToString(const std::wstring &wstr) {
     static std::wstring_convert<std::codecvt_utf8<wchar_t>> conv1;
@@ -34,6 +35,7 @@ std::wstring fromUTF8(const std::string &str) {
 }
 
 std::wstring trim(const std::wstring &s) {
-    auto  wsfront=std::find_if_not(s.begin(),s.end(),[](wchar_t c){return std::isspace(c);});
-    return std::wstring(wsfront,std::find_if_not(s.rbegin(),std::wstring::const_reverse_iterator(wsfront),[](wchar_t c){return std::isspace(c);}).base());
+	std::locale loc;
+    auto wsfront=std::find_if_not(s.begin(),s.end(),[loc](wchar_t c){return std::isspace(c, loc);});
+    return std::wstring(wsfront,std::find_if_not(s.rbegin(),std::wstring::const_reverse_iterator(wsfront),[loc](wchar_t c){return std::isspace(c, loc);}).base());
 }

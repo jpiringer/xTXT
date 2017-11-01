@@ -6,6 +6,7 @@
 //
 
 #include "Examples.hpp"
+#include <tuple>
 
 std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> grammarExamples() {
     return {
@@ -1018,9 +1019,9 @@ abschiedsworts)"
         };
 }
 
-std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> programExamples() {
+std::vector<std::tuple<std::string, std::wstring, std::vector<std::wstring>>> programExamples() {
     return {
-        {"hello, world!",
+		{"hello, world!",
         LR"(print "hello, world!")"
         ,{}
         }

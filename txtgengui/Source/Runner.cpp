@@ -98,7 +98,7 @@ std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> jp:
 
 DrawFunction jp::LSystemRunner::getDrawFunction() {
     return [this](Graphics &g, int width, int height, const std::wstring &str, double time) {
-        textTurtleGraphics->draw(this, g, width, height, str, time);
+		textTurtleGraphics->draw(this, g, width, height, str, time);
     };
 }
 

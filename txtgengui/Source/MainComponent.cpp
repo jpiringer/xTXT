@@ -746,6 +746,10 @@ void MainContentComponent::show() {
 }
 
 void MainContentComponent::setCurrentRunnerType(jp::RunnerType rt) {
+	if (showWindow != nullptr) {
+		deleteAndZero(showWindow);
+	}
+
     switch (rt) {
         case jp::Grammar:
             runner = std::make_shared<jp::AutomateRunner>();
