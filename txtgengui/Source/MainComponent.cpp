@@ -21,12 +21,17 @@
 
 COMPONENT_ID(LARGE_FONT_COMPONENT_ID);
 
-
 #define FONT_SIZE_SMALL 20
 #define FONT_SIZE_LARGE 40
 #define FONT_SIZE standardFontSize
 
 #define LARGE_FONT_SETTINGS "LARGE_FONT"
+
+#if JUCE_MAC
+#define NATIVE_MENU 1
+#else
+#define NATIVE_MENU 0
+#endif
 
 static int standardFontSize = FONT_SIZE_SMALL;
 
@@ -59,15 +64,13 @@ MainContentComponent::MainContentComponent()
     
     restoreSettings();
     
-    addAndMakeVisible(menuBar = new MenuBarComponent(this));
-    
-#if JUCE_MAC
-    menuBar->setModel(nullptr);
+#if NATIVE_MENU
+    //menuBar->setModel(nullptr);
     extraAppleMenuItems = std::make_shared<PopupMenu>();
     extraAppleMenuItems->addItem(aboutCmd, "About xTXT...");
     MenuBarModel::setMacMainMenu(this, extraAppleMenuItems.get());
-#elif JUCE_WINDOWS
-    
+#else
+    addAndMakeVisible(menuBar = new MenuBarComponent(this));
 #endif
 
     runButton = std::make_shared<TextButton>("Run");
@@ -190,6 +193,8 @@ MainContentComponent::MainContentComponent()
     
     editor->loadContent("");
     setCurrentRunnerType(getCurrentRunnerType());
+    
+    setApplicationCommandManagerToWatch(&MainWindow::getApplicationCommandManager());
 }
 
 MainContentComponent::~MainContentComponent() {
@@ -201,7 +206,7 @@ MainContentComponent::~MainContentComponent() {
     PopupMenu::dismissAllActiveMenus();
 
     filenameComponent.removeListener(this);
-#if JUCE_MAC
+#if NATIVE_MENU
     MenuBarModel::setMacMainMenu(nullptr);
 #endif
 }
@@ -276,7 +281,7 @@ void MainContentComponent::resized() {
     Rectangle<int> r(getLocalBounds());
     
     // menu
-#if !JUCE_MAC
+#if !NATIVE_MENU
     menuBar->setBounds(r.removeFromTop(LookAndFeel::getDefaultLookAndFeel().getDefaultMenuBarHeight()));
 #endif
 
@@ -389,12 +394,12 @@ void MainContentComponent::filenameComponentChanged(FilenameComponent *) {
 }
 
 StringArray MainContentComponent::getMenuBarNames() {
-    const char *const names[] = { "File", "Edit", "Help", nullptr };
+    //const char *const names[] = { "File", "Edit", "Help", nullptr };
 
-    return StringArray(names);
+    return { "File", "Edit", "Help"};
 }
 
-PopupMenu MainContentComponent::getMenuForIndex(int menuIndex, const String& menuName) {
+PopupMenu MainContentComponent::getMenuForIndex(int menuIndex, const String &menuName) {
     ApplicationCommandManager *commandManager = &MainWindow::getApplicationCommandManager();
     
     PopupMenu menu;
@@ -415,7 +420,7 @@ PopupMenu MainContentComponent::getMenuForIndex(int menuIndex, const String& men
         menu.addCommandItem(commandManager, MainContentComponent::redoCmd);
     }
     else if (menuIndex == 2) { // Help
-#if JUCE_WINDOWS
+#if !NATIVE_MENU
         menu.addCommandItem(commandManager, MainContentComponent::aboutCmd);
 #endif
         menu.addCommandItem(commandManager, MainContentComponent::websiteCmd);
@@ -430,19 +435,6 @@ void MainContentComponent::menuItemSelected (int menuItemID, int topLevelMenuInd
     
     if (topLevelMenuIndex == -1 && menuItemID == aboutCmd) {
         showAbout();
-    }
-    else if (menuItemID == 6000)
-    {
-#if JUCE_MAC
-        if (MenuBarModel::getMacMainMenu() != nullptr) {
-            MenuBarModel::setMacMainMenu (nullptr);
-            menuBar->setModel (this);
-        }
-        else {
-            menuBar->setModel (nullptr);
-            MenuBarModel::setMacMainMenu (this);
-        }
-#endif
     }
 }
 
@@ -463,7 +455,7 @@ void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
         MainContentComponent::websiteCmd
     };
     
-    commands.addArray (ids, numElementsInArray(ids));
+    commands.addArray(ids, numElementsInArray(ids));
 }
 
 void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationCommandInfo &result) {
