@@ -35,7 +35,8 @@ std::wstring fromUTF8(const std::string &str) {
 }
 
 std::wstring trim(const std::wstring &s) {
-	std::locale loc;
+    std::locale loc("");
+
     auto wsfront=std::find_if_not(s.begin(),s.end(),[loc](wchar_t c){return std::isspace(c, loc);});
     return std::wstring(wsfront,std::find_if_not(s.rbegin(),std::wstring::const_reverse_iterator(wsfront),[loc](wchar_t c){return std::isspace(c, loc);}).base());
 }

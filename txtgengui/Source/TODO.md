@@ -2,8 +2,6 @@
 
 title for examples utf8 compatible on windows (use std::wstring)
 
-change app name for win10 (on output in the project)
-
 
 ## print
 * auf receipt-drucker ausdrucken?
@@ -157,3 +155,5 @@ längere heads
 
 ## visualisierung
 * random angle deviation
+
+change app name for win10 (on output in the project)

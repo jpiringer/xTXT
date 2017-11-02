@@ -118,6 +118,7 @@
 		308E2EBE1F8CE41E00001AA8 /* en_US.aff */ = {isa = PBXFileReference; lastKnownFileType = text; path = en_US.aff; sourceTree = "<group>"; };
 		308E2EBF1F8CE41E00001AA8 /* en_US.dic */ = {isa = PBXFileReference; lastKnownFileType = text; path = en_US.dic; sourceTree = "<group>"; };
 		309318FE1F98F75C00D8A760 /* CHANGES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGES.md; sourceTree = "<group>"; };
+		309688541FAB75E800EF8BB5 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Common.h; path = ../../Source/Common.h; sourceTree = "<group>"; };
 		30AF49179185AA832F3E631A /* Info-App.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-App.plist"; sourceTree = SOURCE_ROOT; };
 		357A8F7AF49826922CB6EFDF /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3D09E06C4E669C722463444E /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
@@ -244,6 +245,7 @@
 		52B0FB60DC822A9152557A20 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				309688541FAB75E800EF8BB5 /* Common.h */,
 				3087D39F1F82B60E009C157F /* GrammarTokeniser.hpp */,
 				3087D39E1F82B60E009C157F /* GrammarTokeniser.cpp */,
 				306FAF181F8CC81400BFB61C /* LSystemTokeniser.hpp */,

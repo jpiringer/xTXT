@@ -138,10 +138,14 @@ MainContentComponent::MainContentComponent()
 
     std::vector<std::string> methods = {
         "dup", "reverse", "sort", "rip", "shuffle",
-        "part", "split", "condense",
+        "part", "split", "word lines", "condense",
         "stretch", "vowels only", "cons only",
         "fricatives only", "plosives only", //"suggest",
-        "permutate"};
+        "permutate"
+#if PROGRAMMING_ENABLED
+        ,"convert to program"
+#endif
+    };
     
     for (auto s : methods) {
         std::shared_ptr<TextButton> b = std::make_shared<TextButton>(s);

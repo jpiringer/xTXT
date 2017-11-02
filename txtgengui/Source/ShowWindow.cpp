@@ -118,7 +118,6 @@ void ShowComponent::exportImage(jp::Runner *runner) {
     if (fileChooser.browseForFileToSave(true)) {
         std::cout << "export: " << fileChooser.getResult().getFullPathName() << std::endl;
         runner->saveAsImage(fileChooser.getResult().getFullPathName().toStdString());
-        //saveFile(fileChooser.getResult());
     }
 }
 

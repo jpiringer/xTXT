@@ -1,4 +1,4 @@
-﻿//
+//
 //  NamShub.cpp
 //  txtgencmd
 //
@@ -17,6 +17,8 @@
 
 #include "utils.hpp"
 #include "Platform.hpp"
+
+#include "Program.hpp"
 
 #define VOWELS L"aeiouAEIOUäöüÄÖÜ"
 #define CONSONANTS L"bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVXWZß"
@@ -247,6 +249,26 @@ std::wstring split(const std::wstring &s) {
     return str;
 }
 
+std::wstring wordLines(const std::wstring &s) {
+    static std::locale locale("");
+    std::wstring str = L"";
+    bool wasWhitespace = false;
+    
+    for (size_t i = 0; i < s.length(); i++) {
+        if (std::isspace(s[i], locale)) {
+            if (!wasWhitespace) {
+                str += L"\n";
+            }
+            wasWhitespace = true;
+        }
+        else {
+            str += s[i];
+            wasWhitespace = false;
+        }
+    }
+    return str;
+}
+
 template <class S> S permutations(const S &in) {
     S ret;
     S str = in;
@@ -319,6 +341,9 @@ std::wstring NamShubExecutor::executeCommand(const std::string &command, std::ws
         {"split", [](const std::wstring &str) {
             return split(str);
         }},
+        {"word lines", [](const std::wstring &str) {
+            return wordLines(str);
+        }},
         {"condense", [](const std::wstring &str) {
             return condense(str);}},
         {"stretch", [](const std::wstring &str) {
@@ -341,6 +366,11 @@ std::wstring NamShubExecutor::executeCommand(const std::string &command, std::ws
                 return str;
             }
         }}
+#if PROGRAMMING_ENABLED
+        ,{"convert to program", [](const std::wstring &str) {
+            return LuaProgram::convertToProgram(str);
+        }}
+#endif
     };
                         
     for (auto p : commands) {

@@ -9,6 +9,8 @@
 #ifndef NamShub_hpp
 #define NamShub_hpp
 
+#include "Common.h"
+
 #include <string>
 #include <memory>
 

@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "Common.h"
+
 #include "../JuceLibraryCode/JuceHeader.h"
 
 #include "Runner.hpp"
@@ -147,8 +149,10 @@ private:
         {"Markov", jp::Markov},
         {"Methods", jp::NamShub},
         {"L-System", jp::LSystem},
-        {"Grammar", jp::Grammar}//,
-        //{"Program", jp::Program}
+        {"Grammar", jp::Grammar}
+#if PROGRAMMING_ENABLED
+        ,{"Program", jp::Program}
+#endif
     };
     Component runTypeGroup;
     std::vector<std::shared_ptr<TextButton>> runTypeButtons;
