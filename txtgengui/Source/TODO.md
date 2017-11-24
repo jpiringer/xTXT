@@ -1,5 +1,7 @@
 #  TODO
 
+background funktioniert nicht bei program
+
 title for examples utf8 compatible on windows (use std::wstring)
 
 

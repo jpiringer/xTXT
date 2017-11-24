@@ -9,7 +9,9 @@
 
 #include "MainComponent.h"
 
-#define SHOW_FPS 0
+#include "Program.hpp"
+
+#define SHOW_FPS 1
 
 ShowComponent::ShowComponent(const String& name)
 : Component (name),
@@ -28,7 +30,6 @@ void ShowComponent::startAnimation() {
 }
 
 void ShowComponent::stopAnimation() {
-    
 }
 
 void ShowComponent::paint(Graphics &g) {
@@ -138,11 +139,12 @@ void ShowWindow::closeButtonPressed() {
 }
 
 void ShowWindow::timerCallback() {
+    TextWorld::sharedTextWorld().update(1.f/30.f);
     contentComponent->repaint();
 }
 
 void ShowWindow::startAnimation() {
-    startTimerHz(60);
+    startTimerHz(30);
     animated = true;
     contentComponent->startAnimation();
 }

@@ -1020,10 +1020,20 @@ abschiedsworts)"
 }
 
 std::vector<std::tuple<std::string, std::wstring, std::vector<std::wstring>>> programExamples() {
-    return {
-		{"hello, world!",
-        LR"(print "hello, world!")"
-        ,{}
-        }
-  };
+return {
+{"hello, world!",
+LR"(print "hello, world!")"
+,{}
+},
+{"show",
+LR"(-- copy this to Program mode to execute there
+color("black")
+background("white")
+size(30)
+center()
+addText("hello, world!")
+)"
+,{}
+}
+};
 }

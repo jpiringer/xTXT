@@ -71,7 +71,7 @@ void jp::TextTurtleGraphics::initState(jp::Runner *runner, Graphics &g, int widt
     
     posx = width/2;
     posy = height/2;
-    angle = -M_PI/2;
+    angle = 0; //-M_PI/2;
 
     checkLimits();
 }
@@ -135,7 +135,7 @@ void jp::TextTurtleGraphics::processCharacter(Graphics &g, wchar_t c, bool draw)
                 g.setFont(*displayFont);
                 g.addTransform(AffineTransform::scale(scale));
                 g.addTransform(AffineTransform::translation(posx+offsx, posy+offsy));
-                g.addTransform(AffineTransform::rotation(angle+M_PI/2));
+                g.addTransform(AffineTransform::rotation(angle));
                 g.drawSingleLineText(s2, 0, 0, Justification::horizontallyCentred);
             }
             posx += cos(angle) * fontSize;

@@ -162,7 +162,7 @@ std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> jp:
 
 DrawFunction jp::ProgramRunner::getDrawFunction() {
     return [](Graphics &g, int width, int height, const std::wstring &, double time) {
-        
+        TextWorld::sharedTextWorld().draw(g);
     };
 }
 

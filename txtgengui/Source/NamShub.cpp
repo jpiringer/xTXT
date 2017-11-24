@@ -218,7 +218,7 @@ template <class S> S &stretch(S in) {
     return result;
 }
 
-template <class S> S &condense(S in) {
+template <class S> S &condenseSpace(S in) {
     static S result;
     
     result = L"";
@@ -345,7 +345,7 @@ std::wstring NamShubExecutor::executeCommand(const std::string &command, std::ws
             return wordLines(str);
         }},
         {"condense", [](const std::wstring &str) {
-            return condense(str);}},
+            return condenseSpace(str);}},
         {"stretch", [](const std::wstring &str) {
             return stretch(str);}},
         {"vowels only", [](const std::wstring &str) {
