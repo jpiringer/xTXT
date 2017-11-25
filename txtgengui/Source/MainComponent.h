@@ -34,7 +34,8 @@ class MainContentComponent :
     public ButtonListener,
     public Slider::Listener,
     public ComboBox::Listener,
-    public ApplicationCommandTarget
+    public ApplicationCommandTarget,
+    public jp::RunContext
 {
 public:
     //==============================================================================
@@ -79,6 +80,11 @@ private:
     ApplicationCommandTarget* getNextCommandTarget() override;
     bool perform (const InvocationInfo& info) override;
     
+    // run context
+    virtual void changeOutput(const std::string &str) override;
+    virtual void setErrors(const std::string &str) override;
+    virtual void changeShowSize(float width, float height) override;
+    
     // listeners
     void buttonClicked (Button* button) override;
     void comboBoxChanged(ComboBox *comboBoxThatHasChanged) override;
@@ -92,8 +98,9 @@ private:
     void speak();
     void showAbout();
     void showWebsite();
-    void show();
-    
+    void show(int width = -1, int height = -1);
+    void setShowSize(int width, int height);
+
     ScopedPointer<MenuBarComponent> menuBar;
     std::shared_ptr<PopupMenu> extraAppleMenuItems = nullptr;
 

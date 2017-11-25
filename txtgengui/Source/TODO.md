@@ -1,15 +1,16 @@
 #  TODO
 
-background funktioniert nicht bei program
+crasht wenn man das show fenster für program schliesst und wieder öffnet
 
-title for examples utf8 compatible on windows (use std::wstring)
-
+keine eingabe von enter im namshub modus möglich
 
 ## print
 * auf receipt-drucker ausdrucken?
 * stop print
 
 # LATER
+
+title for examples utf8 compatible on windows (use std::wstring)
 
 ## show / animate
 * animation des textes
@@ -159,3 +160,11 @@ längere heads
 * random angle deviation
 
 change app name for win10 (on output in the project)
+
+background funktioniert nicht bei program
+
+crasht bei exit (font leak)
+
+window grösse über program definieren
+
+error und output von program reaktivieren

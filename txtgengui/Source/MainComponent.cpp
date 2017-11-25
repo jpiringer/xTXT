@@ -637,6 +637,28 @@ void MainContentComponent::showSettings() {
     }
 }
 
+void MainContentComponent::changeOutput(const std::string &str) {
+    MessageManager::callAsync([this, str] {
+        results->setColour(TextEditor::textColourId, Colour(0, 0, 0));
+
+        results->setText(str);
+    });
+}
+
+void MainContentComponent::setErrors(const std::string &str) {
+    MessageManager::callAsync([this, str] {
+        results->setColour(TextEditor::textColourId, Colour(0xff, 0, 0));
+        
+        results->setText(str);
+    });
+}
+
+void MainContentComponent::changeShowSize(float width, float height) {
+    MessageManager::callAsync([this, width, height] {
+        setShowSize(width, height);
+    });
+}
+
 void MainContentComponent::run() {
     auto content = editor->getDocument().getAllContent().toStdString();
     std::string text;
@@ -665,7 +687,7 @@ void MainContentComponent::run() {
     runner->setCode(content);
     runner->setText(text);
 
-    auto runnerResults = runner->run();
+    auto runnerResults = runner->run(this);
     if (runner->hasErrors()) {
         results->setColour(TextEditor::textColourId, Colour(0xff, 0, 0));
     }
@@ -706,8 +728,24 @@ inline Colour getRandomColour (float brightness)
 
 inline Colour getRandomBrightColour()   { return getRandomColour (0.8f); }
 
-void MainContentComponent::show() {
-    bool native = true;
+void MainContentComponent::setShowSize(int width, int height) {
+    if (showWindow != nullptr) {
+        const bool native = true;
+        Rectangle<int> area(0, 0, width, height);
+        
+        RectanglePlacement placement((native ? RectanglePlacement::xLeft
+                                      : RectanglePlacement::xRight)
+                                     | RectanglePlacement::yTop
+                                     | RectanglePlacement::doNotResize);
+        
+        Rectangle<int> result(placement.appliedTo(area, Desktop::getInstance().getDisplays()
+                                                  .getMainDisplay().userArea.reduced(20)));
+        showWindow->setBounds(result);
+    }
+}
+
+void MainContentComponent::show(int width, int height) {
+    const bool native = true;
 
     if (showWindow != nullptr) {
         showWindow->stopAnimation();
@@ -716,16 +754,12 @@ void MainContentComponent::show() {
     
     showWindow = new ShowWindow();
     
-    Rectangle<int> area (0, 0, 600, 400);
-    
-    RectanglePlacement placement((native ? RectanglePlacement::xLeft
-                                   : RectanglePlacement::xRight)
-                                  | RectanglePlacement::yTop
-                                  | RectanglePlacement::doNotResize);
-    
-    Rectangle<int> result(placement.appliedTo(area, Desktop::getInstance().getDisplays()
-                                                .getMainDisplay().userArea.reduced (20)));
-    showWindow->setBounds(result);
+    if (width < 0 || height < 0) {
+        setShowSize(600, 400);
+    }
+    else {
+        setShowSize(width, height);
+    }
     
     showWindow->setResizable(true, !native);
     showWindow->setUsingNativeTitleBar(native);

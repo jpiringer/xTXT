@@ -17,8 +17,10 @@
 #include "TextTurtleGraphics.hpp"
 
 #include "LSystem.h"
+#include "Program.hpp"
 
 class LSystem;
+class LuaProgram;
 
 namespace jp {
     enum RunnerType {
@@ -30,12 +32,20 @@ namespace jp {
     };
     
     class TextTurtleGraphics;
+   
+    class RunContext {
+    public:
+        virtual ~RunContext() {}
+        virtual void changeOutput(const std::string &str) = 0;
+        virtual void setErrors(const std::string &str) = 0;
+        virtual void changeShowSize(float width, float height) = 0;
+    };
     
     class Runner {
     protected:
         std::string code;
         std::string text;
-
+        
         bool errorsHappened = false;
 
         std::map<std::string, double> parameters;
@@ -49,10 +59,13 @@ namespace jp {
         
         virtual RunnerType getType() = 0;
                 
-        virtual std::string run() = 0;
+        virtual std::string run(RunContext *runContext) = 0;
         
         bool hasErrors() {return errorsHappened;}
         void resetErrors() {errorsHappened = false;}
+        
+        void changeOutput(const std::string &str);
+        void changeShowSize(float width, float height);
         
         void setParameter(const std::string &parName, double value) {parameters[parName] = value;}
         double getParameter(const std::string &parName, float defValue = 0);
@@ -73,7 +86,7 @@ namespace jp {
         
         virtual RunnerType getType() override {return Grammar;}
         
-        virtual std::string run() override;
+        virtual std::string run(RunContext *runContext) override;
 
         virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() override;
         
@@ -94,7 +107,7 @@ namespace jp {
         
         virtual RunnerType getType() override {return LSystem;}
         
-        virtual std::string run() override;
+        virtual std::string run(RunContext *runContext) override;
         
         virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() override;
         
@@ -110,7 +123,7 @@ namespace jp {
         
         virtual RunnerType getType() override {return Markov;}
         
-        virtual std::string run() override;
+        virtual std::string run(RunContext *runContext) override;
         
         virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() override;
         
@@ -121,12 +134,14 @@ namespace jp {
     };
 
     class ProgramRunner : public Runner {
+        std::shared_ptr<LuaProgram> program;
+
     public:
         virtual ~ProgramRunner() {}
         
         virtual RunnerType getType() override {return Program;}
         
-        virtual std::string run() override;
+        virtual std::string run(RunContext *runContext) override;
         
         virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() override;
         
@@ -142,7 +157,7 @@ namespace jp {
         
         virtual RunnerType getType() override {return NamShub;}
         
-        virtual std::string run() override;
+        virtual std::string run(RunContext *runContext) override;
         
         virtual std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> getExamples() override;
         

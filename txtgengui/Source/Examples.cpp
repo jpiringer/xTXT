@@ -1026,12 +1026,25 @@ LR"(print "hello, world!")"
 ,{}
 },
 {"show",
-LR"(-- copy this to Program mode to execute there
-color("black")
+LR"(color("black")
 background("white")
 size(30)
 center()
 addText("hello, world!")
+)"
+,{}
+},
+{"animation 1",
+LR"(screen(1920, 1080)
+color("black")
+background("yellow")
+size(30)
+center()
+addText("hello, world!")
+print("hello!")
+wait(2)
+addText("XXXXXXXX")
+print("X!")
 )"
 ,{}
 }

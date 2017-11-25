@@ -12,6 +12,8 @@
 
 #include <functional>
 
+#define FPS 30.f
+
 typedef std::function<void(Graphics &, int, int, const std::wstring &, double)> DrawFunction;
 
 namespace jp {

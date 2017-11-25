@@ -136,7 +136,7 @@ void jp::TextTurtleGraphics::processCharacter(Graphics &g, wchar_t c, bool draw)
                 g.addTransform(AffineTransform::scale(scale));
                 g.addTransform(AffineTransform::translation(posx+offsx, posy+offsy));
                 g.addTransform(AffineTransform::rotation(angle));
-                g.drawSingleLineText(s2, 0, 0, Justification::horizontallyCentred);
+                g.drawSingleLineText(s2, 0, 0, juce::Justification::horizontallyCentred);
             }
             posx += cos(angle) * fontSize;
             posy += sin(angle) * fontSize;

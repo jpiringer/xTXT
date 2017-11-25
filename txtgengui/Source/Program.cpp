@@ -8,14 +8,21 @@
 
 #include "Program.hpp"
 
+#include "Runner.hpp"
+
 #if TARGET_MACOS
 #include <lua.hpp>
 #else
 #include "lua.hpp"
 #endif
 
+#define MAX_WAIT_TIME 10.f
+
 TextWorld TextWorld::textWorld;
 std::shared_ptr<Font> textDisplayFont;
+
+LuaProgram *LuaProgram::theProgram = nullptr;
+static std::string programOutput = "";
 
 void TextNode::draw(Graphics &g) {
     const Graphics::ScopedSaveState state(g);
@@ -24,14 +31,13 @@ void TextNode::draw(Graphics &g) {
     textDisplayFont->setHeight(size);
     g.setFont(*textDisplayFont);
     //g.addTransform(AffineTransform::scale(scale));
-    g.addTransform(AffineTransform::translation(r.getX()+r.getWidth()*(getX()+0.5f), r.getY()+r.getHeight()*(getY()+0.5f)));
+    g.addTransform(AffineTransform::translation(r.getX()+(r.getWidth()*(getX()+1.f))/2.f, r.getY()+(r.getHeight()*(getY()+1.f))/2.f));
     //g.addTransform(AffineTransform::rotation(angle));
     g.setColour(Colour((uint8)(getRed()*255.f), (uint8)(getGreen()*255.f), (uint8)(getBlue()*255.f), getAlpha()));
     g.drawSingleLineText(text, 0, 0, Justification::horizontallyCentred);
 }
 
 TextWorld::~TextWorld() {
-    textDisplayFont = nullptr;
 }
 
 void TextWorld::addNode(std::shared_ptr<Node> node) {
@@ -84,12 +90,10 @@ void TextWorld::draw(Graphics &gc) {
 }
 
 
-LuaProgram *LuaProgram::theProgram = nullptr;
-static std::string programOutput = "";
-
 std::wstring LuaProgram::convertToProgram(const std::wstring &str) {
     std::wstring ret =
 LR"(-- copy this to Program mode to execute there
+screen(1920, 1080)
 color("black")
 background("white")
 size(30)
@@ -100,7 +104,7 @@ center()
         ret += L"show(\"";
     };
     auto endline = [&ret]() {
-        ret += L"\", 0.3)\n";
+        ret += L"\", 1)\n";
     };
     
     newline();
@@ -121,12 +125,23 @@ center()
     return ret;
 }
 
-static int printL(lua_State* L) {
+static int printL(lua_State *L) {
     int nargs = lua_gettop(L);
     for (int i=1; i <= nargs; ++i) {
         programOutput += lua_tostring(L, i);
     }
     programOutput += "\n";
+    
+    LuaProgram::sharedProgram()->changeOutput(programOutput);
+    
+    return 0;
+}
+
+static int screenL(lua_State *L) {
+    lua_Number width = lua_tonumber(L, 1);
+    lua_Number height = lua_tonumber(L, 2);
+    
+    LuaProgram::sharedProgram()->changeShowSize(width, height);
     
     return 0;
 }
@@ -175,7 +190,15 @@ static int showL(lua_State *L) {
     checkDisplay();
     
     auto node = addText(lua_tostring(L, 1));
-    node->setLifetime(lua_tonumber(L, 2));
+    
+    lua_Number lifetime = lua_tonumber(L, 2);
+    node->setLifetime(lifetime);
+
+    if (lifetime > MAX_WAIT_TIME) {
+        luaL_error(L, "cannot wait for more than %f seconds (was: %f)", MAX_WAIT_TIME, (float)lifetime);
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds((long)(lifetime*1000.f)));
     
     return 0;
 }
@@ -275,13 +298,18 @@ static int sizeL(lua_State *L) {
 }
 
 static int waitL(lua_State *L) {
-    usleep(lua_tonumber(L, 1)*1000.f*1000.f);
+    lua_Number t = lua_tonumber(L, 1);
+    if (t > MAX_WAIT_TIME) {
+        luaL_error(L, "cannot wait for more than %f seconds (was: %f)", MAX_WAIT_TIME, (float)t);
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds((long)(t*1000.f)));
     return 0;
 }
 
 #define CMD(c) {#c, c##L}
 static const struct luaL_Reg printlib [] = {
     CMD(print),
+    CMD(screen), // set the screen/window size
     CMD(show), // show a text for a certain time
     CMD(addText), // add a text node
     CMD(removeText), // remove a certain text
@@ -299,11 +327,50 @@ static const struct luaL_Reg printlib [] = {
 };
 
 LuaProgram::~LuaProgram() {
+    textDisplayFont = nullptr;
 }
 
-std::string LuaProgram::execute() {
+void LuaProgram::instructionHook(lua_State *L) {
+    if (threadShouldExit()) {
+        luaL_error(L, "User interrupt");
+    }
+}
+
+void instructionHook(lua_State *L, lua_Debug *ar) {
+    if(ar->event == LUA_HOOKCOUNT) {
+        if (LuaProgram::sharedProgram() != nullptr) {
+            LuaProgram::sharedProgram()->instructionHook(L);
+        }
+    }
+}
+
+void LuaProgram::changeOutput(const std::string &str) {
+    runContext->changeOutput(str);
+}
+
+void LuaProgram::changeShowSize(float width, float height) {
+    runContext->changeShowSize(width, height);
+}
+
+void LuaProgram::run() {
+    lua_State *L = luaL_newstate();
+    luaL_openlibs(L);
+    lua_sethook(L, ::instructionHook, LUA_MASKCOUNT, 1);
+    lua_getglobal(L, "_G");
+    luaL_setfuncs(L, printlib, 0);
+    lua_pop(L, 1);
+    luaL_loadstring(L, code.c_str());
+    if (lua_pcall(L, 0, LUA_MULTRET, 0) != LUA_OK) {
+        _error(lua_tostring(L, -1));
+    }
+    lua_close(L);
+}
+
+std::string LuaProgram::execute(jp::RunContext *_runContext) {
     programOutput = "";
     theProgram = this;
+    
+    runContext = _runContext;
     
     setSize(30);
     setColor(0,0,0,1);
@@ -315,16 +382,12 @@ std::string LuaProgram::execute() {
 
     TextWorld::sharedTextWorld().removeAllNodes();
     
-    lua_State *L = luaL_newstate();
-    luaL_openlibs(L);
-    lua_getglobal(L, "_G");
-    luaL_setfuncs(L, printlib, 0);
-    lua_pop(L, 1);
-    luaL_loadstring(L, code.c_str());
-    if (lua_pcall(L, 0, LUA_MULTRET, 0) != LUA_OK) {
-        _error(lua_tostring(L, -1));
+    if (isThreadRunning()) {
+        stopThread((MAX_WAIT_TIME+1.f)*1000);
     }
-    lua_close(L);
+    else {
+        startThread();
+    }
     
     return programOutput;
 }

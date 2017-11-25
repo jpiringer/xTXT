@@ -12,9 +12,17 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <thread>
+
+#include "Runner.hpp"
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+#if TARGET_MACOS
+#include <lua.hpp>
+#else
+#include "lua.hpp"
+#endif
 
 namespace jp {
     enum Justification {
@@ -22,6 +30,9 @@ namespace jp {
         JustificationRight,
         JustificationCenter
     };
+    
+    class ProgramRunner;
+    class RunContext;
 };
 
 class Node {
@@ -96,12 +107,16 @@ public:
     static TextWorld &sharedTextWorld() {return textWorld;}
 };
 
-class LuaProgram {
+class LuaProgram :
+public Thread
+{
     static LuaProgram *theProgram;
+    
+    jp::RunContext *runContext;
     
     std::string code;
     
-    int errorCount = 0;
+    std::atomic_int errorCount;
     std::string errors;
     
     float colorR, colorG, colorB, colorA;
@@ -118,14 +133,16 @@ protected:
     }
     
 public:
-    LuaProgram() {}
+    LuaProgram() : juce::Thread("LuaProgramRunner") {}
     ~LuaProgram();
+    
+    virtual void run() override;
     
     int getErrorCount() {return errorCount;}
     const std::string &getErrors() {return errors;}
     
     void setCode(const std::string &c) {code = c;}
-    std::string execute();
+    std::string execute(jp::RunContext *_runContext);
     
     void setColor(float r, float g, float b, float a) {colorR = r; colorG = g; colorB = b; colorA = a;}
     void getColor(float &r, float &g, float &b, float &a) {r = colorR; g = colorG; b = colorB; a = colorA;}
@@ -144,6 +161,10 @@ public:
 
     static std::wstring convertToProgram(const std::wstring &str);
     
+    void instructionHook(lua_State *L);
+    void changeOutput(const std::string &str);
+    void changeShowSize(float width, float height);
+
     static LuaProgram *sharedProgram() {return theProgram;}
 };
 #endif /* Program_hpp */

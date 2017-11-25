@@ -139,12 +139,12 @@ void ShowWindow::closeButtonPressed() {
 }
 
 void ShowWindow::timerCallback() {
-    TextWorld::sharedTextWorld().update(1.f/30.f);
+    TextWorld::sharedTextWorld().update(1.f/FPS);
     contentComponent->repaint();
 }
 
 void ShowWindow::startAnimation() {
-    startTimerHz(30);
+    startTimerHz(FPS);
     animated = true;
     contentComponent->startAnimation();
 }

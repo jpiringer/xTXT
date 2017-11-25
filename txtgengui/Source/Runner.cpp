@@ -35,11 +35,19 @@ std::string jp::Runner::getStringParameter(const std::string &parName) {
     return stringParameters[parName];
 }
 
+void jp::Runner::changeOutput(const std::string &str) {
+    
+}
+
+void jp::Runner::changeShowSize(float width, float height) {
+    
+}
+
 // ====================================================================================
 // AutomateRunner
 // ====================================================================================
 
-std::string jp::AutomateRunner::run() {
+std::string jp::AutomateRunner::run(RunContext *runContext) {
     std::wstring expression = fromUTF8(code);
     jp::Parser parser(expression);
     
@@ -76,7 +84,7 @@ jp::LSystemRunner::LSystemRunner() {
     textTurtleGraphics = std::make_shared<jp::TextTurtleGraphics>();
 }
 
-std::string jp::LSystemRunner::run() {
+std::string jp::LSystemRunner::run(RunContext *runContext) {
     auto lsystem = LSystem::parseLSystem(fromUTF8(code));
     
     if (lsystem->getErrorCount() > 0) {
@@ -114,7 +122,7 @@ void jp::LSystemRunner::saveAsImage(const std::string &fileName) {
 // MarkovRunner
 // ====================================================================================
 
-std::string jp::MarkovRunner::run() {
+std::string jp::MarkovRunner::run(RunContext *runContext) {
     auto source = fromUTF8(code);
     MarkovTable markov(getParameter("prefixLen"));
     markov.addString(source);
@@ -140,17 +148,18 @@ bool jp::MarkovRunner::isAnimated() {
 // ProgramRunner
 // ====================================================================================
 
-std::string jp::ProgramRunner::run() {
-    LuaProgram program;
+std::string jp::ProgramRunner::run(RunContext *runContext) {
+    if (program == nullptr) {
+        program = std::make_shared<LuaProgram>();
+    }
+    program->setCode(code);
     
-    program.setCode(code);
+    auto result = program->execute(runContext);
     
-    auto result = program.execute();
-    
-    if (program.getErrorCount() > 0) {
+    if (program->getErrorCount() > 0) {
         errorsHappened = true;
         result += "\n";
-        result += program.getErrors();
+        result += program->getErrors();
     }
     
     return result;
@@ -174,7 +183,7 @@ bool jp::ProgramRunner::isAnimated() {
 // NamShubRunner
 // ====================================================================================
 
-std::string jp::NamShubRunner::run() {
+std::string jp::NamShubRunner::run(RunContext *runContext) {
     NamShubExecutor namShub;
     
     return toUTF8(namShub.executeCommand(getStringParameter("command"), fromUTF8(text)));
