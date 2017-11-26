@@ -20,8 +20,8 @@
 
 #include "Program.hpp"
 
-#define VOWELS L"aeiouAEIOUäöüÄÖÜ"
-#define CONSONANTS L"bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVXWZß"
+#define VOWELS L"aeiouAEIOU\u00E4\u00F6\u00FC\u00C4\u00D6\u00DC"
+#define CONSONANTS L"bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVXWZ\u00DF"
 #define PLOSIVES L"cbdkptCBDKPT"
 #define FRICATIVES L"fsvFSV"
 #define LOOPABLE (VOWELS L"fhlmnrsvFHLMNRSV")
@@ -29,8 +29,8 @@
 #define ALPHA (VOWELS CONSONANTS)
 #define WHITESPACE L" \t\r\n"
 #define NEWLINE L"\n"
-#define STRETCHABLE L"aefhilmnorsuyäöüAEFHILMNORSUYÄÖÜ"
-#define NORMALCHARS L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ^°!\"$%&/()\\=?+*#'´`-_.:,;€@<>äöüÄÖÜß \t\r\t"
+#define STRETCHABLE L"aefhilmnorsuy\u00E4\u00F6\u00FCAEFHILMNORSUY\u00C4\u00D6\u00DC"
+#define NORMALCHARS L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ^°!\"$%&/()\\=?+*#'´`-_.:,;€@<>\u00E4\u00F6\u00FC\u00C4\u00D6\u00DC\u00DF \t\r\t"
 
 static std::wstring vowels = std::wstring(VOWELS);
 static std::wstring consonants = std::wstring(CONSONANTS);
@@ -90,25 +90,25 @@ std::wstring plosivesOnly(const std::wstring &s) {
 
 wchar_t transformSortChar(wchar_t c) {
 	switch (c) {
-	case L'ä':
+	case L'\u00E4': // ae
 		c = 'a';
 		break;
-	case L'ö':
+	case L'\u00F6': // oe
 		c = 'o';
 		break;
-	case L'ü':
+	case L'\u00FC': // ue
 		c = 'u';
 		break;
-	case L'ß':
+	case L'\u00DF': // sz
 		c = 's';
 		break;
-	case L'Ä':
+	case L'\u00C4': // Ae
 		c = 'A';
 		break;
-	case L'Ö':
+	case L'\u00D6': // Oe
 		c = 'O';
 		break;
-	case L'Ü':
+	case L'\u00DC': // Ue
 		c = 'U';
 		break;
 	}
