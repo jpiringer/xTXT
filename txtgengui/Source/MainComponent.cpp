@@ -535,7 +535,7 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
             break;
         case MainContentComponent::exportCmd:
             if (showWindow != nullptr) {
-                showWindow->exportImage(runner.get());
+                showWindow->exportImage();
             }
             break;
         case MainContentComponent::openCmd:
@@ -711,7 +711,7 @@ void MainContentComponent::run() {
     }
     
     if (showWindow != nullptr) {
-        showWindow->update(fromUTF8(results->getText().toStdString()));
+        showWindow->update(runner.get(), fromUTF8(results->getText().toStdString()));
     }
 }
 
@@ -768,7 +768,7 @@ void MainContentComponent::show(int width, int height) {
     runner->setParameter("angle", lsystemAngle->getValue());
     runner->setParameter("angleDeviation", lsystemAngleDeviation->getValue());
     showWindow->setDrawFunction(runner->getDrawFunction());
-    showWindow->update(fromUTF8(results->getText().toStdString()));
+    showWindow->update(runner.get(), fromUTF8(results->getText().toStdString()));
 
     if (runner->isAnimated()) {
         showWindow->startAnimation();
@@ -892,13 +892,13 @@ void MainContentComponent::sliderValueChanged(Slider *slider) {
     if (slider == lsystemAngle.get()) {
         runner->setParameter("angle", lsystemAngle->getValue());
         if (showWindow != nullptr) {
-            showWindow->update(fromUTF8(results->getText().toStdString()));
+            showWindow->update(runner.get(), fromUTF8(results->getText().toStdString()));
         }
     }
     else if (slider == lsystemAngleDeviation.get()) {
         runner->setParameter("angleDeviation", lsystemAngleDeviation->getValue());
         if (showWindow != nullptr) {
-            showWindow->update(fromUTF8(results->getText().toStdString()));
+            showWindow->update(runner.get(), fromUTF8(results->getText().toStdString()));
         }
     }
 }

@@ -32,6 +32,8 @@ public ApplicationCommandTarget
     std::wstring content;
     
     double animationStartTime = 0;
+    
+    jp::Runner *runner;
 
 public:
     ShowComponent(const String& name);
@@ -51,7 +53,8 @@ public:
     void startAnimation();
     void stopAnimation();
     
-    void exportImage(jp::Runner *runner);
+    void exportImage();
+    void setRunner(jp::Runner *_runner) {runner = _runner;}
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ShowComponent)
 };
@@ -74,9 +77,9 @@ public:
     void stopAnimation();
     
     void setDrawFunction(DrawFunction df) {contentComponent->setDrawFunction(df);}
-    void update(std::wstring str);
+    void update(jp::Runner *_runner, std::wstring str);
     
-    void exportImage(jp::Runner *runner);
+    void exportImage();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ShowWindow)
 };

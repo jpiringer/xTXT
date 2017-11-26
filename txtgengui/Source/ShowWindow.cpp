@@ -8,10 +8,11 @@
 #include "ShowWindow.hpp"
 
 #include "MainComponent.h"
+#include "MainWindow.h"
 
 #include "Program.hpp"
 
-#define SHOW_FPS 1
+#define SHOW_FPS 0
 
 ShowComponent::ShowComponent(const String& name)
 : Component (name),
@@ -78,7 +79,7 @@ void ShowComponent::getAllCommands(Array<CommandID>& commands) {
         MainContentComponent::exportCmd,
     };
     
-    commands.addArray (ids, numElementsInArray(ids));
+    commands.addArray(ids, numElementsInArray(ids));
 }
 
 void ShowComponent::getCommandInfo(CommandID commandID, ApplicationCommandInfo &result) {
@@ -105,7 +106,7 @@ ApplicationCommandTarget *ShowComponent::getNextCommandTarget() {
 bool ShowComponent::perform(const InvocationInfo& info) {
     switch (info.commandID) {
         case MainContentComponent::exportCmd:
-            //exportImage();
+            exportImage();
             break;
         default:
             return false;
@@ -113,7 +114,7 @@ bool ShowComponent::perform(const InvocationInfo& info) {
     return true;
 }
 
-void ShowComponent::exportImage(jp::Runner *runner) {
+void ShowComponent::exportImage() {
     FileChooser fileChooser("Save File", File(), "*.png");
     
     if (fileChooser.browseForFileToSave(true)) {
@@ -129,6 +130,7 @@ void ShowComponent::exportImage(jp::Runner *runner) {
 ShowWindow::ShowWindow()
 : DocumentWindow ("Show", Colours::white, DocumentWindow::allButtons) {
     setContentOwned(contentComponent = new ShowComponent("Show"), true);
+    addKeyListener (MainWindow::getApplicationCommandManager().getKeyMappings());
 }
 
 ShowWindow::~ShowWindow() {
@@ -155,14 +157,15 @@ void ShowWindow::stopAnimation() {
     animated = false;
 }
 
-void ShowWindow::update(std::wstring str) {
+void ShowWindow::update(jp::Runner *_runner, std::wstring str) {
+    contentComponent->setRunner(_runner);
     contentComponent->setContent(str);
     if (!animated) {
         contentComponent->repaint();
     }
 }
 
-void ShowWindow::exportImage(jp::Runner *runner) {
-    contentComponent->exportImage(runner);
+void ShowWindow::exportImage() {
+    contentComponent->exportImage();
 }
 

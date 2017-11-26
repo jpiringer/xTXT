@@ -8,6 +8,6 @@
 #ifndef Common_h
 #define Common_h
 
-#define PROGRAMMING_ENABLED 1
+#define PROGRAMMING_ENABLED 0
 
 #endif /* Common_h */
