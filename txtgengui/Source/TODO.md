@@ -1,6 +1,6 @@
 #  TODO
 
-crasht wenn man das show fenster für program schliesst und wieder öffnet
+mehr beispiele für program
 
 keine eingabe von enter im namshub modus möglich
 
@@ -168,3 +168,7 @@ crasht bei exit (font leak)
 window grösse über program definieren
 
 error und output von program reaktivieren
+
+crasht wenn man das show fenster für program schliesst und wieder öffnet
+
+doku für die program-befehle

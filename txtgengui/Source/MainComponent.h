@@ -84,6 +84,7 @@ private:
     virtual void changeOutput(const std::string &str) override;
     virtual void setErrors(const std::string &str) override;
     virtual void changeShowSize(float width, float height) override;
+    virtual void speak(std::string str) override;
     
     // listeners
     void buttonClicked (Button* button) override;

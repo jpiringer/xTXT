@@ -39,6 +39,7 @@ namespace jp {
         virtual void changeOutput(const std::string &str) = 0;
         virtual void setErrors(const std::string &str) = 0;
         virtual void changeShowSize(float width, float height) = 0;
+        virtual void speak(std::string str) = 0;
     };
     
     class Runner {

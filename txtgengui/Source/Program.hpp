@@ -40,6 +40,7 @@ class Node {
     int nodeID = -1;
     float xpos = 0;
     float ypos = 0;
+    float angle = 0;
     float r = 0, g = 0, b = 0, a = 1;
     float lifetime = 99999999.0f; // forever
 
@@ -55,9 +56,12 @@ public:
     void setLifetime(float _lifetime) {lifetime = _lifetime;}
     bool isDead() {return lifetime <= 0;}
 
-    void setPos(float x, float y) {xpos = x; ypos = y;}
+    void setPosition(float x, float y) {xpos = x; ypos = y;}
     float getX() {return xpos;}
     float getY() {return ypos;}
+    
+    void setRotation(float _angle) {angle = _angle;}
+    float getRotation() {return angle;}
     
     void setColor(float _r, float _g, float _b, float _a) {r = _r; g = _g; b = _b; a = _a;}
     float getRed() {return r;}
@@ -97,7 +101,7 @@ public:
     ~TextWorld();
     
     void addNode(std::shared_ptr<Node> node);
-    void removeNode();
+    void removeNode(int _id);
     void removeAllNodes();
     
     void setBackground(float r, float g, float b, float a) {backgroundR = r; backgroundG = g; backgroundB = b; backgroundA = a;}
@@ -124,6 +128,7 @@ public Thread
     float backgroundR, backgroundG, backgroundB, backgroundA;
     float size;
     float posx = 0, posy = 0;
+    float angle = 0;
     enum jp::Justification justification;
     
 protected:
@@ -160,11 +165,15 @@ public:
     void setPosition(float x, float y) {posx = x; posy = y;}
     void getPosition(float &x, float &y) {x = posx; y = posy;}
 
+    void setRotation(float _angle) {angle = _angle;}
+    float getRotation() {return angle;}
+    
     static std::wstring convertToProgram(const std::wstring &str);
     
     void instructionHook(lua_State *L);
     void changeOutput(const std::string &str);
     void changeShowSize(float width, float height);
+    void speak(const std::string &str);
 
     static LuaProgram *sharedProgram() {return theProgram;}
 };

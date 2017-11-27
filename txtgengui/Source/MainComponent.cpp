@@ -659,6 +659,12 @@ void MainContentComponent::changeShowSize(float width, float height) {
     });
 }
 
+void MainContentComponent::speak(std::string str) {
+    MessageManager::callAsync([this, str] {
+        speaker->speak(str);
+    });
+}
+
 void MainContentComponent::run() {
     auto content = editor->getDocument().getAllContent().toStdString();
     std::string text;
@@ -729,7 +735,10 @@ inline Colour getRandomColour (float brightness)
 inline Colour getRandomBrightColour()   { return getRandomColour (0.8f); }
 
 void MainContentComponent::setShowSize(int width, int height) {
-    if (showWindow != nullptr) {
+    if (showWindow == nullptr) {
+        show(width, height);
+    }
+    else {
         const bool native = true;
         Rectangle<int> area(0, 0, width, height);
         

@@ -16,7 +16,11 @@
 #include "lua.hpp"
 #endif
 
+#include <cstdlib>
+
 #define MAX_WAIT_TIME 10.f
+
+#define randRange(lower, upper) ((((float)std::rand()) / (float)RAND_MAX)*(upper-lower)+lower)
 
 TextWorld TextWorld::textWorld;
 std::shared_ptr<Font> textDisplayFont;
@@ -28,11 +32,15 @@ void TextNode::draw(Graphics &g) {
     const Graphics::ScopedSaveState state(g);
     Rectangle<int> r = g.getClipBounds();
     
+    if (textDisplayFont == nullptr) {
+        textDisplayFont = std::make_shared<Font>(Font::getDefaultMonospacedFontName(), 20, Font::plain);
+    }
     textDisplayFont->setHeight(size);
     g.setFont(*textDisplayFont);
     //g.addTransform(AffineTransform::scale(scale));
     g.addTransform(AffineTransform::translation(r.getX()+(r.getWidth()*(getX()+1.f))/2.f, r.getY()+(r.getHeight()*(getY()+1.f))/2.f));
-    //g.addTransform(AffineTransform::rotation(angle));
+    
+    g.addTransform(AffineTransform::rotation(getRotation()/180.f*M_PI));
     g.setColour(Colour((uint8)(getRed()*255.f), (uint8)(getGreen()*255.f), (uint8)(getBlue()*255.f), getAlpha()));
     g.drawSingleLineText(text, 0, 0, Justification::horizontallyCentred);
 }
@@ -46,9 +54,15 @@ void TextWorld::addNode(std::shared_ptr<Node> node) {
     nodes.push_back(node); node->setID(nextID++);
 }
 
-void TextWorld::removeNode() {
+void TextWorld::removeNode(int _id) {
     std::lock_guard<std::mutex> guard(worldMutex);
 
+    for (auto n : nodes) {
+        if (n->getID()) {
+            nodes.remove(n);
+            break;
+        }
+    }
 }
 
 void TextWorld::removeAllNodes() {
@@ -179,7 +193,9 @@ std::shared_ptr<Node> addText(const std::string &str) {
     textNode->setColor(r, g, b, a);
     
     LuaProgram::sharedProgram()->getPosition(x, y);
-    textNode->setPos(x, y);
+    textNode->setPosition(x, y);
+    
+    textNode->setRotation(LuaProgram::sharedProgram()->getRotation());
     
     TextWorld::sharedTextWorld().addNode(textNode);
     
@@ -216,7 +232,9 @@ static int addTextL(lua_State *L) {
 static int removeTextL(lua_State *L) {
     checkDisplay();
     
-    luaL_error(L, "function not yet implemented: removeText");
+    lua_Integer _id = lua_tointeger(L, 1);
+
+    TextWorld::sharedTextWorld().removeNode((int)_id);
 
     return 0;
 }
@@ -232,7 +250,7 @@ static int clearL(lua_State *L) {
 static int colorL(lua_State *L) {
     float r, g, b, a;
     
-    if (lua_isstring(L, 1)) {
+    if (!lua_isnumber(L, 1)) {
         a = 1;
         interpretColor(L, lua_tostring(L, 1), r, g, b);
     }
@@ -251,7 +269,7 @@ static int colorL(lua_State *L) {
 static int backgroundL(lua_State *L) {
     float r, g, b, a;
     
-    if (lua_isstring(L, 1)) {
+    if (!lua_isnumber(L, 1)) {
         a = 1;
         interpretColor(L, lua_tostring(L, 1), r, g, b);
     }
@@ -287,8 +305,18 @@ static int positionL(lua_State *L) {
     return 0;
 }
 
-static int rotateL(lua_State *L) {
-    luaL_error(L, "function not yet implemented: rotate");
+static int randomPositionL(lua_State *L) {
+    LuaProgram::sharedProgram()->setPosition(randRange(-1,1), randRange(-1,1));
+    return 0;
+}
+
+static int rotationL(lua_State *L) {
+    LuaProgram::sharedProgram()->setRotation(lua_tonumber(L,1));
+    return 0;
+}
+
+static int randomRotationL(lua_State *L) {
+    LuaProgram::sharedProgram()->setRotation(randRange(0,360));
     return 0;
 }
 
@@ -306,10 +334,17 @@ static int waitL(lua_State *L) {
     return 0;
 }
 
+static int speakL(lua_State *L) {
+    std::string str = lua_tostring(L, 1);
+    
+    LuaProgram::sharedProgram()->speak(str);
+    return 0;
+}
+
 #define CMD(c) {#c, c##L}
 static const struct luaL_Reg printlib [] = {
-    CMD(print),
-    CMD(screen), // set the screen/window size
+    CMD(print), // print replacement for capturing the output
+    CMD(screen), // show the window & set the screen/window size
     CMD(show), // show a text for a certain time
     CMD(addText), // add a text node
     CMD(removeText), // remove a certain text
@@ -320,9 +355,12 @@ static const struct luaL_Reg printlib [] = {
     CMD(right), // right adjust
     CMD(center), // center text
     CMD(position), // move next text to x, y
-    CMD(rotate), // rotate next text
+    CMD(randomPosition), // move next text to a random position
+    CMD(rotation), // rotate next text
+    CMD(randomRotation), // rotate next text
     CMD(size), // set the size
     CMD(wait), // wait for x seconds
+    CMD(speak), // speak string
     {nullptr, nullptr}
 };
 
@@ -352,6 +390,10 @@ void LuaProgram::changeShowSize(float width, float height) {
     runContext->changeShowSize(width, height);
 }
 
+void LuaProgram::speak(const std::string &str) {
+    runContext->speak(str);
+}
+
 void LuaProgram::run() {
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
@@ -377,8 +419,6 @@ std::string LuaProgram::execute(jp::RunContext *_runContext) {
     setBackground(1, 1, 1, 1);
     setPosition(0, 0);
     setJustification(jp::JustificationCenter);
-
-    textDisplayFont = std::make_shared<Font>(Font::getDefaultMonospacedFontName(), 20, Font::plain);
 
     TextWorld::sharedTextWorld().removeAllNodes();
     

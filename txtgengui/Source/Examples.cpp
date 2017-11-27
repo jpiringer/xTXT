@@ -1,4 +1,4 @@
-﻿//
+//
 //  Examples.cpp
 //  txtgen - App
 //
@@ -1045,6 +1045,40 @@ print("hello!")
 wait(2)
 addText("XXXXXXXX")
 print("X!")
+)"
+,{}
+},
+{"random",
+LR"(screen(1920, 1080)
+color("black")
+background("white")
+size(130)
+center()
+for _ = 1, 100 do -- loop 100 times
+    randomPosition()
+    randomRotation()
+    addText("?")
+    wait(0.1)
+end
+)"
+,{}
+},
+{"speak",
+LR"(screen(600, 600)
+color(1,1,1,0.5)
+background("black")
+size(130)
+center()
+for _ = 1, 10 do -- loop 10 times
+    randomPosition()
+    addText("YES")
+    speak ("YES")
+    wait(1.5)
+    randomPosition()
+    addText("NO")
+    speak ("NO")
+    wait(1.5)
+end
 )"
 ,{}
 }
