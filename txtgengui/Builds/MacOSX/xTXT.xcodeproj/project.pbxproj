@@ -17,7 +17,7 @@
 		250F966983052EF964E8D6C3 /* include_juce_opengl.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB940683BB70C90AB1262800 /* include_juce_opengl.mm */; };
 		2AAFB6FAE1B64DF6D3EC62C5 /* include_juce_gui_basics.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4786A42B644081DF9D8382BE /* include_juce_gui_basics.mm */; };
 		2BF8E7261D23D7BA28E3D688 /* include_juce_audio_devices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2A8F450EDBD9AB56CAF6D493 /* include_juce_audio_devices.mm */; };
-		301A97191F8CE59300142DAA /* Platform.mm in Sources */ = {isa = PBXBuildFile; fileRef = 301A97171F8CE59300142DAA /* Platform.mm */; };
+		301A97191F8CE59300142DAA /* Platform.mm in Sources */ = {isa = PBXBuildFile; fileRef = 301A97171F8CE59300142DAA /* Platform.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		301A972E1F8CE65700142DAA /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A971D1F8CE61000142DAA /* Lexer.cpp */; };
 		301A972F1F8CE65B00142DAA /* LSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A971F1F8CE61000142DAA /* LSystem.cpp */; };
 		301A97301F8CE66500142DAA /* Markov.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A97221F8CE61000142DAA /* Markov.cpp */; };
@@ -43,6 +43,7 @@
 		308E2EC11F8CE42900001AA8 /* de_DE.dic in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBD1F8CE41E00001AA8 /* de_DE.dic */; };
 		308E2EC21F8CE42C00001AA8 /* en_US.aff in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBE1F8CE41E00001AA8 /* en_US.aff */; };
 		308E2EC31F8CE42F00001AA8 /* en_US.dic in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBF1F8CE41E00001AA8 /* en_US.dic */; };
+		30B2D7E31FD54C5900F607E3 /* VideoExporter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30B2D7E11FD54C5900F607E3 /* VideoExporter.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3A316C9899964D338F9BFF44 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8975FE5A4ED205436B7A056A /* AVFoundation.framework */; };
 		5FF51A826474FA13CD51D2CE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29458B98CE34EA0DF64C2DA7 /* IOKit.framework */; };
 		6044A842767BE43731FF240A /* MainComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C289E75BBC517E54A3469B06 /* MainComponent.cpp */; };
@@ -120,6 +121,8 @@
 		309318FE1F98F75C00D8A760 /* CHANGES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGES.md; sourceTree = "<group>"; };
 		309688541FAB75E800EF8BB5 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Common.h; path = ../../Source/Common.h; sourceTree = "<group>"; };
 		30AF49179185AA832F3E631A /* Info-App.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-App.plist"; sourceTree = SOURCE_ROOT; };
+		30B2D7E11FD54C5900F607E3 /* VideoExporter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoExporter.mm; path = ../../Source/VideoExporter.mm; sourceTree = "<group>"; };
+		30B2D7E21FD54C5900F607E3 /* VideoExporter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VideoExporter.hpp; path = ../../Source/VideoExporter.hpp; sourceTree = "<group>"; };
 		357A8F7AF49826922CB6EFDF /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3D09E06C4E669C722463444E /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
 		41064F35812828A6A8EC752D /* include_juce_video.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_video.mm; path = ../../JuceLibraryCode/include_juce_video.mm; sourceTree = SOURCE_ROOT; };
@@ -225,6 +228,8 @@
 				3087D3A11F82C55E009C157F /* Speaker.mm */,
 				301A97181F8CE59300142DAA /* Platform.hpp */,
 				301A97171F8CE59300142DAA /* Platform.mm */,
+				30B2D7E21FD54C5900F607E3 /* VideoExporter.hpp */,
+				30B2D7E11FD54C5900F607E3 /* VideoExporter.mm */,
 			);
 			name = "platform dependent";
 			sourceTree = "<group>";
@@ -468,6 +473,7 @@
 				3041F2971F826C2500F37B01 /* utils.cpp in Sources */,
 				15765B4A9BAB20C5982673D2 /* MainWindow.cpp in Sources */,
 				301A97301F8CE66500142DAA /* Markov.cpp in Sources */,
+				30B2D7E31FD54C5900F607E3 /* VideoExporter.mm in Sources */,
 				8BA786178024ECF0A519EC6C /* include_juce_audio_basics.mm in Sources */,
 				2BF8E7261D23D7BA28E3D688 /* include_juce_audio_devices.mm in Sources */,
 				EFFD96D1F3057CF5B0865EDA /* include_juce_audio_formats.mm in Sources */,
@@ -507,6 +513,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -541,6 +548,11 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = (
+					"-lavcodec",
+					"-lavformat",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.piringer.txtgen;
 				PRODUCT_NAME = xTXT;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -601,6 +613,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -636,6 +649,11 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = (
+					"-lavcodec",
+					"-lavformat",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.piringer.txtgen;
 				PRODUCT_NAME = xTXT;
 				PROVISIONING_PROFILE_SPECIFIER = "";

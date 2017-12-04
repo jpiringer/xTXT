@@ -78,7 +78,8 @@ namespace jp {
         virtual DrawFunction getDrawFunction() = 0;
         virtual bool isAnimated() = 0;
         
-        virtual void saveAsImage(const std::string &fileName) = 0;
+        virtual void exportFile(const std::string &fileName) = 0;
+        virtual std::string exportsToFileType() {return "";}
     };
     
     class AutomateRunner : public Runner {
@@ -94,7 +95,7 @@ namespace jp {
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
         
-        virtual void saveAsImage(const std::string &fileName) override {};
+        virtual void exportFile(const std::string &fileName) override {};
     };
 
     class LSystemRunner : public Runner {
@@ -115,7 +116,8 @@ namespace jp {
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
 
-        virtual void saveAsImage(const std::string &fileName) override;
+        virtual void exportFile(const std::string &fileName) override;
+        virtual std::string exportsToFileType() override {return "*.png";}
     };
     
     class MarkovRunner : public Runner {
@@ -131,7 +133,7 @@ namespace jp {
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
 
-        virtual void saveAsImage(const std::string &fileName) override {};
+        virtual void exportFile(const std::string &fileName) override {};
     };
 
     class ProgramRunner : public Runner {
@@ -149,7 +151,8 @@ namespace jp {
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
 
-        virtual void saveAsImage(const std::string &fileName) override {};
+        virtual void exportFile(const std::string &fileName) override;
+        virtual std::string exportsToFileType() override {return "*.mov";}
     };
 
     class NamShubRunner : public Runner {
@@ -165,7 +168,7 @@ namespace jp {
         virtual DrawFunction getDrawFunction() override;
         virtual bool isAnimated() override;
 
-        virtual void saveAsImage(const std::string &fileName) override {};
+        virtual void exportFile(const std::string &fileName) override {};
     };
 
 };

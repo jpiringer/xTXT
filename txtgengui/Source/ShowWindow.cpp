@@ -115,11 +115,11 @@ bool ShowComponent::perform(const InvocationInfo& info) {
 }
 
 void ShowComponent::exportImage() {
-    FileChooser fileChooser("Save File", File(), "*.png");
+    FileChooser fileChooser("Save File", File(), runner->exportsToFileType());
     
     if (fileChooser.browseForFileToSave(true)) {
         std::cout << "export: " << fileChooser.getResult().getFullPathName() << std::endl;
-        runner->saveAsImage(fileChooser.getResult().getFullPathName().toStdString());
+        runner->exportFile(fileChooser.getResult().getFullPathName().toStdString());
     }
 }
 

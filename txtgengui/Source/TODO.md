@@ -1,5 +1,15 @@
 #  TODO
 
+versionsanzeige
+
+progress bar beim export
+
+deviation von lsystemen deterministisch machen. groß ziehen des fensters sollte nicht die form verändern
+
+automatischer updatehinweis
+https://sparkle-project.org/documentation/
+https://winsparkle.org
+
 mehr beispiele für program
 
 keine eingabe von enter im namshub modus möglich
@@ -172,3 +182,5 @@ error und output von program reaktivieren
 crasht wenn man das show fenster für program schliesst und wieder öffnet
 
 doku für die program-befehle
+
+video export

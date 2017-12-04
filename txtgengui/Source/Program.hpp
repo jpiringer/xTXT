@@ -34,6 +34,7 @@ namespace jp {
     
     class ProgramRunner;
     class RunContext;
+    class VideoExporter;
 };
 
 class Node {
@@ -71,6 +72,7 @@ public:
 
     virtual void update(float dt) {reduceLifetime(dt);}
     virtual void draw(Graphics &g) = 0;
+    virtual void drawNative(void *cg) = 0;
 };
 
 class TextNode : public Node {
@@ -86,6 +88,7 @@ public:
     void setSize(float _size) {size = _size;}
     
     virtual void draw(Graphics &g) override;
+    void drawNative(void *cg) override;
 };
 
 class TextWorld {
@@ -108,7 +111,8 @@ public:
 
     void update(float dt);
     void draw(Graphics &g);
-    
+    void drawNative(void *cg);
+
     static TextWorld &sharedTextWorld() {return textWorld;}
 };
 
@@ -116,7 +120,8 @@ class LuaProgram :
 public Thread
 {
     static LuaProgram *theProgram;
-    
+ 
+    lua_State *L = nullptr;
     jp::RunContext *runContext;
     
     std::string code;
@@ -131,12 +136,22 @@ public Thread
     float angle = 0;
     enum jp::Justification justification;
     
+    // for exporting
+    bool exporting = false;
+    bool exportingStarted = false;
+    std::shared_ptr<jp::VideoExporter> exporter;
+    std::string filenameExport;
+    float residualWaitTime = 0;
+    
 protected:
     void _error(const std::string &msg) {
         errors += msg;
         
         errorCount++;
     }
+    
+    void initState();
+    void checkExportStarted();
     
 public:
     LuaProgram() : juce::Thread("LuaProgramRunner") {}
@@ -149,6 +164,7 @@ public:
     
     void setCode(const std::string &c) {code = c;}
     std::string execute(jp::RunContext *_runContext);
+    void exportVideo(const std::string &filename);
     
     void setColor(float r, float g, float b, float a) {colorR = r; colorG = g; colorB = b; colorA = a;}
     void getColor(float &r, float &g, float &b, float &a) {r = colorR; g = colorG; b = colorB; a = colorA;}
@@ -168,12 +184,16 @@ public:
     void setRotation(float _angle) {angle = _angle;}
     float getRotation() {return angle;}
     
+    void wait(float time);
+    
     static std::wstring convertToProgram(const std::wstring &str);
     
     void instructionHook(lua_State *L);
     void changeOutput(const std::string &str);
     void changeShowSize(float width, float height);
     void speak(const std::string &str);
+    
+    bool isExporting() {return exporting;}
 
     static LuaProgram *sharedProgram() {return theProgram;}
 };

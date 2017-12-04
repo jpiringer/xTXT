@@ -1048,6 +1048,20 @@ print("X!")
 )"
 ,{}
 },
+{"background",
+LR"(screen(1920, 1080)
+color("black")
+background("white")
+wait(2)
+background("red")
+wait(2)
+background("green")
+wait(2)
+background("blue")
+wait(2)
+)"
+,{}
+},
 {"random",
 LR"(screen(1920, 1080)
 color("black")

@@ -114,7 +114,7 @@ bool jp::LSystemRunner::isAnimated() {
     return false;
 }
 
-void jp::LSystemRunner::saveAsImage(const std::string &fileName) {
+void jp::LSystemRunner::exportFile(const std::string &fileName) {
     textTurtleGraphics->saveAsImage(this, fileName);
 }
 
@@ -177,6 +177,15 @@ DrawFunction jp::ProgramRunner::getDrawFunction() {
 
 bool jp::ProgramRunner::isAnimated() {
     return true;
+}
+
+void jp::ProgramRunner::exportFile(const std::string &fileName) {
+    if (program == nullptr) {
+        program = std::make_shared<LuaProgram>();
+    }
+    program->setCode(code);
+
+    program->exportVideo(fileName);
 }
 
 // ====================================================================================
