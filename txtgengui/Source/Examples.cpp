@@ -1031,6 +1031,41 @@ addText("hello, world!")
 )"
 ,{}
 },
+{"alphabet",
+LR"(screen(300, 200)
+color("black")
+background("white")
+size(80)
+center()
+show("a", 0.2)
+show("b", 0.2)
+show("c", 0.2)
+show("d", 0.2)
+show("e", 0.2)
+show("f", 0.2)
+show("g", 0.2)
+show("h", 0.2)
+show("i", 0.2)
+show("j", 0.2)
+show("k", 0.2)
+show("l", 0.2)
+show("m", 0.2)
+show("n", 0.2)
+show("o", 0.2)
+show("p", 0.2)
+show("q", 0.2)
+show("r", 0.2)
+show("s", 0.2)
+show("t", 0.2)
+show("u", 0.2)
+show("v", 0.2)
+show("w", 0.2)
+show("x", 0.2)
+show("y", 0.2)
+show("z", 0.2)
+)"
+,{}
+},
 {"position",
 LR"(screen(300, 200)
 color("black")
@@ -1134,17 +1169,31 @@ show("a", 1)
 )"
 ,{}
 },
-{"animation 1",
-LR"(screen(1920, 1080)
+{"where?",
+LR"(screen(300, 200)
 color("black")
-background("yellow")
+background("white")
 size(30)
 center()
-addText("hello, world!")
-print("hello!")
+position(-0.5, 0)
+a = addText("look")
 wait(2)
-addText("XXXXXXXX")
-print("X!")
+position(0.5, 0)
+size(50)
+b = addText("here")
+wait(2)
+removeText(a)
+removeText(b)
+background("red")
+color("blue")
+b = addText("where?")
+wait(2)
+removeText(b)
+position(0, 0)
+background("blue")
+color("red")
+addText("anywhere!")
+wait(2)
 )"
 ,{}
 },
