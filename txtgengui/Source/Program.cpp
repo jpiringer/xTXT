@@ -539,6 +539,7 @@ void LuaProgram::initState() {
     setColor(0,0,0,1);
     setBackground(1, 1, 1, 1);
     setPosition(0, 0);
+    setRotation(0);
     setJustification(jp::JustificationCenter);
     
     TextWorld::sharedTextWorld().removeAllNodes();

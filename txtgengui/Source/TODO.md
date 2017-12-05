@@ -1,11 +1,8 @@
 #  TODO
 
-wenn export von program-mode gestartet wurde ohne vorherigem "run" dann crashts
-
 mehr beispiele für program
 
-
-
+videos mit dimension kleiner als 1920x1080 exportieren verzerrt
 
 deviation von lsystemen deterministisch machen. groß ziehen des fensters sollte nicht die form verändern
 
@@ -187,3 +184,5 @@ versionsanzeige
 progress bar beim export
 
 keine eingabe von enter im namshub modus möglich
+
+wenn export von program-mode gestartet wurde ohne vorherigem "run" dann crashts

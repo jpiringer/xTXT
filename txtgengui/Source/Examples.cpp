@@ -1022,15 +1022,115 @@ abschiedsworts)"
 std::vector<std::tuple<std::string, std::wstring, std::vector<std::wstring>>> programExamples() {
 return {
 {"hello, world!",
-LR"(print "hello, world!")"
-,{}
-},
-{"show",
-LR"(color("black")
+LR"(screen(300, 200)
+color("black")
 background("white")
 size(30)
 center()
 addText("hello, world!")
+)"
+,{}
+},
+{"position",
+LR"(screen(300, 200)
+color("black")
+background("white")
+size(30)
+center()
+position(-0.5, 0)
+show("left",2)
+position(0.5, 0)
+show("right",2)
+position(0, -0.5)
+show("up",2)
+position(0, 0.5)
+show("down",2)
+)"
+,{}
+},
+{"movement",
+LR"(screen(300, 200)
+color("black")
+background("white")
+size(30)
+center()
+position(0, 0)
+show("X",0.5)
+position(0.1, 0.1)
+show("X",0.5)
+position(0.2, 0.2)
+show("X",0.5)
+position(0.3, 0.3)
+show("X",0.5)
+position(0.4, 0.4)
+show("X",0.5)
+position(0.5, 0.5)
+show("X",0.5)
+position(0.6, 0.6)
+show("X",0.5)
+position(0.7, 0.7)
+show("X",0.5)
+position(0.8, 0.8)
+show("X",0.5)
+position(0.9, 0.9)
+show("X",0.5)
+position(1, 1)
+show("X",0.5)
+)"
+,{}
+},
+{"size",
+LR"(screen(300, 200)
+color("black")
+background("white")
+size(30)
+center()
+show("a", 1)
+size(60)
+show("a", 1)
+size(90)
+show("a", 1)
+size(120)
+show("a", 1)
+size(150)
+show("a", 1)
+size(180)
+show("a", 1)
+)"
+,{}
+},
+{"rotation",
+LR"(screen(300, 200)
+color("black")
+background("white")
+size(30)
+center()
+rotation(0);
+show("a", 1)
+rotation(30);
+show("a", 1)
+rotation(60);
+show("a", 1)
+rotation(90);
+show("a", 1)
+rotation(120);
+show("a", 1)
+rotation(150);
+show("a", 1)
+rotation(180);
+show("a", 1)
+rotation(210);
+show("a", 1)
+rotation(240);
+show("a", 1)
+rotation(270);
+show("a", 1)
+rotation(300);
+show("a", 1)
+rotation(330);
+show("a", 1)
+rotation(360);
+show("a", 1)
 )"
 ,{}
 },
@@ -1049,10 +1149,8 @@ print("X!")
 ,{}
 },
 {"background",
-LR"(screen(1920, 1080)
+LR"(screen(300, 200)
 color("black")
-background("white")
-wait(2)
 background("red")
 wait(2)
 background("green")

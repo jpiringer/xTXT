@@ -756,6 +756,7 @@ void MainContentComponent::setShowSize(int width, int height) {
 
 void MainContentComponent::show(int width, int height) {
     const bool native = true;
+    auto code = editor->getDocument().getAllContent().toStdString();
 
     if (showWindow != nullptr) {
         showWindow->stopAnimation();
@@ -778,6 +779,7 @@ void MainContentComponent::show(int width, int height) {
     runner->setParameter("angle", lsystemAngle->getValue());
     runner->setParameter("angleDeviation", lsystemAngleDeviation->getValue());
     showWindow->setDrawFunction(runner->getDrawFunction());
+    runner->setCode(code);
     showWindow->update(runner.get(), fromUTF8(results->getText().toStdString()));
 
     if (runner->isAnimated()) {
