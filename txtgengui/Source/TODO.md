@@ -1,8 +1,11 @@
 #  TODO
 
-versionsanzeige
+wenn export von program-mode gestartet wurde ohne vorherigem "run" dann crashts
 
-progress bar beim export
+mehr beispiele für program
+
+
+
 
 deviation von lsystemen deterministisch machen. groß ziehen des fensters sollte nicht die form verändern
 
@@ -10,20 +13,12 @@ automatischer updatehinweis
 https://sparkle-project.org/documentation/
 https://winsparkle.org
 
-mehr beispiele für program
-
-keine eingabe von enter im namshub modus möglich
-
-## print
-* auf receipt-drucker ausdrucken?
-* stop print
 
 # LATER
 
 title for examples utf8 compatible on windows (use std::wstring)
 
 ## show / animate
-* animation des textes
 * skripte
 * wie bei namshub osx
 
@@ -184,3 +179,11 @@ crasht wenn man das show fenster für program schliesst und wieder öffnet
 doku für die program-befehle
 
 video export
+
+versionsanzeige
+
+* animation des textes
+
+progress bar beim export
+
+keine eingabe von enter im namshub modus möglich

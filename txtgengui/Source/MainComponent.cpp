@@ -164,6 +164,7 @@ MainContentComponent::MainContentComponent()
     addAndMakeVisible(*results);
     results->setFont(font);
     results->setMultiLine(true);
+    results->setReturnKeyStartsNewLine(true);
     results->setColour(TextEditor::backgroundColourId, Colour(0xff, 0xff, 0xff));
     results->setColour(TextEditor::textColourId, Colour(0, 0, 0));
 
@@ -881,7 +882,7 @@ void MainContentComponent::showAbout() {
     AlertWindow::AlertIconType icon = AlertWindow::InfoIcon;
     
     AlertWindow::showMessageBoxAsync (icon,
-                                      "xTXT by joerg piringer",
+                                      "xTXT " VERSION_STRING " by joerg piringer",
                                       "xTXT was created by joerg piringer in 2017.\nfor more info look at http://joerg.piringer.net/xTXT",
                                       "OK");
 }

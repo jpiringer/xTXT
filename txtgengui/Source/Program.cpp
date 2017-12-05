@@ -574,6 +574,6 @@ void LuaProgram::exportVideo(const std::string &filename) {
         stopThread((MAX_WAIT_TIME+1.f)*1000);
     }
     else {
-        startThread();
+        runThread();
     }
 }

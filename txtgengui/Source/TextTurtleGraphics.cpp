@@ -15,33 +15,79 @@
 
 #define START_FONT_SIZE 250.f
 
+jp::GraphicsDisplay::GraphicsDisplay() :
+juce::ThreadWithProgressWindow("Export", false, true) {
+}
+
 jp::TextTurtleGraphics::TextTurtleGraphics() {
 }
 
-void jp::TextTurtleGraphics::saveAsImage(jp::Runner *runner, const std::string &fileName) {
+void jp::TextTurtleGraphics::run() {
     float imageScale = 10;
-	float drawingWidthOptimal = (maxx - minx)*imageScale;
-	float drawingHeightOptimal = (maxy - miny)*imageScale;
+    float drawingWidthOptimal = (maxx - minx)*imageScale;
+    float drawingHeightOptimal = (maxy - miny)*imageScale;
     float drawingWidthCapped = std::min(drawingWidthOptimal, 10000.0f);
     float drawingHeightCapped = std::min(drawingHeightOptimal, 10000.0f);
-
-	float rescale = std::min(drawingWidthCapped / drawingWidthOptimal, drawingHeightCapped / drawingHeightOptimal);
-	float drawingWidth = drawingWidthOptimal*rescale;
-	float drawingHeight = drawingHeightOptimal*rescale;
-
+    
+    float rescale = std::min(drawingWidthCapped / drawingWidthOptimal, drawingHeightCapped / drawingHeightOptimal);
+    float drawingWidth = drawingWidthOptimal*rescale;
+    float drawingHeight = drawingHeightOptimal*rescale;
+    
     Image image(Image::RGB, drawingWidth, drawingHeight, true);
     Graphics g(image);
     PNGImageFormat imageFormat;
-    File file(fileName);
+    File file(exportFileName);
     FileOutputStream outputStream(file);
     
     // clear with white
     g.setColour(Colours::white);
     g.fillRect(0.f, 0.f, drawingWidth, drawingHeight);
     
-    draw(runner, g, drawingWidth, drawingHeight, content, 0);
+    draw(exportRunner, g, drawingWidth, drawingHeight, content, 0);
     
     imageFormat.writeImageToStream(image, outputStream);
+}
+
+void jp::TextTurtleGraphics::saveAsImage(jp::Runner *runner, const std::string &fileName) {
+    exportFileName = fileName;
+    exportRunner = runner;
+
+    auto alertWindow = std::make_shared<juce::AlertWindow>("Exporting", "Exporting image...", juce::AlertWindow::AlertIconType::InfoIcon);
+    alertWindow->enterModalState();
+    
+    //juce::AlertWindow::showMessageBoxAsync(juce::AlertWindow::AlertIconType::InfoIcon, "Exporting", "Exporting image...");
+
+    MessageManager::callAsync([this, alertWindow] {
+
+        float imageScale = 10;
+        float drawingWidthOptimal = (maxx - minx)*imageScale;
+        float drawingHeightOptimal = (maxy - miny)*imageScale;
+        float drawingWidthCapped = std::min(drawingWidthOptimal, 10000.0f);
+        float drawingHeightCapped = std::min(drawingHeightOptimal, 10000.0f);
+        
+        float rescale = std::min(drawingWidthCapped / drawingWidthOptimal, drawingHeightCapped / drawingHeightOptimal);
+        float drawingWidth = drawingWidthOptimal*rescale;
+        float drawingHeight = drawingHeightOptimal*rescale;
+        
+        Image image(Image::RGB, drawingWidth, drawingHeight, true);
+        Graphics g(image);
+        PNGImageFormat imageFormat;
+        File file(exportFileName);
+        FileOutputStream outputStream(file);
+        
+        // clear with white
+        g.setColour(Colours::white);
+        g.fillRect(0.f, 0.f, drawingWidth, drawingHeight);
+        
+        draw(exportRunner, g, drawingWidth, drawingHeight, content, 0);
+        
+        imageFormat.writeImageToStream(image, outputStream);
+
+        //alertWindow->removeFromDesktop();
+        alertWindow->exitModalState(1);
+        alertWindow->setVisible(false);
+    });
+    //runThread();
 }
 
 void jp::TextTurtleGraphics::checkLimits() {
@@ -57,7 +103,9 @@ void jp::TextTurtleGraphics::initState(jp::Runner *runner, Graphics &g, int widt
     g.setColour(Colours::black);
     
     fontSize = START_FONT_SIZE;
-    displayFont = std::make_shared<Font>(Font::getDefaultMonospacedFontName(), fontSize, Font::plain);
+    if (displayFont == nullptr) {
+        displayFont = std::make_shared<Font>(Font::getDefaultMonospacedFontName(), fontSize, Font::plain);
+    }
     g.setFont(*displayFont);
 
     offsx = _offsx;

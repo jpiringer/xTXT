@@ -117,7 +117,7 @@ public:
 };
 
 class LuaProgram :
-public Thread
+public juce::ThreadWithProgressWindow
 {
     static LuaProgram *theProgram;
  
@@ -154,7 +154,7 @@ protected:
     void checkExportStarted();
     
 public:
-    LuaProgram() : juce::Thread("LuaProgramRunner") {}
+    LuaProgram() : juce::ThreadWithProgressWindow("Exporting...", false, true) {}
     ~LuaProgram();
     
     virtual void run() override;

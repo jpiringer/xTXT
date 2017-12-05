@@ -18,8 +18,9 @@
 namespace jp {
     class Runner;
     
-    class GraphicsDisplay {
+    class GraphicsDisplay : public juce::ThreadWithProgressWindow {
     public:
+        GraphicsDisplay();
         virtual ~GraphicsDisplay() {}
         
         virtual void saveAsImage(jp::Runner *runner, const std::string &fileName) = 0;
@@ -28,7 +29,7 @@ namespace jp {
     };
     
     class TextTurtleGraphics : public GraphicsDisplay {
-        std::shared_ptr<Font> displayFont;
+        std::shared_ptr<Font> displayFont = nullptr;
         std::vector<std::tuple<float, float, float, float>> stack;
         float fontSize;
         float standardAngle = 90.f/180.0f*M_PI;
@@ -45,6 +46,10 @@ namespace jp {
         
         std::wstring content;
         
+        // export
+        std::string exportFileName;
+        jp::Runner *exportRunner;
+        
     protected:
         void processCharacter(Graphics &g, wchar_t c, bool draw = true);
         void initState(jp::Runner *r, Graphics &g, int width, int height, float _offsx = 0, float _offsy = 0, float _scale = 1);
@@ -60,6 +65,7 @@ namespace jp {
         
         void draw(jp::Runner *runner, Graphics &g, int width, int height, const std::wstring &str, double time) override;
         
+        void run() override;
     };
 }
 #endif /* TextTurtleGraphics_hpp */

@@ -549,10 +549,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = (
-					"-lavcodec",
-					"-lavformat",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.piringer.txtgen;
 				PRODUCT_NAME = xTXT;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -650,10 +647,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = (
-					"-lavcodec",
-					"-lavformat",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.piringer.txtgen;
 				PRODUCT_NAME = xTXT;
 				PROVISIONING_PROFILE_SPECIFIER = "";
