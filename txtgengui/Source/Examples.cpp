@@ -7,6 +7,8 @@
 
 #include "Examples.hpp"
 #include <tuple>
+#include "utils.hpp"
+
 
 std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> grammarExamples() {
     return {
@@ -242,7 +244,7 @@ std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> LSy
             L"# algenwachstum\na = ab;\nb = a;", {}},
         
 {"b-sprache",
-LR"(# b-sprache
+fromUTF8(u8R"(# b-sprache
 a = aba;
 e = ebe;
 i = ibi;
@@ -253,6 +255,7 @@ y = yby;
 ö = öbö;
 ü = übü;
     )"
+    )
     ,{}
 },
         {"buchstabieralphabet",
