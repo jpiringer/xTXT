@@ -185,6 +185,7 @@
     <ClCompile Include="..\..\Source\Markov.cpp" />
     <ClCompile Include="..\..\Source\NamShub.cpp" />
     <ClCompile Include="..\..\Source\Parser.cpp" />
+    <ClCompile Include="..\..\Source\PlatformWin.cpp" />
     <ClCompile Include="..\..\Source\Program.cpp" />
     <ClCompile Include="..\..\Source\Runner.cpp" />
     <ClCompile Include="..\..\Source\ShowWindow.cpp" />
@@ -2402,6 +2403,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\gfx\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\Source\examples-grammar.txt" />
+    <Text Include="..\..\Source\examples-lsystem.txt" />
+    <Text Include="..\..\Source\examples-markov.txt" />
+    <Text Include="..\..\Source\examples-program.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

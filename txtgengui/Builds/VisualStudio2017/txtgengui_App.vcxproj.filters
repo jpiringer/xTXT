@@ -352,14 +352,17 @@
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Library Code">
-      <UniqueIdentifier>{8B4D1BAA-6DB4-CAEC-A0FA-271F354D5C61}</UniqueIdentifier>
-    </Filter>
     <Filter Include="txtgengui\lua">
       <UniqueIdentifier>{55efe3d0-26e0-42b3-8474-caec1cf5bc00}</UniqueIdentifier>
     </Filter>
     <Filter Include="txtgengui\Platform">
       <UniqueIdentifier>{feba2d6a-dc3f-4064-a58c-4dd1229f8d8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="txtgengui\examples">
+      <UniqueIdentifier>{67159da8-8e06-4227-b5cb-f945be3f507e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Library Code">
+      <UniqueIdentifier>{8B4D1BAA-6DB4-CAEC-A0FA-271F354D5C61}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2093,6 +2096,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\TextTurtleGraphics.cpp">
       <Filter>txtgengui\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PlatformWin.cpp">
+      <Filter>txtgengui\Platform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -4045,5 +4051,19 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\gfx\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\Source\examples-lsystem.txt">
+      <Filter>txtgengui\examples</Filter>
+    </Text>
+    <Text Include="..\..\Source\examples-markov.txt">
+      <Filter>txtgengui\examples</Filter>
+    </Text>
+    <Text Include="..\..\Source\examples-program.txt">
+      <Filter>txtgengui\examples</Filter>
+    </Text>
+    <Text Include="..\..\Source\examples-grammar.txt">
+      <Filter>txtgengui\examples</Filter>
+    </Text>
   </ItemGroup>
 </Project>

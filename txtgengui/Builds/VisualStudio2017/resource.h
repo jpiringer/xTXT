@@ -799,6 +799,7 @@
 #define IDI_ICON1                       106
 #define VK_ADD                          0x6B
 #define LANG_QUECHUA                    0x6b
+#define IDR_EXAMPLESLSYSTEM             107
 #define VK_SEPARATOR                    0x6C
 #define LANG_SOTHO                      0x6c
 #define VK_SUBTRACT                     0x6D
@@ -1069,6 +1070,7 @@
 #define TVS_EX_EXCLUSIONCHECKBOXES      0x0100
 #define TCS_BUTTONS                     0x0100
 #define MCS_NOSELCHANGEONNAV            0x0100
+#define TEXTFILE                        256
 #define WM_KEYUP                        0x0101
 #define WM_CHAR                         0x0102
 #define WM_DEADCHAR                     0x0103
@@ -1342,8 +1344,11 @@
 #define stc13                           0x044c
 #define stc14                           0x044d
 #define stc15                           0x044e
+#define IDR_EXAMPLESGRAMMAR             1102
 #define stc16                           0x044f
+#define IDR_EXAMPLESPROGRAM             1103
 #define stc17                           0x0450
+#define IDR_EXAMPLESMARKOV              1104
 #define stc18                           0x0451
 #define stc19                           0x0452
 #define stc20                           0x0453
@@ -1605,17 +1610,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        107
+#define _APS_NEXT_RESOURCE_VALUE        108
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
-
-#define TEXTFILE        256
-#define IDR_EXAMPLESLYSYSTEM  1101
-#define IDR_EXAMPLESGRAMMAR  1102
-#define IDR_EXAMPLESPROGRAM  1103
-#define IDR_EXAMPLESMARKOV  1104
-
-

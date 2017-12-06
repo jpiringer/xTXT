@@ -21,7 +21,7 @@
 #include "Platform.hpp"
 
 #if !TARGET_OS_MAC
-#include "resource.h"
+#include "../Builds/VisualStudio2017/resource.h"
 #endif
 
 class Examples;
@@ -125,8 +125,10 @@ protected:
     
 public:
     Examples(const std::string &fileName) {
+#if TARGET_OS_MAC
         std::wstring str = loadFromFile(toDataPath(fileName));
         parse(str);
+#endif
     }
     Examples(int _id) {
 #if !TARGET_OS_MAC
@@ -147,7 +149,7 @@ void initExamples() {
     loadedMarkovExamples = std::make_shared<Examples>("examples-markov.txt");
     loadedProgramExamples = std::make_shared<Examples>("examples-program.txt");
 #else
-    loadedLSystemExamples = std::make_shared<Examples>(IDR_EXAMPLESLYSYSTEM);
+    loadedLSystemExamples = std::make_shared<Examples>(IDR_EXAMPLESLSYSTEM);
     loadedGrammarExamples = std::make_shared<Examples>(IDR_EXAMPLESGRAMMAR);
     loadedMarkovExamples = std::make_shared<Examples>(IDR_EXAMPLESMARKOV);
     loadedProgramExamples = std::make_shared<Examples>(IDR_EXAMPLESPROGRAM);

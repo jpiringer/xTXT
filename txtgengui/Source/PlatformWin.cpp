@@ -6,10 +6,11 @@
 //
 
 #include "Platform.hpp"
+#include "utils.hpp"
 
 #include <windows.h>
 #include <cstdio>
-#include "resource.h"
+#include "../Builds/VisualStudio2017/resource.h"
 
 void LoadFileInResource(int name, int type, DWORD &size, const char *&data) {
     HMODULE handle = ::GetModuleHandle(nullptr);
