@@ -14,8 +14,8 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_AUSTRIAN
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 0,0,0,0
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEFLAGSMASK 0x0L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -28,12 +28,12 @@ VS_VERSION_INFO VERSIONINFO
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904E4"
+        BLOCK "040904e4"
         BEGIN
-            VALUE "FileDescription", "txtgengui"
-            VALUE "FileVersion", "1.0.0"
-            VALUE "ProductName", "txtgengui"
-            VALUE "ProductVersion", "1.0.0"
+            VALUE "FileDescription", "xTXT"
+            VALUE "FileVersion", "1.1.0.0"
+            VALUE "ProductName", "xTXT"
+            VALUE "ProductVersion", "1.1.0.0"
         END
     END
     BLOCK "VarFileInfo"

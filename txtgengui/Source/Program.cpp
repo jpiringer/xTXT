@@ -18,14 +18,18 @@
 
 #include <cstdlib>
 
+#if TARGET_MACOS
 #include <CoreGraphics/CoreGraphics.h>
 #include <CoreText/CoreText.h>
 
 #include "VideoExporter.hpp"
+#endif
 
 #define MAX_WAIT_TIME 10.f
 
-#define randRange(lower, upper) ((((float)std::rand()) / (float)RAND_MAX)*(upper-lower)+lower)
+inline float randRange(float lower, float upper) {
+	return ((((float)std::rand()) / (float)RAND_MAX)*(upper - lower) + lower);
+}
 
 TextWorld TextWorld::textWorld;
 std::shared_ptr<Font> textDisplayFont;
@@ -51,7 +55,8 @@ void TextNode::draw(Graphics &g) {
 }
 
 void TextNode::drawNative(void *cg) {
-    CGContextRef context = (CGContextRef)cg;
+#if TARGET_MACOS
+	CGContextRef context = (CGContextRef)cg;
     CGFloat width = CGBitmapContextGetWidth(context);
     CGFloat height = CGBitmapContextGetHeight(context);
 
@@ -94,6 +99,7 @@ void TextNode::drawNative(void *cg) {
     CFRelease(font);
     
     CGContextRestoreGState(context);
+#endif
 }
 
 TextWorld::~TextWorld() {
@@ -155,6 +161,7 @@ void TextWorld::draw(Graphics &gc) {
 }
 
 void TextWorld::drawNative(void *cg) {
+#if TARGET_MACOS
     CGContextRef context = (CGContextRef)cg;
     std::lock_guard<std::mutex> guard(worldMutex);
     float r, g, b, a;
@@ -170,6 +177,7 @@ void TextWorld::drawNative(void *cg) {
     for (auto n : nodes) {
         n->drawNative(cg);
     }
+#endif
 }
 
 std::wstring LuaProgram::convertToProgram(const std::wstring &str) {
@@ -470,7 +478,11 @@ void LuaProgram::changeShowSize(float width, float height) {
         }
         else {
             exportingStarted = true;
+#if TARGET_MACOS
             exporter->start(filenameExport, width, height);
+#else
+			luaL_error(L, "exporting video doesn't work on Windows yet");
+#endif
         }
     }
     else {
@@ -490,10 +502,12 @@ void LuaProgram::speak(const std::string &str) {
 void LuaProgram::wait(float time) {
     if (isExporting()) { // then write frames
         checkExportStarted();
+#if TARGET_MACOS
         residualWaitTime = exporter->encodeFrames(time+residualWaitTime, [this](float dt, void *context) {
             TextWorld::sharedTextWorld().update(dt);
             TextWorld::sharedTextWorld().drawNative(context);
         });
+#endif
     }
     else {
         std::this_thread::sleep_for(std::chrono::milliseconds((long)(time*1000.f)));
@@ -525,7 +539,9 @@ void LuaProgram::run() {
     
     if (isExporting()) {
         checkExportStarted();
+#if TARGET_MACOS
         exporter->stop();
+#endif
     }
 }
 
@@ -566,7 +582,9 @@ void LuaProgram::exportVideo(const std::string &filename) {
     exporting = true;
     
     runContext = nullptr;
+#if TARGET_MACOS
     exporter = std::make_shared<jp::VideoExporter>();
+#endif
     filenameExport = filename;
 
     initState();

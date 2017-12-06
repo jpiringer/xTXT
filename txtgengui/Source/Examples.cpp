@@ -1140,31 +1140,31 @@ color("black")
 background("white")
 size(30)
 center()
-rotation(0);
+rotation(0)
 show("a", 1)
-rotation(30);
+rotation(30)
 show("a", 1)
-rotation(60);
+rotation(60)
 show("a", 1)
-rotation(90);
+rotation(90)
 show("a", 1)
-rotation(120);
+rotation(120)
 show("a", 1)
-rotation(150);
+rotation(150)
 show("a", 1)
-rotation(180);
+rotation(180)
 show("a", 1)
-rotation(210);
+rotation(210)
 show("a", 1)
-rotation(240);
+rotation(240)
 show("a", 1)
-rotation(270);
+rotation(270)
 show("a", 1)
-rotation(300);
+rotation(300)
 show("a", 1)
-rotation(330);
+rotation(330)
 show("a", 1)
-rotation(360);
+rotation(360)
 show("a", 1)
 )"
 ,{}

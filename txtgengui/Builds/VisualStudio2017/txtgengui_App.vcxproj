@@ -172,7 +172,10 @@
     <ClCompile Include="..\..\..\..\libs\lua-5.3.4\src\lutf8lib.c" />
     <ClCompile Include="..\..\..\..\libs\lua-5.3.4\src\lvm.c" />
     <ClCompile Include="..\..\..\..\libs\lua-5.3.4\src\lzio.c" />
-    <ClCompile Include="..\..\Source\Examples.cpp" />
+    <ClCompile Include="..\..\Source\Examples.cpp">
+      <UseUnicodeForAssemblerListing Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</UseUnicodeForAssemblerListing>
+      <UseUnicodeForAssemblerListing Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</UseUnicodeForAssemblerListing>
+    </ClCompile>
     <ClCompile Include="..\..\Source\GrammarTokeniser.cpp" />
     <ClCompile Include="..\..\Source\Lexer.cpp" />
     <ClCompile Include="..\..\Source\LSystem.cpp" />

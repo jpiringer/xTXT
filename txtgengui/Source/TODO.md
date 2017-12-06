@@ -2,6 +2,8 @@
 
 win10 version
 
+alle umlaute in examples.cpp in u-codes übersetzen, damit das file ohne BOM funktioniert
+
 deviation von lsystemen deterministisch machen. groß ziehen des fensters sollte nicht die form verändern
 
 automatischer updatehinweis

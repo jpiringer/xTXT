@@ -139,7 +139,9 @@ public juce::ThreadWithProgressWindow
     // for exporting
     bool exporting = false;
     bool exportingStarted = false;
-    std::shared_ptr<jp::VideoExporter> exporter;
+#if TARGET_MACOS
+	std::shared_ptr<jp::VideoExporter> exporter;
+#endif
     std::string filenameExport;
     float residualWaitTime = 0;
     
