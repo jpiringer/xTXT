@@ -11,6 +11,8 @@
 #include "MainWindow.h"
 #include "MainComponent.h"
 
+#include "Examples.hpp"
+
 ScopedPointer<ApplicationCommandManager> MainWindow::applicationCommandManager = nullptr;
 ScopedPointer<ApplicationProperties> MainWindow::applicationProperties = nullptr;
 PropertiesFile::Options MainWindow::applicationPropertiesStorageOptions;
@@ -20,6 +22,8 @@ MainWindow::MainWindow (String name)  : DocumentWindow (name,
                                             .findColour (ResizableWindow::backgroundColourId),
                                             DocumentWindow::allButtons)
 {
+    initExamples();
+    
     setUsingNativeTitleBar(true);
     setContentOwned(contentComponent = new MainContentComponent(), true);
     

@@ -17,7 +17,7 @@
 		250F966983052EF964E8D6C3 /* include_juce_opengl.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB940683BB70C90AB1262800 /* include_juce_opengl.mm */; };
 		2AAFB6FAE1B64DF6D3EC62C5 /* include_juce_gui_basics.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4786A42B644081DF9D8382BE /* include_juce_gui_basics.mm */; };
 		2BF8E7261D23D7BA28E3D688 /* include_juce_audio_devices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2A8F450EDBD9AB56CAF6D493 /* include_juce_audio_devices.mm */; };
-		301A97191F8CE59300142DAA /* Platform.mm in Sources */ = {isa = PBXBuildFile; fileRef = 301A97171F8CE59300142DAA /* Platform.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		301A97191F8CE59300142DAA /* PlatformOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 301A97171F8CE59300142DAA /* PlatformOSX.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		301A972E1F8CE65700142DAA /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A971D1F8CE61000142DAA /* Lexer.cpp */; };
 		301A972F1F8CE65B00142DAA /* LSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A971F1F8CE61000142DAA /* LSystem.cpp */; };
 		301A97301F8CE66500142DAA /* Markov.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301A97221F8CE61000142DAA /* Markov.cpp */; };
@@ -37,13 +37,17 @@
 		306FAF191F8CC81400BFB61C /* LSystemTokeniser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306FAF171F8CC81400BFB61C /* LSystemTokeniser.cpp */; };
 		30739E531F92293700C1D7A0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30739E521F92293700C1D7A0 /* Images.xcassets */; };
 		3087D3A01F82B60E009C157F /* GrammarTokeniser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3087D39E1F82B60E009C157F /* GrammarTokeniser.cpp */; };
-		3087D3A31F82C55E009C157F /* Speaker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3087D3A11F82C55E009C157F /* Speaker.mm */; };
+		3087D3A31F82C55E009C157F /* SpeakerOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3087D3A11F82C55E009C157F /* SpeakerOSX.mm */; };
 		308E2EB81F8CE20900001AA8 /* libhunspell-1.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 308E2EB61F8CE20900001AA8 /* libhunspell-1.2.tbd */; };
 		308E2EC01F8CE42700001AA8 /* de_DE.aff in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBC1F8CE41E00001AA8 /* de_DE.aff */; };
 		308E2EC11F8CE42900001AA8 /* de_DE.dic in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBD1F8CE41E00001AA8 /* de_DE.dic */; };
 		308E2EC21F8CE42C00001AA8 /* en_US.aff in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBE1F8CE41E00001AA8 /* en_US.aff */; };
 		308E2EC31F8CE42F00001AA8 /* en_US.dic in Resources */ = {isa = PBXBuildFile; fileRef = 308E2EBF1F8CE41E00001AA8 /* en_US.dic */; };
-		30B2D7E31FD54C5900F607E3 /* VideoExporter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30B2D7E11FD54C5900F607E3 /* VideoExporter.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		30B2D7E31FD54C5900F607E3 /* VideoExporterOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30B2D7E11FD54C5900F607E3 /* VideoExporterOSX.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		30F90C451FD87614009C7A21 /* examples-lsystem.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30F90C441FD87614009C7A21 /* examples-lsystem.txt */; };
+		30F90C471FD89996009C7A21 /* examples-markov.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30F90C461FD89996009C7A21 /* examples-markov.txt */; };
+		30F90C491FD89A71009C7A21 /* examples-grammar.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30F90C481FD89A71009C7A21 /* examples-grammar.txt */; };
+		30F90C4B1FD89A82009C7A21 /* examples-program.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30F90C4A1FD89A82009C7A21 /* examples-program.txt */; };
 		3A316C9899964D338F9BFF44 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8975FE5A4ED205436B7A056A /* AVFoundation.framework */; };
 		5FF51A826474FA13CD51D2CE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29458B98CE34EA0DF64C2DA7 /* IOKit.framework */; };
 		6044A842767BE43731FF240A /* MainComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C289E75BBC517E54A3469B06 /* MainComponent.cpp */; };
@@ -71,7 +75,7 @@
 		1EE1B58388204FAF86EE8676 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		29458B98CE34EA0DF64C2DA7 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		2A8F450EDBD9AB56CAF6D493 /* include_juce_audio_devices.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_devices.mm; path = ../../JuceLibraryCode/include_juce_audio_devices.mm; sourceTree = SOURCE_ROOT; };
-		301A97171F8CE59300142DAA /* Platform.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.mm; path = ../../Source/Platform.mm; sourceTree = "<group>"; };
+		301A97171F8CE59300142DAA /* PlatformOSX.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = PlatformOSX.mm; path = ../../Source/PlatformOSX.mm; sourceTree = "<group>"; };
 		301A97181F8CE59300142DAA /* Platform.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Platform.hpp; path = ../../Source/Platform.hpp; sourceTree = "<group>"; };
 		301A971D1F8CE61000142DAA /* Lexer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Lexer.cpp; sourceTree = "<group>"; };
 		301A971E1F8CE61000142DAA /* Lexer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lexer.hpp; sourceTree = "<group>"; };
@@ -111,7 +115,7 @@
 		3087D39D1F8291B1009C157F /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = TODO.md; path = ../../Source/TODO.md; sourceTree = "<group>"; };
 		3087D39E1F82B60E009C157F /* GrammarTokeniser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GrammarTokeniser.cpp; path = ../../Source/GrammarTokeniser.cpp; sourceTree = "<group>"; };
 		3087D39F1F82B60E009C157F /* GrammarTokeniser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GrammarTokeniser.hpp; path = ../../Source/GrammarTokeniser.hpp; sourceTree = "<group>"; };
-		3087D3A11F82C55E009C157F /* Speaker.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Speaker.mm; path = ../../Source/Speaker.mm; sourceTree = "<group>"; };
+		3087D3A11F82C55E009C157F /* SpeakerOSX.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = SpeakerOSX.mm; path = ../../Source/SpeakerOSX.mm; sourceTree = "<group>"; };
 		3087D3A21F82C55E009C157F /* Speaker.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Speaker.hpp; path = ../../Source/Speaker.hpp; sourceTree = "<group>"; };
 		308E2EB61F8CE20900001AA8 /* libhunspell-1.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libhunspell-1.2.tbd"; path = "usr/lib/libhunspell-1.2.tbd"; sourceTree = SDKROOT; };
 		308E2EBC1F8CE41E00001AA8 /* de_DE.aff */ = {isa = PBXFileReference; lastKnownFileType = text; path = de_DE.aff; sourceTree = "<group>"; };
@@ -121,8 +125,14 @@
 		309318FE1F98F75C00D8A760 /* CHANGES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGES.md; sourceTree = "<group>"; };
 		309688541FAB75E800EF8BB5 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Common.h; path = ../../Source/Common.h; sourceTree = "<group>"; };
 		30AF49179185AA832F3E631A /* Info-App.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-App.plist"; sourceTree = SOURCE_ROOT; };
-		30B2D7E11FD54C5900F607E3 /* VideoExporter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoExporter.mm; path = ../../Source/VideoExporter.mm; sourceTree = "<group>"; };
+		30B2D7E11FD54C5900F607E3 /* VideoExporterOSX.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoExporterOSX.mm; path = ../../Source/VideoExporterOSX.mm; sourceTree = "<group>"; };
 		30B2D7E21FD54C5900F607E3 /* VideoExporter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VideoExporter.hpp; path = ../../Source/VideoExporter.hpp; sourceTree = "<group>"; };
+		30F90C441FD87614009C7A21 /* examples-lsystem.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "examples-lsystem.txt"; path = "../../Source/examples-lsystem.txt"; sourceTree = "<group>"; };
+		30F90C461FD89996009C7A21 /* examples-markov.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "examples-markov.txt"; path = "../../Source/examples-markov.txt"; sourceTree = "<group>"; };
+		30F90C481FD89A71009C7A21 /* examples-grammar.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "examples-grammar.txt"; path = "../../Source/examples-grammar.txt"; sourceTree = "<group>"; };
+		30F90C4A1FD89A82009C7A21 /* examples-program.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "examples-program.txt"; path = "../../Source/examples-program.txt"; sourceTree = "<group>"; };
+		30F90C4C1FD89DFB009C7A21 /* SpeakerWin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SpeakerWin.cpp; path = ../../Source/SpeakerWin.cpp; sourceTree = "<group>"; };
+		30F90C4D1FD89E1E009C7A21 /* PlatformWin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlatformWin.cpp; path = ../../Source/PlatformWin.cpp; sourceTree = "<group>"; };
 		357A8F7AF49826922CB6EFDF /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3D09E06C4E669C722463444E /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
 		41064F35812828A6A8EC752D /* include_juce_video.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_video.mm; path = ../../JuceLibraryCode/include_juce_video.mm; sourceTree = SOURCE_ROOT; };
@@ -225,11 +235,13 @@
 		3034D76F1F82CAB700761A03 /* platform dependent */ = {
 			isa = PBXGroup;
 			children = (
-				3087D3A11F82C55E009C157F /* Speaker.mm */,
+				3087D3A11F82C55E009C157F /* SpeakerOSX.mm */,
+				30F90C4C1FD89DFB009C7A21 /* SpeakerWin.cpp */,
 				301A97181F8CE59300142DAA /* Platform.hpp */,
-				301A97171F8CE59300142DAA /* Platform.mm */,
+				301A97171F8CE59300142DAA /* PlatformOSX.mm */,
+				30F90C4D1FD89E1E009C7A21 /* PlatformWin.cpp */,
 				30B2D7E21FD54C5900F607E3 /* VideoExporter.hpp */,
-				30B2D7E11FD54C5900F607E3 /* VideoExporter.mm */,
+				30B2D7E11FD54C5900F607E3 /* VideoExporterOSX.mm */,
 			);
 			name = "platform dependent";
 			sourceTree = "<group>";
@@ -335,6 +347,10 @@
 				308E2EBB1F8CE41E00001AA8 /* dict */,
 				30AF49179185AA832F3E631A /* Info-App.plist */,
 				E221F4492AE3CCCF024BB289 /* RecentFilesMenuTemplate.nib */,
+				30F90C441FD87614009C7A21 /* examples-lsystem.txt */,
+				30F90C461FD89996009C7A21 /* examples-markov.txt */,
+				30F90C481FD89A71009C7A21 /* examples-grammar.txt */,
+				30F90C4A1FD89A82009C7A21 /* examples-program.txt */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -451,9 +467,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D500F533ABB17B86277FAB6 /* RecentFilesMenuTemplate.nib in Resources */,
+				30F90C451FD87614009C7A21 /* examples-lsystem.txt in Resources */,
 				30739E531F92293700C1D7A0 /* Images.xcassets in Resources */,
 				308E2EC11F8CE42900001AA8 /* de_DE.dic in Resources */,
 				308E2EC31F8CE42F00001AA8 /* en_US.dic in Resources */,
+				30F90C471FD89996009C7A21 /* examples-markov.txt in Resources */,
+				30F90C4B1FD89A82009C7A21 /* examples-program.txt in Resources */,
+				30F90C491FD89A71009C7A21 /* examples-grammar.txt in Resources */,
 				301A97391F8CEE9300142DAA /* German.aff in Resources */,
 				301A973A1F8CEE9700142DAA /* German.dic in Resources */,
 				308E2EC21F8CE42C00001AA8 /* en_US.aff in Resources */,
@@ -473,7 +493,7 @@
 				3041F2971F826C2500F37B01 /* utils.cpp in Sources */,
 				15765B4A9BAB20C5982673D2 /* MainWindow.cpp in Sources */,
 				301A97301F8CE66500142DAA /* Markov.cpp in Sources */,
-				30B2D7E31FD54C5900F607E3 /* VideoExporter.mm in Sources */,
+				30B2D7E31FD54C5900F607E3 /* VideoExporterOSX.mm in Sources */,
 				8BA786178024ECF0A519EC6C /* include_juce_audio_basics.mm in Sources */,
 				2BF8E7261D23D7BA28E3D688 /* include_juce_audio_devices.mm in Sources */,
 				EFFD96D1F3057CF5B0865EDA /* include_juce_audio_formats.mm in Sources */,
@@ -481,7 +501,7 @@
 				301A97341F8CE67300142DAA /* Tokenizer.cpp in Sources */,
 				214EEBD355C43B72E1862246 /* include_juce_audio_processors.mm in Sources */,
 				0FC2943757215E5690A68CFA /* include_juce_core.mm in Sources */,
-				301A97191F8CE59300142DAA /* Platform.mm in Sources */,
+				301A97191F8CE59300142DAA /* PlatformOSX.mm in Sources */,
 				3087D3A01F82B60E009C157F /* GrammarTokeniser.cpp in Sources */,
 				94D474A8630F15BBF85B5283 /* include_juce_cryptography.mm in Sources */,
 				302866EB1F9F64FE00187E85 /* ShowWindow.cpp in Sources */,
@@ -499,7 +519,7 @@
 				250F966983052EF964E8D6C3 /* include_juce_opengl.mm in Sources */,
 				3063DC251F8E4428009585FC /* UndoableActions.cpp in Sources */,
 				302866EE1F9FB81F00187E85 /* TextTurtleGraphics.cpp in Sources */,
-				3087D3A31F82C55E009C157F /* Speaker.mm in Sources */,
+				3087D3A31F82C55E009C157F /* SpeakerOSX.mm in Sources */,
 				7F9F77A9693167216509740C /* include_juce_video.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

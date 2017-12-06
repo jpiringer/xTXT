@@ -19,7 +19,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#if TARGET_MACOS
+#if TARGET_OS_MAC
 #include <lua.hpp>
 #else
 #include "lua.hpp"
@@ -139,7 +139,7 @@ public juce::ThreadWithProgressWindow
     // for exporting
     bool exporting = false;
     bool exportingStarted = false;
-#if TARGET_MACOS
+#if TARGET_OS_MAC
 	std::shared_ptr<jp::VideoExporter> exporter;
 #endif
     std::string filenameExport;

@@ -1,4 +1,4 @@
-﻿//{{NO_DEPENDENCIES}}
+//{{NO_DEPENDENCIES}}
 // Von Microsoft Visual C++ generierte Includedatei.
 // Verwendet durch resources.rc
 //
@@ -1611,3 +1611,11 @@
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
+
+#define TEXTFILE        256
+#define IDR_EXAMPLESLYSYSTEM  1101
+#define IDR_EXAMPLESGRAMMAR  1102
+#define IDR_EXAMPLESPROGRAM  1103
+#define IDR_EXAMPLESMARKOV  1104
+
+

@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+void initExamples();
+
 std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> grammarExamples();
 std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> LSystemExamples();
 std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> markovExamples();

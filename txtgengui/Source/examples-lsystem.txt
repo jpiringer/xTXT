@@ -1,0 +1,193 @@
+TITLE: b-sprache
+CODE:
+# b-sprache
+a = aba;
+e = ebe;
+i = ibi;
+o = obo;
+u = ubu;
+y = yby;
+ä = äbä;
+ö = öbö;
+ü = übü;
+$$
+
+TITLE: alge
+CODE:
+# algenwachstum
+a = ab;
+b = a;
+$$
+
+TITLE: buchstabieralphabet
+CODE:
+# österreichisches buchstabieralphabet
+a = anton ;
+b = berta ;
+c = cäsar ;
+d = dora ;
+e = emil ;
+f = friedrich ;
+g = gustav ;
+h = heinrich ;
+i = ida ;
+j = julius ;
+k = konrad ;
+l = ludwig ;
+m = martha ;
+n = nordpol ;
+o = otto ;
+p = paula ;
+q = quelle ;
+r = richard ;
+s = samuel ;
+t = theodor ;
+u = ulrich ;
+v = viktor ;
+w = wilhelm ;
+x = xaver ;
+y = ypsilon ;
+z = zeppelin ;
+ä = ärger ;
+ö = ökonom ;
+ü = übermut ;
+ß = scharfes s ;
+$$
+
+TITLE: rhythm 1
+CODE:
+# rhythm 1 - start with s
+s = ska;
+t = atts;
+k = kakap;
+p = kpki kik po po;
+o = op rop po;
+$$
+
+TITLE: rhythm 2
+CODE:
+# rhythm 2 - start with l
+l = lü;
+ü = ülüm;
+m = ilimmi;
+i = linnih;
+h = heumü;
+$$
+
+TITLE: rhythm 3
+CODE:
+# rhythm 3 - start with i
+i = ix;
+x = xixa;
+a = aksi;
+k = kassik;
+$$
+
+TITLE: rhythm 4
+CODE:
+# rhythm 4 - start with a
+a = aaif;
+i = iof;
+o = oaouf;
+u = ufuue;
+e = effei;
+$$
+
+TITLE: snowflake
+CODE:
+# snowflake
+# axiom: X--X--X
+# set angle to 60
+# press Show
+X = X+X--X+X;
+$CODE
+PAR: axiom:X--X--X
+PAR: angle:60
+$$
+
+TITLE: snowflake 2
+CODE:
+# snowflake 2
+# axiom: XXXX--XXXX--XXXX
+# angle: 60
+# press Show
+XXXX = XXXX+XXXX--XXXX+XXXX;
+$CODE
+PAR: axiom:XXXX--XXXX--XXXX
+PAR: angle:60
+$$
+
+TITLE: dragon-curve
+CODE:
+# dragon-curve
+# axiom: RRR
+# angle: 45
+# press Show
+RRR = +RRR--LLL+;
+LLL = -RRR++LLL-;
+$CODE
+PAR: axiom:RRR
+PAR: angle:45
+$$
+
+TITLE: triangle
+CODE:
+# triangle
+# axiom: A
+# angle: 60
+# press Show
+A = B-A-B;
+B = A+B+A;
+$CODE
+PAR: axiom:A
+PAR: angle:60
+$$
+
+TITLE: hilbert curve
+CODE:
+# hilbert
+# axiom: X
+# angle: 90
+# press Show
+X = -YF+XFX+FY-;
+Y = +XF-YFY-FX+;
+$CODE
+PAR: axiom:X
+PAR: angle:90
+$$
+
+TITLE: tree
+CODE:
+#tree
+# axiom: FFFFX
+# angle: 30
+# press Show
+X = <[+FFFFX][-FFFFX];
+$CODE
+PAR: axiom:FFFFX
+PAR: angle:30
+$$
+
+TITLE: plant 1
+CODE:
+# plant 1
+# axiom: F
+# angle: 25
+# press Show
+F = F[+F]F[-F]F;
+$CODE
+PAR: axiom:F
+PAR: angle:25
+$$
+
+TITLE: plant 2
+CODE:
+# plant 2
+# axiom: F
+# angle: 22
+# press Show
+F = FF-[-F+F+F]+[+F-F-F];
+$CODE
+PAR: axiom:F
+PAR: angle:22
+$$

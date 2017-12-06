@@ -10,7 +10,7 @@
 
 #include "Runner.hpp"
 
-#if TARGET_MACOS
+#if TARGET_OS_MAC
 #include <lua.hpp>
 #else
 #include "lua.hpp"
@@ -18,7 +18,7 @@
 
 #include <cstdlib>
 
-#if TARGET_MACOS
+#if TARGET_OS_MAC
 #include <CoreGraphics/CoreGraphics.h>
 #include <CoreText/CoreText.h>
 
@@ -55,7 +55,7 @@ void TextNode::draw(Graphics &g) {
 }
 
 void TextNode::drawNative(void *cg) {
-#if TARGET_MACOS
+#if TARGET_OS_MAC
 	CGContextRef context = (CGContextRef)cg;
     CGFloat width = CGBitmapContextGetWidth(context);
     CGFloat height = CGBitmapContextGetHeight(context);
@@ -161,7 +161,7 @@ void TextWorld::draw(Graphics &gc) {
 }
 
 void TextWorld::drawNative(void *cg) {
-#if TARGET_MACOS
+#if TARGET_OS_MAC
     CGContextRef context = (CGContextRef)cg;
     std::lock_guard<std::mutex> guard(worldMutex);
     float r, g, b, a;
@@ -478,7 +478,7 @@ void LuaProgram::changeShowSize(float width, float height) {
         }
         else {
             exportingStarted = true;
-#if TARGET_MACOS
+#if TARGET_OS_MAC
             exporter->start(filenameExport, width, height);
 #else
 			luaL_error(L, "exporting video doesn't work on Windows yet");
@@ -502,7 +502,7 @@ void LuaProgram::speak(const std::string &str) {
 void LuaProgram::wait(float time) {
     if (isExporting()) { // then write frames
         checkExportStarted();
-#if TARGET_MACOS
+#if TARGET_OS_MAC
         residualWaitTime = exporter->encodeFrames(time+residualWaitTime, [this](float dt, void *context) {
             TextWorld::sharedTextWorld().update(dt);
             TextWorld::sharedTextWorld().drawNative(context);
@@ -539,7 +539,7 @@ void LuaProgram::run() {
     
     if (isExporting()) {
         checkExportStarted();
-#if TARGET_MACOS
+#if TARGET_OS_MAC
         exporter->stop();
 #endif
     }
@@ -582,7 +582,7 @@ void LuaProgram::exportVideo(const std::string &filename) {
     exporting = true;
     
     runContext = nullptr;
-#if TARGET_MACOS
+#if TARGET_OS_MAC
     exporter = std::make_shared<jp::VideoExporter>();
 #endif
     filenameExport = filename;

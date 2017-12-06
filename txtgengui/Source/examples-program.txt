@@ -1,0 +1,222 @@
+{
+TITLE: hello, world!
+CODE:
+screen(800, 600)
+color("black")
+background("white")
+size(30)
+center()
+addText("hello, world!")
+$$
+
+TITLE: alphabet
+CODE:
+screen(800, 600)
+color("black")
+background("white")
+size(180)
+center()
+show("a", 0.2)
+show("b", 0.2)
+show("c", 0.2)
+show("d", 0.2)
+show("e", 0.2)
+show("f", 0.2)
+show("g", 0.2)
+show("h", 0.2)
+show("i", 0.2)
+show("j", 0.2)
+show("k", 0.2)
+show("l", 0.2)
+show("m", 0.2)
+show("n", 0.2)
+show("o", 0.2)
+show("p", 0.2)
+show("q", 0.2)
+show("r", 0.2)
+show("s", 0.2)
+show("t", 0.2)
+show("u", 0.2)
+show("v", 0.2)
+show("w", 0.2)
+show("x", 0.2)
+show("y", 0.2)
+show("z", 0.2)
+$$
+
+TITLE: position
+CODE:
+screen(800, 600)
+color("black")
+background("white")
+size(30)
+center()
+position(-0.5, 0)
+show("left",2)
+position(0.5, 0)
+show("right",2)
+position(0, -0.5)
+show("up",2)
+position(0, 0.5)
+show("down",2)
+$$
+
+TITLE: movement
+CODE:
+screen(800, 600)
+color("black")
+background("white")
+size(30)
+center()
+position(0, 0)
+show("X",0.5)
+position(0.1, 0.1)
+show("X",0.5)
+position(0.2, 0.2)
+show("X",0.5)
+position(0.3, 0.3)
+show("X",0.5)
+position(0.4, 0.4)
+show("X",0.5)
+position(0.5, 0.5)
+show("X",0.5)
+position(0.6, 0.6)
+show("X",0.5)
+position(0.7, 0.7)
+show("X",0.5)
+position(0.8, 0.8)
+show("X",0.5)
+position(0.9, 0.9)
+show("X",0.5)
+position(1, 1)
+show("X",0.5)
+$$
+
+TITLE: size
+CODE:
+screen(800, 600)
+color("black")
+background("white")
+size(30)
+center()
+show("a", 1)
+size(60)
+show("a", 1)
+size(90)
+show("a", 1)
+size(120)
+show("a", 1)
+size(150)
+show("a", 1)
+size(180)
+show("a", 1)
+$$
+
+TITLE: rotation
+CODE:
+screen(800, 600)
+color("black")
+background("white")
+size(30)
+center()
+rotation(0)
+show("a", 1)
+rotation(30)
+show("a", 1)
+rotation(60)
+show("a", 1)
+rotation(90)
+show("a", 1)
+rotation(120)
+show("a", 1)
+rotation(150)
+show("a", 1)
+rotation(180)
+show("a", 1)
+rotation(210)
+show("a", 1)
+rotation(240)
+show("a", 1)
+rotation(270)
+show("a", 1)
+rotation(300)
+show("a", 1)
+rotation(330)
+show("a", 1)
+rotation(360)
+show("a", 1)
+$$
+
+TITLE: where?
+CODE:
+screen(800, 600)
+color("black")
+background("white")
+size(30)
+center()
+position(-0.5, 0)
+a = addText("look")
+wait(2)
+position(0.5, 0)
+size(50)
+b = addText("here")
+wait(2)
+removeText(a)
+removeText(b)
+background("red")
+color("blue")
+b = addText("where?")
+wait(2)
+removeText(b)
+position(0, 0)
+background("blue")
+color("red")
+addText("anywhere!")
+wait(2)
+$$
+
+TITLE: background
+CODE:
+screen(800, 600)
+color("black")
+background("red")
+wait(2)
+background("green")
+wait(2)
+background("blue")
+wait(2)
+$$
+
+TITLE: random
+CODE:
+screen(1920, 1080)
+color("black")
+background("white")
+size(130)
+center()
+for _ = 1, 100 do -- loop 100 times
+    randomPosition()
+    randomRotation()
+    addText("?")
+    wait(0.1)
+end
+$$
+
+TITLE: speak
+CODE:
+screen(600, 600)
+color(1,1,1,0.5)
+background("black")
+size(130)
+center()
+for _ = 1, 10 do -- loop 10 times
+    randomPosition()
+    addText("YES")
+    speak ("YES")
+    wait(1.5)
+    randomPosition()
+    addText("NO")
+    speak ("NO")
+    wait(1.5)
+end
+$$
