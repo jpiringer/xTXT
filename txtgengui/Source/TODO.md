@@ -1,7 +1,5 @@
 #  TODO
 
-videos mit dimension kleiner als 1920x1080 exportieren verzerrt
-
 win10 version
 
 deviation von lsystemen deterministisch machen. groß ziehen des fensters sollte nicht die form verändern
@@ -188,3 +186,5 @@ keine eingabe von enter im namshub modus möglich
 wenn export von program-mode gestartet wurde ohne vorherigem "run" dann crashts
 
 mehr beispiele für program
+
+videos mit dimension kleiner als 1920x1080 exportieren verzerrt

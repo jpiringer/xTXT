@@ -61,7 +61,7 @@ void TextNode::drawNative(void *cg) {
         textDisplayFont = std::make_shared<Font>(Font::getDefaultMonospacedFontName(), 20, Font::plain);
     }
     
-    CGContextTranslateCTM(context, (width*(getX()+1.f))/2.f, (height*(getY()+1.f))/2.f);
+    CGContextTranslateCTM(context, (width*(getX()+1.f))/2.f, (height*(-getY()+1.f))/2.f);
     CGContextRotateCTM(context, getRotation()/180.f*M_PI);
     
     CGColorRef color = CGColorCreateGenericRGB(getRed(), getGreen(), getBlue(), getAlpha());

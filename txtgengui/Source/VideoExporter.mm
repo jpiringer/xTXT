@@ -65,6 +65,7 @@
         _fps = fps;
         
         _exportScale = 1;
+        _exportsAlpha = NO;
         
         _renderAudio = NO;
         
@@ -328,7 +329,6 @@
     
     @autoreleasepool { // release all the stuff that's allocated during frame generation
         drawFunction(1.f/(float)FPS, exportContext);
-        //[self renderFrame:frameNr useAudio:YES context:exportContext];
     }
     
     CVPixelBufferUnlockBaseAddress(pxbuffer, 0);
@@ -340,8 +340,6 @@
     if (![adaptor appendPixelBuffer:pxbuffer withPresentationTime:presentTime]) {
         NSLog(@"error while appending pixel buffer for frame %lld", frameNr);
     }
-    
-    //[self.delegate framesRendered:frameNr ofScene:self];
     
     CVPixelBufferRelease(pxbuffer);
     CFRelease(exportContext);
@@ -360,8 +358,6 @@
      }];
     
     [[NSProcessInfo processInfo] endActivity:activity];
-    
-    //[self.delegate generationFinished];
     
     [self freeMemory];
 }

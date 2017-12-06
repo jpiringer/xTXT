@@ -1022,7 +1022,7 @@ abschiedsworts)"
 std::vector<std::tuple<std::string, std::wstring, std::vector<std::wstring>>> programExamples() {
 return {
 {"hello, world!",
-LR"(screen(300, 200)
+LR"(screen(800, 600)
 color("black")
 background("white")
 size(30)
@@ -1032,10 +1032,10 @@ addText("hello, world!")
 ,{}
 },
 {"alphabet",
-LR"(screen(300, 200)
+LR"(screen(800, 600)
 color("black")
 background("white")
-size(80)
+size(180)
 center()
 show("a", 0.2)
 show("b", 0.2)
@@ -1067,7 +1067,7 @@ show("z", 0.2)
 ,{}
 },
 {"position",
-LR"(screen(300, 200)
+LR"(screen(800, 600)
 color("black")
 background("white")
 size(30)
@@ -1084,7 +1084,7 @@ show("down",2)
 ,{}
 },
 {"movement",
-LR"(screen(300, 200)
+LR"(screen(800, 600)
 color("black")
 background("white")
 size(30)
@@ -1115,7 +1115,7 @@ show("X",0.5)
 ,{}
 },
 {"size",
-LR"(screen(300, 200)
+LR"(screen(800, 600)
 color("black")
 background("white")
 size(30)
@@ -1135,7 +1135,7 @@ show("a", 1)
 ,{}
 },
 {"rotation",
-LR"(screen(300, 200)
+LR"(screen(800, 600)
 color("black")
 background("white")
 size(30)
@@ -1170,7 +1170,7 @@ show("a", 1)
 ,{}
 },
 {"where?",
-LR"(screen(300, 200)
+LR"(screen(800, 600)
 color("black")
 background("white")
 size(30)
@@ -1198,7 +1198,7 @@ wait(2)
 ,{}
 },
 {"background",
-LR"(screen(300, 200)
+LR"(screen(800, 600)
 color("black")
 background("red")
 wait(2)

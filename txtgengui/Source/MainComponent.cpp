@@ -873,7 +873,12 @@ void MainContentComponent::chooseExample(int exampleNr) {
             }));
         }
         else {
-            editor->loadContent(toUTF8(std::get<1>(examples[exampleNr])));
+            auto code = toUTF8(std::get<1>(examples[exampleNr]));
+            editor->loadContent(code);
+            if (runner != nullptr) {
+                runner->setCode(code);
+            }
+
             auto parameters = std::get<2>(examples[exampleNr]);
             parseParameters(parameters);
         }
