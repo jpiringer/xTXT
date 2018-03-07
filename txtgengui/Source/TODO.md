@@ -2,8 +2,6 @@
 
 win10 version
 
-examples für win10 in das exe
-
 deviation von lsystemen deterministisch machen. groß ziehen des fensters sollte nicht die form verändern
 
 automatischer updatehinweis
@@ -192,3 +190,5 @@ mehr beispiele für program
 videos mit dimension kleiner als 1920x1080 exportieren verzerrt
 
 alle umlaute in examples.cpp in u-codes übersetzen, damit das file ohne BOM funktioniert
+
+examples für win10 in das exe
