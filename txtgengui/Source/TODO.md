@@ -1,6 +1,12 @@
 #  TODO
 
-win10 version
+stimm- oder sprachauswahl für TTS
+
+wenn beim export kein show-fenster offen ist, wird nichts exportiert (win10)
+
+progress bar oder ähnliches bei langem rendern (export, show, l-system)
+
+werte für winkel etc. mit up, down-ticker verstellbar machen
 
 deviation von lsystemen deterministisch machen. groß ziehen des fensters sollte nicht die form verändern
 
@@ -192,3 +198,5 @@ videos mit dimension kleiner als 1920x1080 exportieren verzerrt
 alle umlaute in examples.cpp in u-codes übersetzen, damit das file ohne BOM funktioniert
 
 examples für win10 in das exe
+
+win10 version
