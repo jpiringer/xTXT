@@ -368,7 +368,7 @@ std::wstring NamShubExecutor::executeCommand(const std::string &command, std::ws
         }}
 #if PROGRAMMING_ENABLED
         ,{"convert to program", [](const std::wstring &str) {
-            return LuaProgram::convertToProgram(str);
+            return LuaProgram::convertToProgram(L"", str, jp::NamShub);
         }}
 #endif
     };

@@ -10,6 +10,10 @@
 
 #include "Runner.hpp"
 
+#include "Parser.hpp"
+
+#include "utils.hpp"
+
 #if TARGET_OS_MAC
 #include <lua.hpp>
 #else
@@ -180,7 +184,14 @@ void TextWorld::drawNative(void *cg) {
 #endif
 }
 
-std::wstring LuaProgram::convertToProgram(const std::wstring &str) {
+void LuaProgram::_error(const std::string &msg) {
+    errors += msg + "\n";
+    
+    errorCount++;
+    runContext->setErrors(errors);
+}
+
+std::wstring LuaProgram::convertToProgram(const std::wstring &code, const std::wstring &str, jp::RunnerType sourceType) {
     std::wstring ret =
 LR"(-- copy this to Program mode to execute there
 screen(1920, 1080)
@@ -190,27 +201,50 @@ size(30)
 center()
 )";
     
-    auto newline = [&ret]() {
-        ret += L"show(\"";
-    };
-    auto endline = [&ret]() {
-        ret += L"\", 1)\n";
-    };
-    
-    newline();
-    for (size_t i = 0; i < str.length(); i++) {
-        if (str[i] == '\"') {
-            ret += L"\\\"";
-        }
-        if (str[i] == '\n') {
-            endline();
+    switch (sourceType) {
+        case jp::NamShub: {
+            auto newline = [&ret]() {
+                ret += L"show(\"";
+            };
+            auto endline = [&ret]() {
+                ret += L"\", 1)\n";
+            };
+            
             newline();
+            for (size_t i = 0; i < str.length(); i++) {
+                if (str[i] == '\"') {
+                    ret += L"\\\"";
+                }
+                if (str[i] == '\n') {
+                    endline();
+                    newline();
+                }
+                else {
+                    ret += str[i];
+                }
+            }
+            endline();
         }
-        else {
-            ret += str[i];
+        break;
+        case jp::Grammar: {
+            ret += L"local results = grammar [[\n";
+            ret += code;
+            ret += L"]]\n";
+            ret += L"showAndSpeak(results, 5)";
         }
+        break;
+        case jp::LSystem: {
+            ret += L"local results = LSystem([[\n";
+            ret += code;
+            ret += L"]], [[\n";
+            ret += str;
+            ret += L"]])\n";
+            ret += L"showAndSpeak(results, 5)";
+        }
+        break;
+        default:
+            break;
     }
-    endline();
     
     return ret;
 }
@@ -293,6 +327,26 @@ static int showL(lua_State *L) {
     if (lifetime > MAX_WAIT_TIME) {
         luaL_error(L, "cannot wait for more than %f seconds (was: %f)", MAX_WAIT_TIME, (float)lifetime);
     }
+
+    wait(lifetime);
+    
+    return 0;
+}
+
+static int showAndSpeakL(lua_State *L) {
+    checkDisplay();
+    std::string str = lua_tostring(L, 1);
+    
+    auto node = addText(str);
+    
+    lua_Number lifetime = lua_tonumber(L, 2);
+    node->setLifetime(lifetime);
+
+    if (lifetime > MAX_WAIT_TIME) {
+        luaL_error(L, "cannot wait for more than %f seconds (was: %f)", MAX_WAIT_TIME, (float)lifetime);
+    }
+    
+    LuaProgram::sharedProgram()->speak(str);
 
     wait(lifetime);
     
@@ -414,6 +468,21 @@ static int waitL(lua_State *L) {
     return 0;
 }
 
+static int waitForKeyL(lua_State *L) {
+    LuaProgram::sharedProgram()->waitForKey();
+    return 0;
+}
+
+static int foreverL(lua_State *L) {
+    for (;;) {
+        waitForKeyL(L);
+        if (LuaProgram::sharedProgram()->threadShouldExit()) {
+            luaL_error(L, "User interrupt");
+        }
+    }
+    return 0;
+}
+
 static int speakL(lua_State *L) {
     std::string str = lua_tostring(L, 1);
     
@@ -421,11 +490,75 @@ static int speakL(lua_State *L) {
     return 0;
 }
 
+static int onKeyL(lua_State *L) {
+    int keyCode = -1;
+    
+    if (lua_isstring(L, 1)) {
+        const char *key = lua_tostring(L, 1);
+        
+        keyCode = std::toupper(key[0]);
+    }
+    else if (lua_isnumber(L, 1)) {
+        keyCode = lua_tonumber(L, 1);
+    }
+    
+    if (lua_type(L, 2) == LUA_TFUNCTION) {
+        lua_pushvalue(L, 2);
+        int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+        
+        LuaProgram::sharedProgram()->registerKeyFunction(keyCode, ref);
+    }
+    else {
+        luaL_error(L, "parameter 2 must be a function");
+    }
+    
+    return 0;
+}
+
+static int grammarL(lua_State *L) {
+    std::string grammar = lua_tostring(L, 1);
+    auto converted = fromUTF8(grammar);
+    
+    jp::Parser parser(converted);
+    parser.parse();
+    std::string result = toUTF8(parser.generate());
+    
+    if (parser.getErrorCount() > 0) {
+        std::string errors = toUTF8(parser.getErrors());
+        luaL_error(L, "grammar error: \'%s\'", errors.c_str());
+    }
+    
+    lua_pushstring(L, result.c_str());
+    return 1;
+}
+
+static int LSystemL(lua_State *L) {
+    std::string rules = lua_tostring(L, 1);
+    std::string input = lua_tostring(L, 2);
+    auto converted = fromUTF8(rules);
+    
+    auto lsystem = LSystem::parseLSystem(converted);
+    
+    lsystem->setState(fromUTF8(input));
+    lsystem->iterate();
+    std::string result = toUTF8(lsystem->getState());
+    
+    if (lsystem->getErrorCount() > 0) {
+        std::string errors = toUTF8(lsystem->getErrors());
+        luaL_error(L, "LSystem error: \'%s\'", errors.c_str());
+    }
+    
+    lua_pushstring(L, result.c_str());
+    return 1;
+}
+
+
 #define CMD(c) {#c, c##L}
 static const struct luaL_Reg printlib [] = {
     CMD(print), // print replacement for capturing the output
     CMD(screen), // show the window & set the screen/window size
     CMD(show), // show a text for a certain time
+    CMD(showAndSpeak), // show a text for a certain time
     CMD(addText), // add a text node
     CMD(removeText), // remove a certain text
     CMD(clear), // clear all texts
@@ -441,6 +574,11 @@ static const struct luaL_Reg printlib [] = {
     CMD(size), // set the size
     CMD(wait), // wait for x seconds
     CMD(speak), // speak string
+    CMD(onKey), // react to key input
+    CMD(waitForKey), // waits until a key was pressed
+    CMD(forever), // waits forever (or until interrupt)
+    CMD(grammar), // generate from a grammar
+    CMD(LSystem), // generate from a grammar
     {nullptr, nullptr}
 };
 
@@ -448,10 +586,30 @@ LuaProgram::~LuaProgram() {
     textDisplayFont = nullptr;
 }
 
+bool LuaProgram::processKeyPresses() {
+    bool pressed = false;
+    
+    if (!keyPresses.empty()) {
+        int keyCode = keyPresses.front();
+        keyPresses.pop_front();
+        
+        pressed = true;
+        if (keyMap.find(keyCode) != keyMap.end()) {
+            int funcRef = keyMap[keyCode];
+            
+            lua_rawgeti(L, LUA_REGISTRYINDEX, funcRef);
+            lua_pcall(L, 0, 0, 0);
+            //std::cout << "key press processed: " << keyCode << std::endl;
+        }
+    }
+    return pressed;
+}
+
 void LuaProgram::instructionHook(lua_State *L) {
     if (threadShouldExit()) {
         luaL_error(L, "User interrupt");
     }
+    processKeyPresses();
 }
 
 void instructionHook(lua_State *L, lua_Debug *ar) {
@@ -510,7 +668,29 @@ void LuaProgram::wait(float time) {
 #endif
     }
     else {
-        std::this_thread::sleep_for(std::chrono::milliseconds((long)(time*1000.f)));
+        const float steps = 10;
+        float milliseconds = time * 1000;
+        while (milliseconds > 0) {
+            if (threadShouldExit()) {
+                luaL_error(L, "User interrupt");
+            }
+            LuaProgram::sharedProgram()->processKeyPresses();
+            std::this_thread::sleep_for(std::chrono::milliseconds((long)(steps)));
+            milliseconds -= steps;
+        }
+    }
+}
+
+void LuaProgram::waitForKey() {
+    if (isExporting()) { // do nothing
+    }
+    else {
+        while (LuaProgram::sharedProgram()->processKeyPresses()) {
+            if (threadShouldExit()) {
+                luaL_error(L, "User interrupt");
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
     }
 }
 
@@ -565,6 +745,11 @@ std::string LuaProgram::execute(jp::RunContext *_runContext) {
     exporting = false;
 
     runContext = _runContext;
+    errorCount = 0;
+    errors = "";
+    
+    keyMap.clear();
+    keyPresses.clear();
     
     initState();
     
@@ -595,4 +780,9 @@ void LuaProgram::exportVideo(const std::string &filename) {
     else {
         runThread();
     }
+}
+
+void LuaProgram::keyPressed(int keyCode) {
+    //std::cout << "key pressed: " << keyCode << std::endl;
+    keyPresses.push_back(keyCode);
 }

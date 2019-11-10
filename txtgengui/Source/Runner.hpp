@@ -17,7 +17,7 @@
 #include "TextTurtleGraphics.hpp"
 
 #include "LSystem.h"
-#include "Program.hpp"
+//#include "Program.hpp"
 
 class LSystem;
 class LuaProgram;
@@ -80,6 +80,8 @@ namespace jp {
         
         virtual void exportFile(const std::string &fileName) = 0;
         virtual std::string exportsToFileType() {return "";}
+        
+        virtual void keyPressed(int keyCode) {}
     };
     
     class AutomateRunner : public Runner {
@@ -153,6 +155,8 @@ namespace jp {
 
         virtual void exportFile(const std::string &fileName) override;
         virtual std::string exportsToFileType() override {return "*.mov";}
+        
+        virtual void keyPressed(int keyCode) override;
     };
 
     class NamShubRunner : public Runner {

@@ -31,7 +31,7 @@ class MainContentComponent :
     public Component,
     public MenuBarModel,
     private FilenameComponentListener,
-    public ButtonListener,
+    public Button::Listener,
     public Slider::Listener,
     public ComboBox::Listener,
     public ApplicationCommandTarget,
@@ -58,6 +58,7 @@ public:
         showCmd = 0x2505,
         undoCmd = 0x3100,
         redoCmd = 0x3200,
+        convertToProgramCmd = 0x4100,
         settingsCmd = 0x1100,
         settingsLargeFontCmd = 0x1105,
         aboutCmd = 0x10101,
@@ -97,6 +98,7 @@ private:
     void saveFile();
     void newFile();
     void speak();
+    void convertToProgram();
     void showAbout();
     void showWebsite();
     void show(int width = -1, int height = -1);

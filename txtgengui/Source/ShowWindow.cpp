@@ -24,6 +24,12 @@ averageActualFPS (0)
     setSize(600, 400);
     
     drawFunction = [](Graphics &g, int w, int h, const std::wstring &str, double time) {};
+    addKeyListener(this);
+    setWantsKeyboardFocus(true);
+}
+
+ShowComponent::~ShowComponent() {
+    removeKeyListener(this);
 }
 
 void ShowComponent::startAnimation() {
@@ -121,6 +127,11 @@ void ShowComponent::exportImage() {
         std::cout << "export: " << fileChooser.getResult().getFullPathName() << std::endl;
         runner->exportFile(fileChooser.getResult().getFullPathName().toStdString());
     }
+}
+
+bool ShowComponent::keyPressed(const KeyPress &key, Component *originatingComponent) {
+    runner->keyPressed(key.getKeyCode());
+    return true;
 }
 
 // =======================================================================================

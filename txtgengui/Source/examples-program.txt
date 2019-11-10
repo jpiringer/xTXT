@@ -220,3 +220,57 @@ for _ = 1, 10 do -- loop 10 times
     wait(1.5)
 end
 $$
+
+TITLE: show and speak
+CODE:
+screen(800, 600)
+color("black")
+background("white")
+size(30)
+center()
+showAndSpeak("hello, world!", 1)
+$$
+
+TITLE: key input
+CODE:
+screen(800, 600)
+color("black")
+background("white")
+size(30)
+center()
+
+onKey("a", function ()
+    showAndSpeak("anfang", 1)
+end)
+onKey("e", function ()
+    showAndSpeak("ende", 1)
+end)
+
+forever()
+$$
+
+TITLE: grammar
+CODE:
+screen(800, 600)
+color("black")
+background("white")
+size(30)
+center()
+
+g = grammar [[
+START = S+;
+S = tri XI | ti XF | dha XH;
+XI = ikt dha tri ikt dha ge na XD | ikt XJ | ikt XG;
+XF = dha XJ | XG;
+XH = ti dha tri ikt XB | tri ikt dha XC;
+XD = dha ti dha ge dhee na ge na;
+XJ = tri ikt XA;
+XG = dha ti XA;
+XB = dha tri ikt XD;
+XC = ti XB | ti dha ti XD | tri ikt dha XE;
+XA = dha XB;
+XE = dha XD | ge XD;
+]]
+showAndSpeak(g, 5)
+$$
+

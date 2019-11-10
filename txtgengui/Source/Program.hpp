@@ -14,6 +14,7 @@
 #include <vector>
 #include <thread>
 #include <mutex>
+#include <queue>
 
 #include "Runner.hpp"
 
@@ -145,15 +146,16 @@ public juce::ThreadWithProgressWindow
     std::string filenameExport;
     float residualWaitTime = 0;
     
+    std::list<int> keyPresses;
+    std::map<int, int> keyMap;
+    
 protected:
-    void _error(const std::string &msg) {
-        errors += msg;
-        
-        errorCount++;
-    }
+    void _error(const std::string &msg);
     
     void initState();
     void checkExportStarted();
+    
+    bool processKeyPresses();
     
 public:
     LuaProgram() : juce::ThreadWithProgressWindow("Exporting...", false, true) {}
@@ -187,13 +189,17 @@ public:
     float getRotation() {return angle;}
     
     void wait(float time);
-    
-    static std::wstring convertToProgram(const std::wstring &str);
+    void waitForKey();
+
+    static std::wstring convertToProgram(const std::wstring &code, const std::wstring &str, jp::RunnerType sourceType);
     
     void instructionHook(lua_State *L);
     void changeOutput(const std::string &str);
     void changeShowSize(float width, float height);
     void speak(const std::string &str);
+    
+    void registerKeyFunction(int keyCode, int funcRef) {keyMap[keyCode] = funcRef;}
+    void keyPressed(int keyCode);
     
     bool isExporting() {return exporting;}
 

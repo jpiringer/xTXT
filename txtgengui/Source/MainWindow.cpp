@@ -59,9 +59,9 @@ ApplicationCommandManager &MainWindow::getApplicationCommandManager() {
 ApplicationProperties &MainWindow::getApplicationProperties() {
     if (applicationProperties == nullptr) {
         applicationProperties = new ApplicationProperties();
-        applicationPropertiesStorageOptions.applicationName = "txtgen";
+        applicationPropertiesStorageOptions.applicationName = "xTXT";
         applicationPropertiesStorageOptions.filenameSuffix = "settings";
-        applicationPropertiesStorageOptions.osxLibrarySubFolder = "Application Support/txtgen/";
+        applicationPropertiesStorageOptions.osxLibrarySubFolder = "Application Support/xTXT/";
         applicationProperties->setStorageParameters(applicationPropertiesStorageOptions);
     }
     

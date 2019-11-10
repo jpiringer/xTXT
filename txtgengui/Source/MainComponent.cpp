@@ -9,6 +9,7 @@
 #include "MainComponent.h"
 #include "MainWindow.h"
 #include "Runner.hpp"
+#include "Program.hpp"
 
 #include "UndoableActions.hpp"
 
@@ -401,7 +402,11 @@ void MainContentComponent::filenameComponentChanged(FilenameComponent *) {
 StringArray MainContentComponent::getMenuBarNames() {
     //const char *const names[] = { "File", "Edit", "Help", nullptr };
 
+#if PROGRAMMING_ENABLED
+    return { "File", "Edit", "Program", "Help"};
+#else
     return { "File", "Edit", "Help"};
+#endif
 }
 
 PopupMenu MainContentComponent::getMenuForIndex(int menuIndex, const String &menuName) {
@@ -424,7 +429,14 @@ PopupMenu MainContentComponent::getMenuForIndex(int menuIndex, const String &men
         menu.addCommandItem(commandManager, MainContentComponent::undoCmd);
         menu.addCommandItem(commandManager, MainContentComponent::redoCmd);
     }
+#if PROGRAMMING_ENABLED
+    else if (menuIndex == 2) { // Program
+        menu.addCommandItem(commandManager, MainContentComponent::convertToProgramCmd);
+    }
+    else if (menuIndex == 3) { // Help
+#else
     else if (menuIndex == 2) { // Help
+#endif
 #if !NATIVE_MENU
         menu.addCommandItem(commandManager, MainContentComponent::aboutCmd);
 #endif
@@ -457,7 +469,8 @@ void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
         MainContentComponent::redoCmd,
         MainContentComponent::settingsCmd,
         MainContentComponent::aboutCmd,
-        MainContentComponent::websiteCmd
+        MainContentComponent::websiteCmd,
+        MainContentComponent::convertToProgramCmd
     };
     
     commands.addArray(ids, numElementsInArray(ids));
@@ -466,6 +479,7 @@ void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
 void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationCommandInfo &result) {
     const String generalCategory("General");
     const String codeCategory("Code");
+    const String programCategory("Program");
     const String editCategory("Edit");
     const String appleCategory("Apple");
     const String helpCategory("Help");
@@ -506,6 +520,9 @@ void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationComman
         case MainContentComponent::redoCmd:
             result.setInfo("Redo", "Redo result changes", editCategory, 0);
             result.addDefaultKeypress('z', ModifierKeys::commandModifier|ModifierKeys::shiftModifier);
+            break;
+        case MainContentComponent::convertToProgramCmd:
+            result.setInfo("Convert To Program", "Convert To Program", programCategory, 0);
             break;
         case MainContentComponent::settingsCmd:
             result.setInfo("Settings...", "Show Settings", generalCategory, 0);
@@ -556,6 +573,9 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
             break;
         case MainContentComponent::redoCmd:
             undoManager.redo();
+            break;
+        case MainContentComponent::convertToProgramCmd:
+            convertToProgram();
             break;
         case MainContentComponent::settingsCmd:
             showSettings();
@@ -727,6 +747,30 @@ void MainContentComponent::speak() {
     
     speaker->speak(content.toStdString());
 }
+    
+void MainContentComponent::convertToProgram() {
+
+    switch (runner->getType()) {
+        case jp::NamShub: {
+            auto content = fromUTF8(results->getText().toStdString());
+            results->setText(toUTF8(LuaProgram::convertToProgram(L"", content, jp::NamShub)));
+        }
+        break;
+        case jp::Grammar: {
+            auto code = fromUTF8(editor->getDocument().getAllContent().toStdString());
+            results->setText(toUTF8(LuaProgram::convertToProgram(code, L"", jp::Grammar)));
+        }
+        break;
+        case jp::LSystem: {
+            auto content = fromUTF8(results->getText().toStdString());
+            auto code = fromUTF8(editor->getDocument().getAllContent().toStdString());
+            results->setText(toUTF8(LuaProgram::convertToProgram(code, content, jp::LSystem)));
+        }
+        break;
+        default:
+            break;
+    }
+}
 
 inline Colour getRandomColour (float brightness)
 {
@@ -895,7 +939,7 @@ void MainContentComponent::showAbout() {
 }
 
 void MainContentComponent::showWebsite() {
-    Process::openDocument("http://joerg.piringer.net/xTXT", String::empty);
+    Process::openDocument("http://joerg.piringer.net/xTXT", "");
 }
 
 void MainContentComponent::comboBoxChanged(ComboBox *comboBoxThatHasChanged) {

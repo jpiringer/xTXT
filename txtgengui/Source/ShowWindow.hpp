@@ -22,7 +22,8 @@ namespace jp {
 
 class ShowComponent :
 public Component,
-public ApplicationCommandTarget
+public ApplicationCommandTarget,
+public KeyListener
 {
     double lastRenderStartTime, averageTimeMs, averageActualFPS;
     Font displayFont;
@@ -37,6 +38,7 @@ public ApplicationCommandTarget
 
 public:
     ShowComponent(const String& name);
+    ~ShowComponent();
     
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo &result) override;
@@ -55,6 +57,8 @@ public:
     
     void exportImage();
     void setRunner(jp::Runner *_runner) {runner = _runner;}
+    
+    bool keyPressed(const KeyPress &key, Component *originatingComponent) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ShowComponent)
 };

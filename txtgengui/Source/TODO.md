@@ -200,3 +200,7 @@ alle umlaute in examples.cpp in u-codes übersetzen, damit das file ohne BOM fun
 examples für win10 in das exe
 
 win10 version
+
+convert grammar to program
+
+program: key input

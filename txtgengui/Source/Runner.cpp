@@ -188,6 +188,10 @@ void jp::ProgramRunner::exportFile(const std::string &fileName) {
     program->exportVideo(fileName);
 }
 
+void jp::ProgramRunner::keyPressed(int keyCode) {
+    program->keyPressed(keyCode);
+}
+
 // ====================================================================================
 // NamShubRunner
 // ====================================================================================
