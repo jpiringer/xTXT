@@ -127,6 +127,8 @@
 		30AF49179185AA832F3E631A /* Info-App.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-App.plist"; sourceTree = SOURCE_ROOT; };
 		30B2D7E11FD54C5900F607E3 /* VideoExporterOSX.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = VideoExporterOSX.mm; path = ../../Source/VideoExporterOSX.mm; sourceTree = "<group>"; };
 		30B2D7E21FD54C5900F607E3 /* VideoExporter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VideoExporter.hpp; path = ../../Source/VideoExporter.hpp; sourceTree = "<group>"; };
+		30BFE6B2237AEE2C00184515 /* PROGRAM-doc.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "PROGRAM-doc.md"; sourceTree = "<group>"; };
+		30BFE6B3237AFBE700184515 /* PROGRAM-doc-de.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "PROGRAM-doc-de.md"; sourceTree = "<group>"; };
 		30F90C441FD87614009C7A21 /* examples-lsystem.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "examples-lsystem.txt"; path = "../../Source/examples-lsystem.txt"; sourceTree = "<group>"; };
 		30F90C461FD89996009C7A21 /* examples-markov.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "examples-markov.txt"; path = "../../Source/examples-markov.txt"; sourceTree = "<group>"; };
 		30F90C481FD89A71009C7A21 /* examples-grammar.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "examples-grammar.txt"; path = "../../Source/examples-grammar.txt"; sourceTree = "<group>"; };
@@ -384,6 +386,8 @@
 				301A972D1F8CE62300142DAA /* DOC.md */,
 				3063DC261F8E5D63009585FC /* PROGRAM.md */,
 				309318FE1F98F75C00D8A760 /* CHANGES.md */,
+				30BFE6B2237AEE2C00184515 /* PROGRAM-doc.md */,
+				30BFE6B3237AFBE700184515 /* PROGRAM-doc-de.md */,
 				743FC3E3BDA6C1040584E7E0 /* txtgengui */,
 				82FD58B68D6ACD98837B2298 /* Juce Modules */,
 				8CB775079824436AD4C11488 /* Juce Library Code */,

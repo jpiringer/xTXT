@@ -1,5 +1,7 @@
 #  TODO
 
+program API help
+
 stimm- oder sprachauswahl für TTS
 
 wenn beim export kein show-fenster offen ist, wird nichts exportiert (win10)

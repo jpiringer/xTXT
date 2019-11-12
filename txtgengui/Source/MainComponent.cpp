@@ -934,7 +934,7 @@ void MainContentComponent::showAbout() {
     
     AlertWindow::showMessageBoxAsync (icon,
                                       "xTXT " VERSION_STRING " by joerg piringer",
-                                      "xTXT was created by joerg piringer in 2017.\nfor more info look at http://joerg.piringer.net/xTXT",
+                                      "xTXT was started by joerg piringer in 2017.\nfor more info & source code look at http://joerg.piringer.net/xTXT",
                                       "OK");
 }
 
