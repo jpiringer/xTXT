@@ -5,3 +5,4 @@ txtgengui/Builds/VisualStudio2017/.vs/
 .vs/slnx.sqlite
 txtgengui/JuceLibraryCode
 txtgengui/Builds/MacOSX/dict
+txtgengui/Builds/VisualStudio2017/x64/

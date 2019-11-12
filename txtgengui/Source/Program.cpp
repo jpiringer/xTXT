@@ -21,6 +21,7 @@
 #endif
 
 #include <cstdlib>
+#include <locale>
 
 #if TARGET_OS_MAC
 #include <CoreGraphics/CoreGraphics.h>
@@ -495,8 +496,9 @@ static int onKeyL(lua_State *L) {
     
     if (lua_isstring(L, 1)) {
         const char *key = lua_tostring(L, 1);
-        
-        keyCode = std::toupper(key[0]);
+		std::locale loc;
+
+        keyCode = std::toupper(key[0], loc);
     }
     else if (lua_isnumber(L, 1)) {
         keyCode = lua_tonumber(L, 1);
