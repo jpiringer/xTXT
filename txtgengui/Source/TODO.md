@@ -206,3 +206,5 @@ win10 version
 convert grammar to program
 
 program: key input
+
+waitForKey doesn't work

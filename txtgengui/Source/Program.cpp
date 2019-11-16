@@ -687,7 +687,7 @@ void LuaProgram::waitForKey() {
     if (isExporting()) { // do nothing
     }
     else {
-        while (LuaProgram::sharedProgram()->processKeyPresses()) {
+        while (!LuaProgram::sharedProgram()->processKeyPresses()) {
             if (threadShouldExit()) {
                 luaL_error(L, "User interrupt");
             }
