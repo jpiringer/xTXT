@@ -208,3 +208,5 @@ convert grammar to program
 program: key input
 
 waitForKey doesn't work
+
+enter, space, esc, delete key abfragbar machen mit "enter", "space", ...

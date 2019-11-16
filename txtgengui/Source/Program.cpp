@@ -491,14 +491,46 @@ static int speakL(lua_State *L) {
     return 0;
 }
 
+int getKeyCode(const char *s) {
+    if (strcmp(s, "space") == 0) {
+        return 32;
+    }
+    if (strcmp(s, "enter") == 0) {
+        return 13;
+    }
+    if (strcmp(s, "backspace") == 0) {
+        return 127;
+    }
+    if (strcmp(s, "tab") == 0) {
+        return 9;
+    }
+    if (strcmp(s, "esc") == 0) {
+        return 27;
+    }
+    if (strcmp(s, "up") == 0) {
+        return 63232;
+    }
+    if (strcmp(s, "down") == 0) {
+        return 63233;
+    }
+    if (strcmp(s, "left") == 0) {
+        return 63234;
+    }
+    if (strcmp(s, "right") == 0) {
+        return 63235;
+    }
+    std::locale loc;
+
+    return std::toupper(s[0], loc);
+}
+
 static int onKeyL(lua_State *L) {
     int keyCode = -1;
     
     if (lua_isstring(L, 1)) {
         const char *key = lua_tostring(L, 1);
-		std::locale loc;
 
-        keyCode = std::toupper(key[0], loc);
+        keyCode = getKeyCode(key);
     }
     else if (lua_isnumber(L, 1)) {
         keyCode = lua_tonumber(L, 1);
