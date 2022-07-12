@@ -1,5 +1,8 @@
 #  TODO
 
+fehler: markov speichert das falsche dokument
+bei mode methods export stattdessen
+
 program API help
 
 stimm- oder sprachauswahl für TTS

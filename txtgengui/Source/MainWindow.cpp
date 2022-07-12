@@ -90,7 +90,7 @@ bool MainWindow::canQuit() {
                                             "Quit without Saving",
                                             "No",
                                             "Cancel",
-                                            0) == 1) {
+                                            0, nullptr) == 1) {
             return true;
         }
         return false;

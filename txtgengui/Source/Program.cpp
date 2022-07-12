@@ -15,7 +15,7 @@
 #include "utils.hpp"
 
 #if TARGET_OS_MAC
-#include <lua.hpp>
+#include <lua/lua.hpp>
 #else
 #include "lua.hpp"
 #endif
