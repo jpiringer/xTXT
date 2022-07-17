@@ -8,6 +8,14 @@
 
 #include "Program.hpp"
 
+#include "DrawRoutines.h"
+
+#if TARGET_OS_MAC
+
+#include "VideoExporter.hpp"
+#endif
+
+
 #include "Runner.hpp"
 
 #include "Parser.hpp"
@@ -23,13 +31,6 @@
 #include <cstdlib>
 #include <locale>
 
-#if TARGET_OS_MAC
-#include <CoreGraphics/CoreGraphics.h>
-#include <CoreText/CoreText.h>
-
-#include "VideoExporter.hpp"
-#endif
-
 #define MAX_WAIT_TIME 10.f
 
 inline float randRange(float lower, float upper) {
@@ -42,13 +43,17 @@ std::shared_ptr<Font> textDisplayFont;
 LuaProgram *LuaProgram::theProgram = nullptr;
 static std::string programOutput = "";
 
+void TextNode::initFont() {
+    if (textDisplayFont == nullptr) {
+        textDisplayFont = std::make_shared<Font>(Font::getDefaultMonospacedFontName(), 20, Font::plain);
+    }
+}
+
 void TextNode::draw(Graphics &g) {
     const Graphics::ScopedSaveState state(g);
     Rectangle<int> r = g.getClipBounds();
     
-    if (textDisplayFont == nullptr) {
-        textDisplayFont = std::make_shared<Font>(Font::getDefaultMonospacedFontName(), 20, Font::plain);
-    }
+    initFont();
     textDisplayFont->setHeight(size);
     g.setFont(*textDisplayFont);
     //g.addTransform(AffineTransform::scale(scale));
@@ -60,51 +65,9 @@ void TextNode::draw(Graphics &g) {
 }
 
 void TextNode::drawNative(void *cg) {
-#if TARGET_OS_MAC
-	CGContextRef context = (CGContextRef)cg;
-    CGFloat width = CGBitmapContextGetWidth(context);
-    CGFloat height = CGBitmapContextGetHeight(context);
-
-    CGContextSaveGState(context);
+    initFont();
     
-    if (textDisplayFont == nullptr) {
-        textDisplayFont = std::make_shared<Font>(Font::getDefaultMonospacedFontName(), 20, Font::plain);
-    }
-    
-    CGContextTranslateCTM(context, (width*(getX()+1.f))/2.f, (height*(-getY()+1.f))/2.f);
-    CGContextRotateCTM(context, getRotation()/180.f*M_PI);
-    
-    CGColorRef color = CGColorCreateGenericRGB(getRed(), getGreen(), getBlue(), getAlpha());
-    CGContextSetStrokeColorWithColor(context, color);
-
-    CFStringRef str = CFStringCreateWithCString(nullptr, text.c_str(), kCFStringEncodingUTF8);
-    
-    CFStringRef fontName = CFStringCreateWithCString(nullptr, textDisplayFont->getTypeface()->getName().getCharPointer(), kCFStringEncodingUTF8);
-    CTFontRef font = CTFontCreateWithName(fontName, size, nullptr);
-    
-    CFStringRef keys[] = { kCTFontAttributeName };
-    CFTypeRef values[] = { font };
-    CFDictionaryRef attrs = CFDictionaryCreate(nullptr, (const void**)&keys, (const void**)&values, sizeof(keys) / sizeof(keys[0]),
-                                               &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    CFAttributedStringRef attrString = CFAttributedStringCreate(nullptr, str, attrs);
-    CTLineRef line = CTLineCreateWithAttributedString(attrString);
-    CGRect bounds = CTLineGetBoundsWithOptions(line, kCTLineBoundsUseOpticalBounds);
-
-    CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-    CGContextSetTextPosition(context, -bounds.size.width/2, -bounds.size.height/2);
-    CTLineDraw(line, context);
-    
-    CFRelease(line);
-    CGColorRelease(color);
-    CFRelease(str);
-    CFRelease(attrString);
-    CFRelease(attrs);
-    
-    CFRelease(fontName);
-    CFRelease(font);
-    
-    CGContextRestoreGState(context);
-#endif
+    drawTextNode(cg, this, textDisplayFont->getTypefacePtr()->getName().getCharPointer());
 }
 
 TextWorld::~TextWorld() {
@@ -166,23 +129,9 @@ void TextWorld::draw(Graphics &gc) {
 }
 
 void TextWorld::drawNative(void *cg) {
-#if TARGET_OS_MAC
-    CGContextRef context = (CGContextRef)cg;
     std::lock_guard<std::mutex> guard(worldMutex);
-    float r, g, b, a;
-    
-    if (LuaProgram::sharedProgram() != nullptr) {
-        LuaProgram::sharedProgram()->getBackground(r, g, b, a);
-        CGColorRef color = CGColorCreateGenericRGB(r, g, b, a);
-        CGContextSetFillColorWithColor(context, color);
-        CGContextFillRect(context, CGRectMake(0, 0, CGBitmapContextGetWidth(context), CGBitmapContextGetHeight(context)));
-        CGColorRelease(color);
-    }
-    
-    for (auto n : nodes) {
-        n->drawNative(cg);
-    }
-#endif
+
+    drawTextWorld(cg, this);
 }
 
 void LuaProgram::_error(const std::string &msg) {
@@ -812,7 +761,7 @@ void LuaProgram::exportVideo(const std::string &filename) {
         stopThread((MAX_WAIT_TIME+1.f)*1000);
     }
     else {
-        runThread();
+        startThread();
     }
 }
 

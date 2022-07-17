@@ -1,19 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="aZXsGj" name="txtgengui" displaySplashScreen="1" reportAppUsage="1"
-              splashScreenColour="Dark" projectType="guiapp" version="1.0.0"
-              bundleIdentifier="net.piringer.txtgengui" includeBinaryInAppConfig="1"
-              cppLanguageStandard="14" jucerVersion="5.1.1">
-  <MAINGROUP id="Gj2iO6" name="txtgengui">
+<JUCERPROJECT id="aZXsGj" name="xTXT" displaySplashScreen="1" reportAppUsage="1"
+              splashScreenColour="Dark" projectType="guiapp" version="1.2.0"
+              bundleIdentifier="net.piringer.xTXT" includeBinaryInAppConfig="1"
+              cppLanguageStandard="20" companyWebsite="joerg.piringer.net"
+              companyName="j&#246;rg piringer" jucerFormatVersion="1" companyCopyright="j&#246;rg piringer"
+              compilerFlagSchemes="MAC,WIN,OBJCOPT" headerPath="/opt/homebrew/include"
+              addUsingNamespaceToJuceHeader="0">
+  <MAINGROUP id="Gj2iO6" name="xTXT">
+    <GROUP id="{45D98D1B-5D77-52BC-49B4-CE4503640203}" name="TODO">
+      <FILE id="KoRkMu" name="TODO.md" compile="0" resource="0" file="Source/TODO.md"/>
+    </GROUP>
+    <GROUP id="{17751C62-11D2-9CB1-CFB7-9033D14432D4}" name="examples">
+      <FILE id="QIcwRB" name="examples-grammar.txt" compile="0" resource="1"
+            file="Source/examples-grammar.txt" xcodeResource="1"/>
+      <FILE id="sh7T8T" name="examples-lsystem.txt" compile="0" resource="1"
+            file="Source/examples-lsystem.txt" xcodeResource="1"/>
+      <FILE id="W2kz8x" name="examples-markov.txt" compile="0" resource="1"
+            file="Source/examples-markov.txt" xcodeResource="1"/>
+      <FILE id="eP3qE9" name="examples-program.txt" compile="0" resource="1"
+            file="Source/examples-program.txt" xcodeResource="1"/>
+    </GROUP>
+    <GROUP id="{2980846B-8B05-31AF-D657-8811EBD46C7D}" name="txtgen">
+      <FILE id="vEGrhE" name="Lexer.hpp" compile="0" resource="0" file="Source/Lexer.hpp"/>
+      <FILE id="AFPgH8" name="Lexer.cpp" compile="1" resource="0" file="Source/Lexer.cpp"/>
+      <FILE id="qnILbh" name="LSystem.h" compile="0" resource="0" file="Source/LSystem.h"/>
+      <FILE id="Z7wby3" name="LSystem.cpp" compile="1" resource="0" file="Source/LSystem.cpp"/>
+      <FILE id="kigAZ2" name="Markov.cpp" compile="1" resource="0" file="Source/Markov.cpp"/>
+      <FILE id="lN0Ml7" name="Markov.hpp" compile="0" resource="0" file="Source/Markov.hpp"/>
+      <FILE id="hI42kr" name="NamShub.hpp" compile="0" resource="0" file="Source/NamShub.hpp"/>
+      <FILE id="H99iRO" name="NamShub.cpp" compile="1" resource="0" file="Source/NamShub.cpp"/>
+      <FILE id="fWYpxU" name="Parser.hpp" compile="0" resource="0" file="Source/Parser.hpp"/>
+      <FILE id="Ub9s4E" name="Parser.cpp" compile="1" resource="0" file="Source/Parser.cpp"/>
+      <FILE id="Id7XP1" name="Program.hpp" compile="0" resource="0" file="Source/Program.hpp"/>
+      <FILE id="ibZ7R5" name="Program.cpp" compile="1" resource="0" file="Source/Program.cpp"/>
+      <FILE id="DORbXA" name="Tokenizer.hpp" compile="0" resource="0" file="Source/Tokenizer.hpp"/>
+      <FILE id="f6Ka8e" name="Tokenizer.cpp" compile="1" resource="0" file="Source/Tokenizer.cpp"/>
+    </GROUP>
+    <GROUP id="{73177DB0-259E-9A2A-5EE3-0016A561839F}" name="platform dependent">
+      <FILE id="HNQpMo" name="DrawRoutines.h" compile="0" resource="0" file="Source/DrawRoutines.h"/>
+      <FILE id="LUnlMs" name="DrawRoutinesWin.cpp" compile="0" resource="0"
+            file="Source/DrawRoutinesWin.cpp"/>
+      <FILE id="Imn3DW" name="DrawRoutinesOSX.mm" compile="0" resource="0"
+            file="Source/DrawRoutinesOSX.mm"/>
+      <FILE id="LiKRXn" name="DrawRoutines.cpp" compile="1" resource="0"
+            file="Source/DrawRoutines.cpp" compilerFlagScheme="OBJCOPT"/>
+      <FILE id="NwZ62Z" name="VideoExporter.cpp" compile="1" resource="0"
+            file="Source/VideoExporter.cpp" compilerFlagScheme="OBJCOPT"/>
+      <FILE id="ovTzxC" name="Platform.cpp" compile="1" resource="0" file="Source/Platform.cpp"
+            compilerFlagScheme="OBJCOPT"/>
+      <FILE id="xD1tTD" name="Speaker.cpp" compile="1" resource="0" file="Source/Speaker.cpp"
+            compilerFlagScheme="OBJCOPT"/>
+      <FILE id="L3oM8M" name="SpeakerOSX.mm" compile="0" resource="0" file="Source/SpeakerOSX.mm"
+            compilerFlagScheme="MAC"/>
+      <FILE id="BzBWOe" name="SpeakerWin.cpp" compile="0" resource="0" file="Source/SpeakerWin.cpp"
+            compilerFlagScheme="WIN"/>
+      <FILE id="zVorgy" name="Platform.hpp" compile="0" resource="0" file="Source/Platform.hpp"/>
+      <FILE id="ulfYsI" name="PlatformOSX.mm" compile="0" resource="0" file="Source/PlatformOSX.mm"
+            compilerFlagScheme="MAC"/>
+      <FILE id="azr74M" name="PlatformWin.cpp" compile="0" resource="0" file="Source/PlatformWin.cpp"
+            compilerFlagScheme="WIN"/>
+      <FILE id="dtAMXb" name="VideoExporter.hpp" compile="0" resource="0"
+            file="Source/VideoExporter.hpp"/>
+      <FILE id="Rmy5Nx" name="VideoExporterOSX.mm" compile="0" resource="0"
+            file="Source/VideoExporterOSX.mm" compilerFlagScheme="MAC"/>
+    </GROUP>
     <GROUP id="{8FEFF447-D390-0C59-625F-933FB7055A7F}" name="Source">
+      <FILE id="kdV18T" name="Common.h" compile="0" resource="0" file="Source/Common.h"/>
+      <FILE id="VvteTN" name="GrammarTokeniser.hpp" compile="0" resource="0"
+            file="Source/GrammarTokeniser.hpp"/>
+      <FILE id="Jm6NKB" name="GrammarTokeniser.cpp" compile="1" resource="0"
+            file="Source/GrammarTokeniser.cpp"/>
+      <FILE id="mON3af" name="LSystemTokeniser.hpp" compile="0" resource="0"
+            file="Source/LSystemTokeniser.hpp"/>
+      <FILE id="cnCjGL" name="LSystemTokeniser.cpp" compile="1" resource="0"
+            file="Source/LSystemTokeniser.cpp"/>
       <FILE id="tZyPxh" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="L2pR8O" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
-      <FILE id="Umudxo" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="t7mRiz" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
+      <FILE id="W0Vjlt" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
+      <FILE id="RfO8yt" name="Runner.hpp" compile="0" resource="0" file="Source/Runner.hpp"/>
+      <FILE id="wG6uxr" name="Runner.cpp" compile="1" resource="0" file="Source/Runner.cpp"/>
+      <FILE id="TyHIIF" name="utils.hpp" compile="0" resource="0" file="Source/utils.hpp"/>
+      <FILE id="zcKLF3" name="utils.cpp" compile="1" resource="0" file="Source/utils.cpp"/>
+      <FILE id="itRZBD" name="Speaker.hpp" compile="0" resource="0" file="Source/Speaker.hpp"/>
+      <FILE id="DlImMd" name="Examples.hpp" compile="0" resource="0" file="Source/Examples.hpp"/>
+      <FILE id="SAYqEy" name="Examples.cpp" compile="1" resource="0" file="Source/Examples.cpp"/>
+      <FILE id="IJTB3u" name="UndoableActions.hpp" compile="0" resource="0"
+            file="Source/UndoableActions.hpp"/>
+      <FILE id="JeWIjm" name="UndoableActions.cpp" compile="1" resource="0"
+            file="Source/UndoableActions.cpp"/>
+      <FILE id="H9r6pG" name="ShowWindow.hpp" compile="0" resource="0" file="Source/ShowWindow.hpp"/>
+      <FILE id="ofRxcI" name="ShowWindow.cpp" compile="1" resource="0" file="Source/ShowWindow.cpp"/>
+      <FILE id="VpuvY5" name="TextTurtleGraphics.hpp" compile="0" resource="0"
+            file="Source/TextTurtleGraphics.hpp"/>
+      <FILE id="yqznYJ" name="TextTurtleGraphics.cpp" compile="1" resource="0"
+            file="Source/TextTurtleGraphics.cpp"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX">
+    <XCODE_MAC targetFolder="Builds/MacOSX" OBJCOPT="-xobjective-c++" extraLinkerFlags="-L/opt/homebrew/lib -llua">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="txtgengui"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="txtgengui"/>

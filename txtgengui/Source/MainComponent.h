@@ -104,7 +104,7 @@ private:
     void show(int width = -1, int height = -1);
     void setShowSize(int width, int height);
 
-    ScopedPointer<MenuBarComponent> menuBar;
+    std::unique_ptr<MenuBarComponent> menuBar;
     std::shared_ptr<PopupMenu> extraAppleMenuItems = nullptr;
 
     // this is the document that the editor component is showing

@@ -1,105 +1,33 @@
-// Microsoft Visual C++ generated resource script.
-//
-#include "resource.h"
-/////////////////////////////////////////////////////////////////////////////
-// Deutsch (÷sterreich) resources
+#pragma code_page(65001)
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEA)
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_AUSTRIAN
-#pragma code_page(1252)
+#ifdef JUCE_USER_DEFINED_RC_FILE
+ #include JUCE_USER_DEFINED_RC_FILE
+#else
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
+#undef  WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,0,0
- PRODUCTVERSION 1,1,0,0
- FILEFLAGSMASK 0x0L
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
+FILEVERSION  1,2,0,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    BEGIN
+      VALUE "CompanyName",  "j√∂rg piringer\0"
+      VALUE "LegalCopyright",  "j√∂rg piringer\0"
+      VALUE "FileDescription",  "xTXT\0"
+      VALUE "FileVersion",  "1.2.0\0"
+      VALUE "ProductName",  "xTXT\0"
+      VALUE "ProductVersion",  "1.2.0\0"
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1252
+  END
+END
+
 #endif
- FILEOS 0x0L
- FILETYPE 0x0L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "040904e4"
-        BEGIN
-            VALUE "FileDescription", "xTXT"
-            VALUE "FileVersion", "1.1.0.0"
-            VALUE "ProductName", "xTXT"
-            VALUE "ProductVersion", "1.1.0.0"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x409, 1252
-    END
-END
-
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_ICON1               ICON                    "C:\\Users\\joerg\\Documents\\developer\\txtgen\\gfx\\icon.ico"
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTFILE
-//
-
-#endif    // Deutsch (÷sterreich) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-
-#ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-
-
-/////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
-
-
-IDR_EXAMPLESLSYSTEM	TEXTFILE	"C:\\Users\\joerg\\Documents\\developer\\txtgen\\txtgengui\\Source\\examples-lsystem.txt"
-IDR_EXAMPLESMARKOV	TEXTFILE	"C:\\Users\\joerg\\Documents\\developer\\txtgen\\txtgengui\\Source\\examples-markov.txt"
-IDR_EXAMPLESGRAMMAR	TEXTFILE	"C:\\Users\\joerg\\Documents\\developer\\txtgen\\txtgengui\\Source\\examples-grammar.txt"
-IDR_EXAMPLESPROGRAM	TEXTFILE	"C:\\Users\\joerg\\Documents\\developer\\txtgen\\txtgengui\\Source\\examples-program.txt"

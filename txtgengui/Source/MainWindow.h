@@ -12,6 +12,8 @@
 
 class MainContentComponent;
 
+using namespace juce;
+
 //==============================================================================
 /*
  This class implements the desktop window that contains an instance of
@@ -41,10 +43,10 @@ public:
      */
     
 private:
-    ScopedPointer<MainContentComponent> contentComponent;
+    //std::unique_ptr<MainContentComponent> contentComponent;
     
-    static ScopedPointer<ApplicationCommandManager> applicationCommandManager;
-    static ScopedPointer<ApplicationProperties> applicationProperties;
+    static std::unique_ptr<ApplicationCommandManager> applicationCommandManager;
+    static std::unique_ptr<ApplicationProperties> applicationProperties;
     static PropertiesFile::Options applicationPropertiesStorageOptions;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)

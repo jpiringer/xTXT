@@ -12,6 +12,8 @@
 
 #include <memory>
 
+using namespace juce;
+
 class UndoableModifyResultsAction : public UndoableAction {
 private:
     std::string oldContent;

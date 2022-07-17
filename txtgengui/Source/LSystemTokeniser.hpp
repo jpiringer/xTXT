@@ -10,6 +10,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+using namespace juce;
+
 class LSystemTokeniser : public CodeTokeniser {
     
     

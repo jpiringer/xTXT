@@ -82,6 +82,8 @@
 }
 
 - (void)dealloc {
+    [super dealloc];
+    
     if (sampleBuffer != nullptr) {
         delete sampleBuffer;
     }

@@ -13,8 +13,10 @@
 
 #include "Examples.hpp"
 
-ScopedPointer<ApplicationCommandManager> MainWindow::applicationCommandManager = nullptr;
-ScopedPointer<ApplicationProperties> MainWindow::applicationProperties = nullptr;
+using namespace juce;
+
+std::unique_ptr<ApplicationCommandManager> MainWindow::applicationCommandManager = nullptr;
+std::unique_ptr<ApplicationProperties> MainWindow::applicationProperties = nullptr;
 PropertiesFile::Options MainWindow::applicationPropertiesStorageOptions;
 
 MainWindow::MainWindow (String name)  : DocumentWindow (name, 
@@ -25,7 +27,7 @@ MainWindow::MainWindow (String name)  : DocumentWindow (name,
     initExamples();
     
     setUsingNativeTitleBar(true);
-    setContentOwned(contentComponent = new MainContentComponent(), true);
+    setContentOwned(new MainContentComponent(), true);
     
     // this lets the command manager use keypresses that arrive in our window to send out commands
     addKeyListener (getApplicationCommandManager().getKeyMappings());
@@ -51,14 +53,14 @@ void MainWindow::closeButtonPressed() {
 
 ApplicationCommandManager &MainWindow::getApplicationCommandManager() {
     if (applicationCommandManager == nullptr)
-        applicationCommandManager = new ApplicationCommandManager();
+        applicationCommandManager = std::make_unique<ApplicationCommandManager>();
     
     return *applicationCommandManager;
 }
 
 ApplicationProperties &MainWindow::getApplicationProperties() {
     if (applicationProperties == nullptr) {
-        applicationProperties = new ApplicationProperties();
+        applicationProperties = std::make_unique<ApplicationProperties>();
         applicationPropertiesStorageOptions.applicationName = "xTXT";
         applicationPropertiesStorageOptions.filenameSuffix = "settings";
         applicationPropertiesStorageOptions.osxLibrarySubFolder = "Application Support/xTXT/";
@@ -74,12 +76,12 @@ void MainWindow::handleAsyncUpdate() {
     // been created so we can find the number of rendering engines available
     auto& commandManager = MainWindow::getApplicationCommandManager();
     
-    commandManager.registerAllCommandsForTarget(contentComponent);
+    commandManager.registerAllCommandsForTarget((MainContentComponent *)getContentComponent());
     commandManager.registerAllCommandsForTarget(JUCEApplication::getInstance());
 }
 
 bool MainWindow::hasUnsavedChanges() {
-    return contentComponent->hasUnsavedChanges();
+    return ((MainContentComponent *)getContentComponent())->hasUnsavedChanges();
 }
 
 bool MainWindow::canQuit() {
@@ -112,7 +114,7 @@ public:
 
     //==============================================================================
     void initialise (const String& commandLine) override {
-        mainWindow = new MainWindow (getApplicationName());
+        mainWindow = std::make_unique<MainWindow>(getApplicationName());
     }
 
     void shutdown() override {
@@ -145,7 +147,7 @@ public:
     }
 
 private:
-    ScopedPointer<MainWindow> mainWindow;
+    std::unique_ptr<MainWindow> mainWindow;
 };
 
 //==============================================================================

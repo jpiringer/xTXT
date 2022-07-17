@@ -18,13 +18,16 @@
 
 #include "Runner.hpp"
 
-#include "../JuceLibraryCode/JuceHeader.h"
-
 #if TARGET_OS_MAC
 #include <lua/lua.hpp>
+//#include <CoreGraphics/CoreGraphics.h>
+//#include <CoreText/CoreText.h>
 #else
 #include "lua.hpp"
 #endif
+
+#include "../JuceLibraryCode/JuceHeader.h"
+
 
 namespace jp {
     enum Justification {
@@ -82,11 +85,17 @@ class TextNode : public Node {
     enum jp::Justification justification;
     float size;
     
+protected:
+    void initFont();
+    
 public:
     TextNode(const std::string &t) : text(t) {}
     
     void setJustification(enum jp::Justification _justification) {justification = _justification;}
     void setSize(float _size) {size = _size;}
+    float getSize() {return size;}
+    
+    const std::string &getText() {return text;}
     
     virtual void draw(Graphics &g) override;
     void drawNative(void *cg) override;
@@ -107,6 +116,7 @@ public:
     void addNode(std::shared_ptr<Node> node);
     void removeNode(int _id);
     void removeAllNodes();
+    std::list<std::shared_ptr<Node>> &getNodes() {return nodes;}
     
     void setBackground(float r, float g, float b, float a) {backgroundR = r; backgroundG = g; backgroundB = b; backgroundA = a;}
 

@@ -10,12 +10,12 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class GrammarTokeniser : public CodeTokeniser {
+class GrammarTokeniser : public juce::CodeTokeniser {
     
     
 public:
-    int readNextToken(CodeDocument::Iterator &source) override;
-    CodeEditorComponent::ColourScheme getDefaultColourScheme() override;
+    int readNextToken(juce::CodeDocument::Iterator &source) override;
+    juce::CodeEditorComponent::ColourScheme getDefaultColourScheme() override;
     
     enum TokenType
     {

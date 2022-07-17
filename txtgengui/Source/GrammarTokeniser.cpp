@@ -7,6 +7,8 @@
 
 #include "GrammarTokeniser.hpp"
 
+using namespace juce;
+
 struct GrammarTokeniserFunctions
 {
     static bool isIdentifierStart (const juce_wchar c) noexcept

@@ -593,19 +593,31 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
 }
 
 void MainContentComponent::openFile() {
-    FileChooser fileChooser("Open File");
+    auto fileChooser = std::make_unique<FileChooser>("Open File");
     
-    if (fileChooser.browseForFileToOpen()) {
+    auto folderChooserFlags = FileBrowserComponent::openMode;
+     
+    fileChooser->launchAsync(folderChooserFlags, [this] (const FileChooser& chooser) {
+        loadFile(chooser.getResult());
+    });
+    
+    /*if (fileChooser.browseForFileToOpen()) {
         loadFile(fileChooser.getResult());
-    }
+    }*/
 }
 
 void MainContentComponent::saveFile() {
-    FileChooser fileChooser("Save File");
+    auto fileChooser = std::make_unique<FileChooser>("Save File");
+        
+    auto folderChooserFlags = FileBrowserComponent::saveMode;
+     
+    fileChooser->launchAsync(folderChooserFlags, [this] (const FileChooser& chooser) {
+        saveFile(chooser.getResult());
+    });
 
-    if (fileChooser.browseForFileToSave(true)) {
+    /*if (fileChooser.browseForFileToSave(true)) {
         saveFile(fileChooser.getResult());
-    }
+    }*/
 }
 
 void MainContentComponent::newFile() {

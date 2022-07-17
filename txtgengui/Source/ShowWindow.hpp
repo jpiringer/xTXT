@@ -14,6 +14,8 @@
 
 #define FPS 30.f
 
+using namespace juce;
+
 typedef std::function<void(Graphics &, int, int, const std::wstring &, double)> DrawFunction;
 
 namespace jp {
@@ -66,7 +68,7 @@ public:
 class ShowWindow : public DocumentWindow, private Timer {
     void timerCallback() override;
     
-    ScopedPointer<ShowComponent> contentComponent;
+    std::unique_ptr<ShowComponent> contentComponent;
     
     bool animated = false;
 

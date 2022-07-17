@@ -5,12 +5,12 @@
 //  Created by joerg piringer on 24.10.17.
 //
 
+#include "Program.hpp"
+
 #include "ShowWindow.hpp"
 
 #include "MainComponent.h"
 #include "MainWindow.h"
-
-#include "Program.hpp"
 
 #define SHOW_FPS 0
 
@@ -121,12 +121,21 @@ bool ShowComponent::perform(const InvocationInfo& info) {
 }
 
 void ShowComponent::exportImage() {
-    FileChooser fileChooser("Save File", File(), runner->exportsToFileType());
+    std::unique_ptr<FileChooser> fileChooser = std::make_unique<FileChooser>("Save File", File(), runner->exportsToFileType());
+    auto folderChooserFlags = FileBrowserComponent::saveMode | FileBrowserComponent::warnAboutOverwriting;
+
     
-    if (fileChooser.browseForFileToSave(true)) {
+    fileChooser->launchAsync(folderChooserFlags, [this] (const FileChooser& chooser)
+                            {
+        std::cout << "export: " << chooser.getResult().getFullPathName() << std::endl;
+        runner->exportFile(chooser.getResult().getFullPathName().toStdString());
+
+    });
+    
+    /*if (fileChooser.browseForFileToSave(true)) {
         std::cout << "export: " << fileChooser.getResult().getFullPathName() << std::endl;
         runner->exportFile(fileChooser.getResult().getFullPathName().toStdString());
-    }
+    }*/
 }
 
 bool ShowComponent::keyPressed(const KeyPress &key, Component *originatingComponent) {
@@ -140,7 +149,8 @@ bool ShowComponent::keyPressed(const KeyPress &key, Component *originatingCompon
 
 ShowWindow::ShowWindow()
 : DocumentWindow ("Show", Colours::white, DocumentWindow::allButtons) {
-    setContentOwned(contentComponent = new ShowComponent("Show"), true);
+    //setContentOwned(contentComponent = new ShowComponent("Show"), true);
+    setContentOwned(new ShowComponent("Show"), true);
     addKeyListener (MainWindow::getApplicationCommandManager().getKeyMappings());
 }
 
@@ -153,30 +163,30 @@ void ShowWindow::closeButtonPressed() {
 
 void ShowWindow::timerCallback() {
     TextWorld::sharedTextWorld().update(1.f/FPS);
-    contentComponent->repaint();
+    getContentComponent()->repaint();
 }
 
 void ShowWindow::startAnimation() {
     startTimerHz(FPS);
     animated = true;
-    contentComponent->startAnimation();
+    ((ShowComponent *)getContentComponent())->startAnimation();
 }
 
 void ShowWindow::stopAnimation() {
     stopTimer();
-    contentComponent->stopAnimation();
+    ((ShowComponent *)getContentComponent())->stopAnimation();
     animated = false;
 }
 
 void ShowWindow::update(jp::Runner *_runner, std::wstring str) {
-    contentComponent->setRunner(_runner);
-    contentComponent->setContent(str);
+    ((ShowComponent *)getContentComponent())->setRunner(_runner);
+    ((ShowComponent *)getContentComponent())->setContent(str);
     if (!animated) {
-        contentComponent->repaint();
+        getContentComponent()->repaint();
     }
 }
 
 void ShowWindow::exportImage() {
-    contentComponent->exportImage();
+    ((ShowComponent *)getContentComponent())->exportImage();
 }
 
