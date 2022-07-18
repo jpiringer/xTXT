@@ -37,6 +37,8 @@ public KeyListener
     double animationStartTime = 0;
     
     jp::Runner *runner;
+    
+    std::unique_ptr<FileChooser> fileChooser;
 
 public:
     ShowComponent(const String& name);
@@ -67,11 +69,9 @@ public:
 
 class ShowWindow : public DocumentWindow, private Timer {
     void timerCallback() override;
-    
-    std::unique_ptr<ShowComponent> contentComponent;
-    
+        
     bool animated = false;
-
+    
 public:
     ShowWindow();
     
@@ -82,7 +82,7 @@ public:
     void startAnimation();
     void stopAnimation();
     
-    void setDrawFunction(DrawFunction df) {contentComponent->setDrawFunction(df);}
+    void setDrawFunction(DrawFunction df) {((ShowComponent *)getContentComponent())->setDrawFunction(df);}
     void update(jp::Runner *_runner, std::wstring str);
     
     void exportImage();

@@ -66,7 +66,6 @@ MainContentComponent::MainContentComponent()
     restoreSettings();
     
 #if NATIVE_MENU
-    //menuBar->setModel(nullptr);
     extraAppleMenuItems = std::make_shared<PopupMenu>();
     extraAppleMenuItems->addItem(aboutCmd, "About xTXT...");
     MenuBarModel::setMacMainMenu(this, extraAppleMenuItems.get());
@@ -378,7 +377,7 @@ void MainContentComponent::loadFile(File file) {
                                      "Discard",
                                      0,
                                      ModalCallbackFunction::create([this, file](int result) {
-            if (result == 1) { // ok
+            if (result == 0) { // ok
                 loadFileNow(file);
             }
         }));
@@ -391,6 +390,11 @@ void MainContentComponent::loadFile(File file) {
 void MainContentComponent::saveFile(const File &file) {
     file.replaceWithText(editor->getDocument().getAllContent());
     editor->getDocument().setSavePoint();
+    filenameComponent.setCurrentFile(file, true);
+}
+
+void MainContentComponent::exportFile(const File &file) {
+    file.replaceWithText(results->getText());
     filenameComponent.setCurrentFile(file, true);
 }
 
@@ -441,6 +445,8 @@ PopupMenu MainContentComponent::getMenuForIndex(int menuIndex, const String &men
         menu.addCommandItem(commandManager, MainContentComponent::aboutCmd);
 #endif
         menu.addCommandItem(commandManager, MainContentComponent::websiteCmd);
+        //menu.addCommandItem(commandManager, MainContentComponent::docGrammarCmd);
+        //menu.addCommandItem(commandManager, MainContentComponent::docProgramCmd);
     }
     
     return menu;
@@ -470,6 +476,8 @@ void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
         MainContentComponent::settingsCmd,
         MainContentComponent::aboutCmd,
         MainContentComponent::websiteCmd,
+        MainContentComponent::docGrammarCmd,
+        MainContentComponent::docProgramCmd,
         MainContentComponent::convertToProgramCmd
     };
     
@@ -490,15 +498,24 @@ void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationComman
             result.addDefaultKeypress('r', ModifierKeys::commandModifier);
             break;
         case MainContentComponent::saveCmd:
-            result.setInfo("Save", "Save the code", codeCategory, 0);
+            result.setInfo("Save Program...", "Save the lsystem/grammar/program code", codeCategory, 0);
             result.addDefaultKeypress('s', ModifierKeys::commandModifier);
+            switch (getCurrentRunnerType()) {
+                case jp::Markov:
+                case jp::NamShub:
+                    result.setActive(false);
+                    break;
+                default:
+                    result.setActive(true);
+                    break;
+            }
             break;
         case MainContentComponent::exportCmd:
-            result.setInfo("Export", "Export image", codeCategory, 0);
+            result.setInfo("Export Text...", "Export image or text or video", codeCategory, 0);
             result.addDefaultKeypress('e', ModifierKeys::commandModifier);
             break;
         case MainContentComponent::openCmd:
-            result.setInfo("Open", "Open code file", codeCategory, 0);
+            result.setInfo("Open...", "Open code file", codeCategory, 0);
             result.addDefaultKeypress('o', ModifierKeys::commandModifier);
             break;
         case MainContentComponent::newCmd:
@@ -534,6 +551,12 @@ void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationComman
         case MainContentComponent::websiteCmd:
             result.setInfo("More info...", "Show joerg piringer's website", helpCategory, 0);
             break;
+        case MainContentComponent::docGrammarCmd:
+            result.setInfo("Show Grammar Document...", "Show a help document for the grammar mode", helpCategory, 0);
+            break;
+        case MainContentComponent::docProgramCmd:
+            result.setInfo("Show Program Document...", "Show a help document for the program mode", helpCategory, 0);
+            break;
     }
 }
 
@@ -552,7 +575,10 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
             saveFile();
             break;
         case MainContentComponent::exportCmd:
-            if (showWindow != nullptr) {
+            if (showWindow == nullptr) {
+                exportText();
+            }
+            else {
                 showWindow->exportImage();
             }
             break;
@@ -586,6 +612,12 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
         case MainContentComponent::websiteCmd:
             showWebsite();
             break;
+        case MainContentComponent::docGrammarCmd:
+            showDocGrammar();
+            break;
+        case MainContentComponent::docProgramCmd:
+            showDocProgram();
+            break;
         default:
             return false;
     }
@@ -593,31 +625,45 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
 }
 
 void MainContentComponent::openFile() {
-    auto fileChooser = std::make_unique<FileChooser>("Open File");
+    fileChooser = std::make_unique<FileChooser>("Open File", File(), "*.xtxt");
     
-    auto folderChooserFlags = FileBrowserComponent::openMode;
+    auto folderChooserFlags = FileBrowserComponent::openMode | FileBrowserComponent::canSelectFiles;
      
     fileChooser->launchAsync(folderChooserFlags, [this] (const FileChooser& chooser) {
-        loadFile(chooser.getResult());
+        auto file = chooser.getResult();
+        
+        if (file.getFullPathName() != "") {
+            loadFile(file);
+        }
     });
-    
-    /*if (fileChooser.browseForFileToOpen()) {
-        loadFile(fileChooser.getResult());
-    }*/
 }
 
 void MainContentComponent::saveFile() {
-    auto fileChooser = std::make_unique<FileChooser>("Save File");
+    fileChooser = std::make_unique<FileChooser>("Save LSystem/Grammar/Program File", File(), "*.xtxt");
         
     auto folderChooserFlags = FileBrowserComponent::saveMode;
      
     fileChooser->launchAsync(folderChooserFlags, [this] (const FileChooser& chooser) {
-        saveFile(chooser.getResult());
+        auto file = chooser.getResult();
+        
+        if (file.getFullPathName() != "") {
+            saveFile(file);
+        }
     });
-
-    /*if (fileChooser.browseForFileToSave(true)) {
-        saveFile(fileChooser.getResult());
-    }*/
+}
+    
+void MainContentComponent::exportText() {
+    fileChooser = std::make_unique<FileChooser>("Export Text", File(), "*.txt");
+        
+    auto folderChooserFlags = FileBrowserComponent::saveMode;
+     
+    fileChooser->launchAsync(folderChooserFlags, [this] (const FileChooser& chooser) {
+        auto file = chooser.getResult();
+        
+        if (file.getFullPathName() != "") {
+            exportFile(file);
+        }
+    });
 }
 
 void MainContentComponent::newFile() {
@@ -629,7 +675,7 @@ void MainContentComponent::newFile() {
                                      "Discard",
                                      0,
                                      ModalCallbackFunction::create([this](int result) {
-            if (result == 1) { // ok
+            if (result == 0) { // ok
                 editor->loadContent("");
             }
         }));
@@ -921,7 +967,7 @@ void MainContentComponent::chooseExample(int exampleNr) {
                                          "Discard",
                                          0,
                                          ModalCallbackFunction::create([this, exampleNr, examples](int result) {
-                if (result == 1) { // ok
+                if (result == 0) { // ok
                     editor->loadContent(toUTF8(std::get<1>(examples[exampleNr])));
                     auto parameters = std::get<2>(examples[exampleNr]);
                     parseParameters(parameters);
@@ -945,13 +991,21 @@ void MainContentComponent::showAbout() {
     AlertWindow::AlertIconType icon = AlertWindow::InfoIcon;
     
     AlertWindow::showMessageBoxAsync (icon,
-                                      "xTXT " VERSION_STRING " by joerg piringer",
-                                      "xTXT was started by joerg piringer in 2017.\nfor more info & source code look at http://joerg.piringer.net/xTXT",
+                                      std::string("xTXT ")+ VERSION_STRING.toStdString() + std::string(" by joerg piringer"),
+                                      std::string("xTXT was started by joerg piringer in 2017.\nfor more info & source code look at https://joerg.piringer.net/xTXT\n\n")+std::string(BinaryData::CHANGES_md),
                                       "OK");
 }
 
 void MainContentComponent::showWebsite() {
-    Process::openDocument("http://joerg.piringer.net/xTXT", "");
+    Process::openDocument("https://joerg.piringer.net/xTXT", "");
+}
+    
+void MainContentComponent::showDocGrammar() {
+    Process::openDocument("https://joerg.piringer.net/xTXT", "");
+}
+    
+void MainContentComponent::showDocProgram() {
+    Process::openDocument("https://joerg.piringer.net/xTXT", "");
 }
 
 void MainContentComponent::comboBoxChanged(ComboBox *comboBoxThatHasChanged) {

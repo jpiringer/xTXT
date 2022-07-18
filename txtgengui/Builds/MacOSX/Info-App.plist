@@ -6,7 +6,7 @@
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIconFile</key>
-    <string></string>
+    <string>Icon.icns</string>
     <key>CFBundleIdentifier</key>
     <string>net.piringer.xTXT</string>
     <key>CFBundleName</key>
@@ -18,9 +18,9 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.2.0</string>
+    <string>1.3.0</string>
     <key>CFBundleVersion</key>
-    <string>1.2.0</string>
+    <string>1.3.0</string>
     <key>NSHumanReadableCopyright</key>
     <string>j&#246;rg piringer</string>
     <key>NSHighResolutionCapable</key>

@@ -16,13 +16,12 @@
 #include <iostream>
 #include <sstream>
 #include <map>
+#include <locale>
+#include <codecvt>
+#include <string>
 
 #include "utils.hpp"
 #include "Platform.hpp"
-
-#if !TARGET_OS_MAC
-#include "../Builds/VisualStudio2017/resource.h"
-#endif
 
 class Examples;
 
@@ -124,17 +123,12 @@ protected:
     }
     
 public:
-    Examples(const std::string &fileName) {
-#if TARGET_OS_MAC
-        std::wstring str = loadFromFile(toDataPath(fileName));
-        parse(str);
-#endif
-    }
-    Examples(int _id) {
-#if !TARGET_OS_MAC
-        std::wstring str = loadResourceFileWithID(_id);
-        parse(str);
-#endif
+    
+    Examples(const std::string &content) {
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+        std::wstring wide = converter.from_bytes(content);
+        
+        parse(wide);
     }
     
     decltype(contents) &getAll() {
@@ -143,17 +137,10 @@ public:
 };
 
 void initExamples() {
-#if TARGET_OS_MAC
-    loadedLSystemExamples = std::make_shared<Examples>("examples-lsystem.txt");
-    loadedGrammarExamples = std::make_shared<Examples>("examples-grammar.txt");
-    loadedMarkovExamples = std::make_shared<Examples>("examples-markov.txt");
-    loadedProgramExamples = std::make_shared<Examples>("examples-program.txt");
-#else
-    loadedLSystemExamples = std::make_shared<Examples>(IDR_EXAMPLESLSYSTEM);
-    loadedGrammarExamples = std::make_shared<Examples>(IDR_EXAMPLESGRAMMAR);
-    loadedMarkovExamples = std::make_shared<Examples>(IDR_EXAMPLESMARKOV);
-    loadedProgramExamples = std::make_shared<Examples>(IDR_EXAMPLESPROGRAM);
-#endif
+    loadedLSystemExamples = std::make_shared<Examples>(BinaryData::exampleslsystem_txt);
+    loadedGrammarExamples = std::make_shared<Examples>(BinaryData::examplesgrammar_txt);
+    loadedMarkovExamples = std::make_shared<Examples>(BinaryData::examplesmarkov_txt);
+    loadedProgramExamples = std::make_shared<Examples>(BinaryData::examplesprogram_txt);
 }
 
 std::vector<std::tuple<std::string,std::wstring, std::vector<std::wstring>>> grammarExamples() {

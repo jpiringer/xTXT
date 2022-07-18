@@ -97,7 +97,7 @@ void ShowComponent::getCommandInfo(CommandID commandID, ApplicationCommandInfo &
     
     switch (commandID) {
         case MainContentComponent::exportCmd:
-            result.setInfo("Export", "Export image", codeCategory, 0);
+            result.setInfo("Export Image...", "Export image", codeCategory, 0);
             result.addDefaultKeypress('e', ModifierKeys::commandModifier);
             break;
     }
@@ -121,21 +121,20 @@ bool ShowComponent::perform(const InvocationInfo& info) {
 }
 
 void ShowComponent::exportImage() {
-    std::unique_ptr<FileChooser> fileChooser = std::make_unique<FileChooser>("Save File", File(), runner->exportsToFileType());
+    fileChooser = std::make_unique<FileChooser>("Save File", File(), runner->exportsToFileType());
     auto folderChooserFlags = FileBrowserComponent::saveMode | FileBrowserComponent::warnAboutOverwriting;
 
     
     fileChooser->launchAsync(folderChooserFlags, [this] (const FileChooser& chooser)
                             {
-        std::cout << "export: " << chooser.getResult().getFullPathName() << std::endl;
-        runner->exportFile(chooser.getResult().getFullPathName().toStdString());
+        auto file = chooser.getResult();
+        
+        if (file.getFullPathName() != "") {
+            std::cout << "export: " << file.getFullPathName() << std::endl;
+            runner->exportFile(file.getFullPathName().toStdString());
+        }
 
     });
-    
-    /*if (fileChooser.browseForFileToSave(true)) {
-        std::cout << "export: " << fileChooser.getResult().getFullPathName() << std::endl;
-        runner->exportFile(fileChooser.getResult().getFullPathName().toStdString());
-    }*/
 }
 
 bool ShowComponent::keyPressed(const KeyPress &key, Component *originatingComponent) {

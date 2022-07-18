@@ -239,7 +239,7 @@
     
     NSSize frameSize = NSMakeSize(width, height);
     
-    NSDictionary *videoSettings = @{AVVideoCodecKey: self.exportsAlpha ? AVVideoCodecAppleProRes4444 : AVVideoCodecH264,
+    NSDictionary *videoSettings = @{AVVideoCodecKey: self.exportsAlpha ? AVVideoCodecTypeAppleProRes4444 : AVVideoCodecTypeH264,
     AVVideoWidthKey: @(frameSize.width*self.exportScale),
     AVVideoHeightKey:@(frameSize.height*self.exportScale)
     };

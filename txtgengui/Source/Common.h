@@ -10,6 +10,6 @@
 
 #define PROGRAMMING_ENABLED 1
 
-#define VERSION_STRING "1.2"
+#define VERSION_STRING (JUCEApplication::getInstance()->getApplicationVersion())
 
 #endif /* Common_h */

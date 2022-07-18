@@ -1,4 +1,6 @@
-#  version 1.2.0
+# version 1.3.0
+
+# version 1.2.0
 
 ## program mode
 can be programmed in lua
@@ -6,7 +8,7 @@ with simple instructions to speak and show text
 with grammar and LSystem
 onKey
 
-#  version 1.0.1
+# version 1.0.1
 
 ## markov
 markov prefix length can now be 0

@@ -1,9 +1,7 @@
 #  TODO
 
-fehler: markov speichert das falsche dokument
-bei mode methods export stattdessen
-
 program API help
+CHANGES.md in help
 
 stimm- oder sprachauswahl für TTS
 
@@ -213,3 +211,7 @@ program: key input
 waitForKey doesn't work
 
 enter, space, esc, delete key abfragbar machen mit "enter", "space", ...
+
+fehler: markov speichert das falsche dokument
+bei mode methods export stattdessen
+save disable, wenn es nicht geht

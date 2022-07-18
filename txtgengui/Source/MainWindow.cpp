@@ -84,17 +84,30 @@ bool MainWindow::hasUnsavedChanges() {
     return ((MainContentComponent *)getContentComponent())->hasUnsavedChanges();
 }
 
+struct QuitResultChosen {
+    void operator() (int result) const noexcept {
+        if (result == 1) {
+            JUCEApplication::getInstance()->quit();
+        }
+    }
+};
+
 bool MainWindow::canQuit() {
     if (hasUnsavedChanges()) {
-        if (AlertWindow::showYesNoCancelBox(AlertWindow::QuestionIcon,
+        /*if (AlertWindow::showYesNoCancelBox(AlertWindow::QuestionIcon,
                                             "Unsaved Changes",
                                             "You have unsaved changes. Do you want to discard them and quit?",
                                             "Quit without Saving",
-                                            "No",
-                                            "Cancel",
-                                            0, nullptr) == 1) {
+                                            "No", "Cancel",
+                                            nullptr, nullptr) == 1) {
             return true;
-        }
+        }*/
+        AlertWindow::showYesNoCancelBox(AlertWindow::QuestionIcon,
+                                        "Unsaved Changes",
+                                        "You have unsaved changes. Do you want to discard them and quit?",
+                                        "Quit without Saving",
+                                        "No", "Cancel",
+                                        nullptr, ModalCallbackFunction::create (QuitResultChosen {}));
         return false;
     }
     else {
@@ -110,7 +123,7 @@ public:
 
     const String getApplicationName() override       { return ProjectInfo::projectName; }
     const String getApplicationVersion() override    { return ProjectInfo::versionString; }
-    bool moreThanOneInstanceAllowed() override       { return true; }
+    bool moreThanOneInstanceAllowed() override       { return false; }
 
     //==============================================================================
     void initialise (const String& commandLine) override {

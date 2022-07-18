@@ -5,6 +5,12 @@
     <Filter Include="xTXT\TODO">
       <UniqueIdentifier>{2E98CAEC-C4B8-3993-C59A-750B024FCAC1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="xTXT\DOC">
+      <UniqueIdentifier>{8332D53B-FC0C-E184-33AA-4A24A86B3E48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xTXT\examples">
+      <UniqueIdentifier>{4811F83A-D913-8AA8-BE07-0A3790337353}</UniqueIdentifier>
+    </Filter>
     <Filter Include="xTXT\txtgen">
       <UniqueIdentifier>{8CC4D6AC-8B3A-DB9C-BA45-4620342FF493}</UniqueIdentifier>
     </Filter>
@@ -13,6 +19,9 @@
     </Filter>
     <Filter Include="xTXT\Source">
       <UniqueIdentifier>{50E20341-8974-8DB6-2F2D-6891650A1D5C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xTXT\resources">
+      <UniqueIdentifier>{837721D0-60F5-D46E-C35B-3B2E02DDD8B3}</UniqueIdentifier>
     </Filter>
     <Filter Include="xTXT">
       <UniqueIdentifier>{736013A6-BEE1-2217-6C09-0B4B43056DC0}</UniqueIdentifier>
@@ -3009,6 +3018,9 @@
     <ClInclude Include="..\..\Source\VideoExporter.hpp">
       <Filter>xTXT\platform dependent</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\DocumentationView.h">
+      <Filter>xTXT\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Common.h">
       <Filter>xTXT\Source</Filter>
     </ClInclude>
@@ -5797,6 +5809,36 @@
   <ItemGroup>
     <None Include="..\..\Source\TODO.md">
       <Filter>xTXT\TODO</Filter>
+    </None>
+    <None Include="..\MacOSX\PROGRAM.md">
+      <Filter>xTXT\TODO</Filter>
+    </None>
+    <None Include="..\MacOSX\CHANGES.md">
+      <Filter>xTXT\DOC</Filter>
+    </None>
+    <None Include="..\MacOSX\DOC.md">
+      <Filter>xTXT\DOC</Filter>
+    </None>
+    <None Include="..\MacOSX\PROGRAM-doc-de.md">
+      <Filter>xTXT\DOC</Filter>
+    </None>
+    <None Include="..\MacOSX\PROGRAM-doc.md">
+      <Filter>xTXT\DOC</Filter>
+    </None>
+    <None Include="..\..\Source\examples-grammar.txt">
+      <Filter>xTXT\examples</Filter>
+    </None>
+    <None Include="..\..\Source\examples-lsystem.txt">
+      <Filter>xTXT\examples</Filter>
+    </None>
+    <None Include="..\..\Source\examples-markov.txt">
+      <Filter>xTXT\examples</Filter>
+    </None>
+    <None Include="..\..\Source\examples-program.txt">
+      <Filter>xTXT\examples</Filter>
+    </None>
+    <None Include="..\..\..\gfx\icon.appiconset\icon_512@2x.png">
+      <Filter>xTXT\resources</Filter>
     </None>
     <None Include="C:\JUCE\modules\juce_audio_devices\native\oboe\CMakeLists.txt">
       <Filter>JUCE Modules\juce_audio_devices\native\oboe</Filter>

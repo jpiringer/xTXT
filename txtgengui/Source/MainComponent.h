@@ -62,8 +62,10 @@ public:
         settingsCmd = 0x1100,
         settingsLargeFontCmd = 0x1105,
         aboutCmd = 0x10101,
-        websiteCmd = 0x10102
-    };
+        websiteCmd = 0x10102,
+        docGrammarCmd = 0x10103,
+        docProgramCmd = 0x10104
+   };
 
 private:
     void restoreSettings();
@@ -71,6 +73,7 @@ private:
     void loadFileNow(File file);
     void loadFile(File file);
     void saveFile(const File &file);
+    void exportFile(const File &file);
     void showSettings();
     
     StringArray getMenuBarNames() override;
@@ -96,11 +99,14 @@ private:
     void run();
     void openFile();
     void saveFile();
+    void exportText();
     void newFile();
     void speak();
     void convertToProgram();
     void showAbout();
     void showWebsite();
+    void showDocGrammar();
+    void showDocProgram();
     void show(int width = -1, int height = -1);
     void setShowSize(int width, int height);
 
@@ -154,6 +160,8 @@ private:
 
     std::shared_ptr<jp::Runner> runner;
     std::shared_ptr<jp::Speaker> speaker;
+    
+    std::unique_ptr<FileChooser> fileChooser;
     
     std::vector<std::pair<std::string, jp::RunnerType>> runTypeNames = {
         {"Markov", jp::Markov},

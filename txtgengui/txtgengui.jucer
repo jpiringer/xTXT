@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="aZXsGj" name="xTXT" displaySplashScreen="1" reportAppUsage="1"
-              splashScreenColour="Dark" projectType="guiapp" version="1.2.0"
+              splashScreenColour="Dark" projectType="guiapp" version="1.3.0"
               bundleIdentifier="net.piringer.xTXT" includeBinaryInAppConfig="1"
               cppLanguageStandard="20" companyWebsite="joerg.piringer.net"
               companyName="j&#246;rg piringer" jucerFormatVersion="1" companyCopyright="j&#246;rg piringer"
@@ -10,16 +10,24 @@
   <MAINGROUP id="Gj2iO6" name="xTXT">
     <GROUP id="{45D98D1B-5D77-52BC-49B4-CE4503640203}" name="TODO">
       <FILE id="KoRkMu" name="TODO.md" compile="0" resource="0" file="Source/TODO.md"/>
+      <FILE id="vaCGbO" name="PROGRAM.md" compile="0" resource="0" file="Builds/MacOSX/PROGRAM.md"/>
+    </GROUP>
+    <GROUP id="{05E28008-A2E1-ADC7-3DB0-FDD967E16C9D}" name="DOC">
+      <FILE id="qk3NTK" name="CHANGES.md" compile="0" resource="1" file="Builds/MacOSX/CHANGES.md"/>
+      <FILE id="h88ntT" name="DOC.md" compile="0" resource="0" file="Builds/MacOSX/DOC.md"/>
+      <FILE id="QVYGae" name="PROGRAM-doc-de.md" compile="0" resource="0"
+            file="Builds/MacOSX/PROGRAM-doc-de.md"/>
+      <FILE id="pS3a3J" name="PROGRAM-doc.md" compile="0" resource="0" file="Builds/MacOSX/PROGRAM-doc.md"/>
     </GROUP>
     <GROUP id="{17751C62-11D2-9CB1-CFB7-9033D14432D4}" name="examples">
       <FILE id="QIcwRB" name="examples-grammar.txt" compile="0" resource="1"
-            file="Source/examples-grammar.txt" xcodeResource="1"/>
+            file="Source/examples-grammar.txt" xcodeResource="0"/>
       <FILE id="sh7T8T" name="examples-lsystem.txt" compile="0" resource="1"
-            file="Source/examples-lsystem.txt" xcodeResource="1"/>
+            file="Source/examples-lsystem.txt" xcodeResource="0"/>
       <FILE id="W2kz8x" name="examples-markov.txt" compile="0" resource="1"
-            file="Source/examples-markov.txt" xcodeResource="1"/>
+            file="Source/examples-markov.txt" xcodeResource="0"/>
       <FILE id="eP3qE9" name="examples-program.txt" compile="0" resource="1"
-            file="Source/examples-program.txt" xcodeResource="1"/>
+            file="Source/examples-program.txt" xcodeResource="0"/>
     </GROUP>
     <GROUP id="{2980846B-8B05-31AF-D657-8811EBD46C7D}" name="txtgen">
       <FILE id="vEGrhE" name="Lexer.hpp" compile="0" resource="0" file="Source/Lexer.hpp"/>
@@ -66,6 +74,8 @@
             file="Source/VideoExporterOSX.mm" compilerFlagScheme="MAC"/>
     </GROUP>
     <GROUP id="{8FEFF447-D390-0C59-625F-933FB7055A7F}" name="Source">
+      <FILE id="NVcSho" name="DocumentationView.h" compile="0" resource="0"
+            file="Source/DocumentationView.h"/>
       <FILE id="kdV18T" name="Common.h" compile="0" resource="0" file="Source/Common.h"/>
       <FILE id="VvteTN" name="GrammarTokeniser.hpp" compile="0" resource="0"
             file="Source/GrammarTokeniser.hpp"/>
@@ -98,12 +108,18 @@
       <FILE id="yqznYJ" name="TextTurtleGraphics.cpp" compile="1" resource="0"
             file="Source/TextTurtleGraphics.cpp"/>
     </GROUP>
+    <GROUP id="{2B75E2A7-A2F6-7358-8E2B-EEA74C9400FF}" name="resources">
+      <FILE id="OPBTRf" name="icon_512@2x.png" compile="0" resource="1" file="../gfx/icon.appiconset/icon_512@2x.png"/>
+    </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" OBJCOPT="-xobjective-c++" extraLinkerFlags="-L/opt/homebrew/lib -llua">
+    <XCODE_MAC targetFolder="Builds/MacOSX" OBJCOPT="-xobjective-c++" extraLinkerFlags="-L/opt/homebrew/lib -llua"
+               bigIcon="OPBTRf" smallIcon="OPBTRf">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="txtgengui"/>
-        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="txtgengui"/>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="xTXT" macOSDeploymentTarget="12.3"
+                       osxCompatibility="12.3 SDK"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="xTXT"
+                       macOSDeploymentTarget="12.3" osxCompatibility="12.3 SDK"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../../lib/JUCE/modules"/>
@@ -124,9 +140,9 @@
     <VS2017 targetFolder="Builds/VisualStudio2017">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" optimisation="1" targetName="txtgengui"/>
+                       isDebug="1" optimisation="1" targetName="xTXT"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" optimisation="3" targetName="txtgengui"/>
+                       isDebug="0" optimisation="3" targetName="xTXT"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../../lib/JUCE/modules"/>
