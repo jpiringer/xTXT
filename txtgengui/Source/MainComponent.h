@@ -59,6 +59,7 @@ public:
         undoCmd = 0x3100,
         redoCmd = 0x3200,
         convertToProgramCmd = 0x4100,
+        convertToTraceryGrammarCmd = 0x4200,
         settingsCmd = 0x1100,
         settingsLargeFontCmd = 0x1105,
         aboutCmd = 0x10101,
@@ -103,6 +104,7 @@ private:
     void newFile();
     void speak();
     void convertToProgram();
+    void convertToTraceryGrammar();
     void showAbout();
     void showWebsite();
     void showDocGrammar();

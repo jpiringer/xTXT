@@ -1,4 +1,5 @@
 # version 1.3.0
+export grammar to tracery-grammar
 
 # version 1.2.0
 

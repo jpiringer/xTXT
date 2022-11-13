@@ -10,6 +10,7 @@
 #include "MainWindow.h"
 #include "Runner.hpp"
 #include "Program.hpp"
+#include "Parser.hpp"
 
 #include "UndoableActions.hpp"
 
@@ -436,6 +437,7 @@ PopupMenu MainContentComponent::getMenuForIndex(int menuIndex, const String &men
 #if PROGRAMMING_ENABLED
     else if (menuIndex == 2) { // Program
         menu.addCommandItem(commandManager, MainContentComponent::convertToProgramCmd);
+        menu.addCommandItem(commandManager, MainContentComponent::convertToTraceryGrammarCmd);
     }
     else if (menuIndex == 3) { // Help
 #else
@@ -478,7 +480,8 @@ void MainContentComponent::getAllCommands(Array<CommandID>& commands) {
         MainContentComponent::websiteCmd,
         MainContentComponent::docGrammarCmd,
         MainContentComponent::docProgramCmd,
-        MainContentComponent::convertToProgramCmd
+        MainContentComponent::convertToProgramCmd,
+        MainContentComponent::convertToTraceryGrammarCmd
     };
     
     commands.addArray(ids, numElementsInArray(ids));
@@ -541,6 +544,9 @@ void MainContentComponent::getCommandInfo(CommandID commandID, ApplicationComman
         case MainContentComponent::convertToProgramCmd:
             result.setInfo("Convert To Program", "Convert To Program", programCategory, 0);
             break;
+        case MainContentComponent::convertToTraceryGrammarCmd:
+            result.setInfo("Convert To Tracery Grammar", "Convert To Tracery Grammar", programCategory, 0);
+            break;
         case MainContentComponent::settingsCmd:
             result.setInfo("Settings...", "Show Settings", generalCategory, 0);
             result.addDefaultKeypress(',', ModifierKeys::commandModifier);
@@ -602,6 +608,9 @@ bool MainContentComponent::perform(const InvocationInfo& info) {
             break;
         case MainContentComponent::convertToProgramCmd:
             convertToProgram();
+            break;
+        case MainContentComponent::convertToTraceryGrammarCmd:
+            convertToTraceryGrammar();
             break;
         case MainContentComponent::settingsCmd:
             showSettings();
@@ -829,9 +838,26 @@ void MainContentComponent::convertToProgram() {
             break;
     }
 }
+    
+void MainContentComponent::convertToTraceryGrammar() {
+    switch (runner->getType()) {
+        case jp::Grammar: {
+            auto code = fromUTF8(editor->getDocument().getAllContent().toStdString());
+            results->setText(toUTF8(jp::Parser::convertToTraceryGramnmar(code, jp::Grammar)));
+        }
+        break;
+        case jp::LSystem: {
+            /*auto content = fromUTF8(results->getText().toStdString());
+            auto code = fromUTF8(editor->getDocument().getAllContent().toStdString());
+            results->setText(toUTF8(LuaProgram::convertToProgram(code, content, jp::LSystem)));*/
+        }
+        break;
+        default:
+            break;
+    }
+}
 
-inline Colour getRandomColour (float brightness)
-{
+inline Colour getRandomColour (float brightness) {
     return Colour::fromHSV (Random::getSystemRandom().nextFloat(), 0.5f, brightness, 1.0f);
 }
 
@@ -850,9 +876,11 @@ void MainContentComponent::setShowSize(int width, int height) {
                                      | RectanglePlacement::yTop
                                      | RectanglePlacement::doNotResize);
         
-        Rectangle<int> result(placement.appliedTo(area, Desktop::getInstance().getDisplays()
-                                                  .getMainDisplay().userArea.reduced(20)));
-        showWindow->setBounds(result);
+        if (Desktop::getInstance().getDisplays().getPrimaryDisplay() != nullptr) {
+            Rectangle<int> result(placement.appliedTo(area, Desktop::getInstance().getDisplays()
+                                                      .getPrimaryDisplay()->userArea.reduced(20)));
+            showWindow->setBounds(result);
+        }
     }
 }
 

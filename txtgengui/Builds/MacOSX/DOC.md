@@ -23,6 +23,6 @@ random: standard
 order: one after the other
 
 
-operatoren für variablen: ++, --, =, ==, <=, >=, ~=, +=, -=, *=, /=
+operatoren for variables: ++, --, =, ==, <=, >=, ~=, +=, -=, *=, /=
 
 

@@ -113,8 +113,8 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" OBJCOPT="-xobjective-c++" extraLinkerFlags="-L/opt/homebrew/lib -llua"
-               bigIcon="OPBTRf" smallIcon="OPBTRf">
+    <XCODE_MAC targetFolder="Builds/MacOSX" OBJCOPT="-xobjective-c++" bigIcon="OPBTRf"
+               smallIcon="OPBTRf" externalLibraries="luastatic" extraLinkerFlags="-L/opt/homebrew/lib/">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="xTXT" macOSDeploymentTarget="12.3"
                        osxCompatibility="12.3 SDK"/>

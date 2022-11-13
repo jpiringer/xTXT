@@ -35,6 +35,17 @@ bool isNumber(const std::wstring &str) {
     return true;
 }
 
+std::wstring Lexem::getTraceryGrammarString() {
+    switch (getType()) {
+        case LexemSymbol:
+            return L"#"+getContent()+L"#";
+        case LexemString:
+            return getContent();
+        default:
+            return L"";
+    }
+}
+
 Lexer::Lexer(const std::wstring &str)
 : input(str) {
     

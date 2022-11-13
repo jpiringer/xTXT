@@ -13,6 +13,8 @@
 #include <vector>
 #include <utility>
 
+#include <sstream>
+
 #include <math.h>
 
 using namespace jp;
@@ -599,4 +601,70 @@ std::wstring Parser::generate() {
     else {
         return L"";
     }
+}
+
+std::wstring RuleChoice::getTraceryGrammarString() {
+    std::wstringstream buf;
+    
+    buf << "\"";
+    for (auto element : elements) {
+        auto lexem = element->getLexem();
+        
+        if (lexem != nullptr) {
+            buf << lexem->getTraceryGrammarString();
+        }
+    }
+    buf << "\"";
+    
+    return buf.str();
+}
+
+std::wstring Rule::getTraceryGrammarString() {
+    std::wstringstream buf;
+    bool previousToken = false;
+    
+    buf << "[";
+    for (auto choice : choices) {
+        if (previousToken) {
+            buf << ",";
+        }
+        buf << choice->getTraceryGrammarString();
+        previousToken = true;
+
+    }
+    buf << "]";
+    
+    return buf.str();
+}
+
+std::wstring Parser::getTraceryGrammarString() {
+    std::wstringstream buf;
+    bool previousToken = false;
+
+    buf << "// this is grammar for the javascript generative grammar system tracery: https://www.tracery.io\n";
+    buf << "const grammar = {\n";
+    for (auto &rule : rules) {
+        if (previousToken) {
+            buf << ",\n";
+        }
+        
+        auto symbol = rule.first;
+        if (symbol == L"START") {
+            symbol = L"origin";
+        }
+        buf << "\t\"" << symbol << "\":";
+        buf << rule.second->getTraceryGrammarString();
+        previousToken = true;
+    }
+    buf << "\n}";
+    
+    return buf.str();
+}
+
+std::wstring Parser::convertToTraceryGramnmar(const std::wstring &code, jp::RunnerType sourceType) {
+    Parser parser(code);
+    
+    parser.parse();
+    
+    return parser.getTraceryGrammarString();
 }

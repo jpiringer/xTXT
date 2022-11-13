@@ -65,6 +65,8 @@ namespace jp {
         
         std::wstring toString() {return getTypeString()+L": "+getContent();}
         
+        std::wstring getTraceryGrammarString();
+        
         int getLineNumber() {return lineNumber;}
     };
     

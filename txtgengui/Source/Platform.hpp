@@ -10,7 +10,7 @@
 
 #include <string>
 
-#if TARGET_OS_MAC
+#if JUCE_MAC
 std::string toDataPath(const std::string &p);
 #else
 std::wstring loadResourceFileWithID(int _id);

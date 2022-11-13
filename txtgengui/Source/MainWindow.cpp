@@ -40,8 +40,9 @@ MainWindow::MainWindow (String name)  : DocumentWindow (name,
 }
 
 MainWindow::~MainWindow() {
-    applicationCommandManager = nullptr;
+    setContentOwned(nullptr, false);
     applicationProperties = nullptr;
+    applicationCommandManager = nullptr;
 }
 
 void MainWindow::closeButtonPressed() {

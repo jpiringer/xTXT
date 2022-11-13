@@ -15,6 +15,8 @@
 #include <memory>
 #include <vector>
 
+#include "Runner.hpp"
+
 namespace jp {
     class Lexem;
     class Rule;
@@ -86,6 +88,8 @@ namespace jp {
         bool isEmpty() {return elements.size() == 0;}
         
         const std::vector<std::shared_ptr<RuleChoiceElement>> getElements() {return elements;}
+        
+        std::wstring getTraceryGrammarString();
     };
     
     class ChoiceFunction {
@@ -136,7 +140,8 @@ namespace jp {
         const std::vector<std::shared_ptr<RuleChoice>> &getChoices() const {return choices;}
         
         const std::wstring &getName() {return name;}
-        
+        std::wstring getTraceryGrammarString();
+
         std::shared_ptr<RuleChoice> choose();
     };
     
@@ -152,11 +157,15 @@ namespace jp {
         std::wstring expandRule(const std::wstring &ruleName, int lineNr, int recursionDepth = 0);
         
     public:
+        static std::wstring convertToTraceryGramnmar(const std::wstring &code, jp::RunnerType sourceType);
+        
         Parser(const std::wstring &str);
         
         void parse();
         
         std::wstring generate();
+        
+        std::wstring getTraceryGrammarString();
         
         int getErrorCount() {return errorCount;}
         const std::wstring &getErrors() {return errors;}
